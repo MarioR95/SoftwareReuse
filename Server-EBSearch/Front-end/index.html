@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Reuse Component</title>
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <br>
+        Component Database 
+        <form action="componentsearch" method="post" enctype="multipart/form-data" id="js-upload-form" style="display: inline;">
+            <div class="form-inline">
+                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">All element database</button>
+            </div>
+        </form>
+        <br>        
+        <div class="panel panel-default">
+          <div class="panel-heading"><strong>Upload Component</strong></div>
+          <div class="panel-body">
+  
+            <!-- Standar Form -->
+            <h4>Select files from your computer</h4>
+            <form action="componentupload" method="post" enctype="multipart/form-data" id="js-upload-form">
+              <div class="form-inline">
+                <div class="form-group">
+                  <input type="file" name="filetoupload" id="js-upload-files" multiple>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Submit</button><br>
+                Name:<br><input type="text" name="name"><br>
+                Description:<br><textarea type="textarea" rows="4" cols="50" name="description"></textarea><br>
+                Note:<br><input type="text" name="note"><br>
+                Version:<br><input type="text" name="version"><br>
+                Uri:<br><input type="text" name="uri"><br>
+                Entry Point:<br><input type="text" name="entry_point"><br>
+                Tags:<br><input type="text" name="tags"><br>
+                Author:<br><input type="text" name="author"><br>
+                Technology:<br><input type="text" name="technology"><br>
+                Granularity:<br><input type="text" name="granularity"><br>
+                Domain:<br><input type="text" name="domain"><br>
+              </div>
+            </form>
+            
+          </div>
+        </div>
+      </div> <!-- /container -->
+</body>
+</html> 
