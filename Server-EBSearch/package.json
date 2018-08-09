@@ -4,11 +4,13 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.16.3",
+    "debug": "^3.1.0",
     "extract-zip": "^1.6.7",
     "formidable": "^1.2.1",
-    "node-tfidf": "^0.0.2",
-    "request": "^2.87.0"
+    "inherits": "^2.0.3",
+    "neo4j": "^2.0.0-RC2",
+    "neo4j-driver": "^1.6.3",
+    "node-tfidf": "0.0.2"
   },
   "devDependencies": {},
   "scripts": {

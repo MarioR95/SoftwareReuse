@@ -8,7 +8,7 @@ var TfIdf = require('node-tfidf');
 var tfidf = new TfIdf();
 //database access
 var neo4j = require('neo4j-driver').v1;
-var driver = neo4j.driver('bolt://localhost',neo4j.auth.basic('neo4j','domenico92'));
+var driver = neo4j.driver('Bolt://localhost:11005',neo4j.auth.basic('neo4j','123456'));
 var session = driver.session();
 //fields form sent
 var newpath,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
@@ -30,7 +30,7 @@ http.createServer(function (req, res) {
 }).listen(8080); 
 function loadComponent(req,res,err, fields, files) {
   var oldpath = files.filetoupload.path;
-  newpath = '/home/dom/Desktop/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
+  newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
   
   //console.log(newpath.localeCompare("/home/dom/Desktop/Server-EBSearch/repositoryComponent/"));
   //console.log(newpath);
@@ -46,20 +46,21 @@ function loadComponent(req,res,err, fields, files) {
   granularity = fields.granularity;
   domain = fields.domain;
 
-  if(newpath.localeCompare("/home/dom/Desktop/Server-EBSearch/repositoryComponent/") != 0) {
+  if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
     fs.rename(oldpath, newpath, function (err) {
-      unZip();
       if (err) throw err;
       res.write('File uploaded and moved!');
 
       //insert into neo4j
-      session.run(queryForCreateNode())
+      session.run(queryForCreateNode());
       res.end();
     });
     //analize frequency term
     tfidf.addFileSync(newpath);
-    console.log(tfidf.tfidf('ciao', 0));
+    console.log(tfidf.tfidf('Class', 0));
     
+    unZip();
+
   }else {
     //no file uploaded
     res.write("you must select a file");
@@ -98,7 +99,9 @@ function queryForCreateNode() {
 }
 function unZip() {
   const source= newpath ;
-  const target= '/home/dom/Desktop/Server-EBSearch/repositoryComponent/';
+  const target= '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/';
   extract(source, {dir: target}, function (err) {
+    if(err != undefined)
+      console.log(err);
   })
 }
