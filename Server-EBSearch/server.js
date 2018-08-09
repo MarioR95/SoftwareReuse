@@ -84,7 +84,7 @@ function searchComponent(res) {
 function initPage(res) {
    //HTML PAGE 
    res.writeHead(200,{'Content-type': 'text/html'});
-   fs.readFile('./Front-end/index.html',null,function(error,data) {
+   fs.readFile('./src/view/index.html',null,function(error,data) {
      if(error) {
        res.writeHead(404);
        res.write('Page not found');
