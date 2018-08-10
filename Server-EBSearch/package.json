@@ -10,7 +10,9 @@
     "inherits": "^2.0.3",
     "neo4j": "^2.0.0-RC2",
     "neo4j-driver": "^1.6.3",
-    "node-tfidf": "0.0.2"
+    "node-tfidf": "0.0.2",
+    "sequential-task-queue": "^1.2.1",
+    "sync": "^0.2.5"
   },
   "devDependencies": {},
   "scripts": {
