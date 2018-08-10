@@ -14,7 +14,10 @@ var session = driver.session();
 var newpath,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for extract zip
 var extract = require('extract-zip')
-
+//for run child process
+var exec = require('child_process').exec, child;
+//for code Syncronus
+var Sync = require('sync');
 http.createServer(function (req, res) {
   //UPLOAD component
   if (req.url == '/componentupload') {
@@ -31,9 +34,6 @@ http.createServer(function (req, res) {
 function loadComponent(req,res,err, fields, files) {
   var oldpath = files.filetoupload.path;
   newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
-  
-  //console.log(newpath.localeCompare("/home/dom/Desktop/Server-EBSearch/repositoryComponent/"));
-  //console.log(newpath);
   name = fields.name;
   description = fields.description;
   note = fields.note;
@@ -47,20 +47,24 @@ function loadComponent(req,res,err, fields, files) {
   domain = fields.domain;
 
   if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
-    fs.rename(oldpath, newpath, function (err) {
-      if (err) throw err;
-      res.write('File uploaded and moved!');
-
-      //insert into neo4j
-      session.run(queryForCreateNode());
-      res.end();
-    });
+      fs.copyFile(oldpath, newpath, function (err) {
+        if (err) throw err;
+        res.write('File uploaded and moved!');
+        res.end();
+      });
+      
+      if (fs.existsSync(newpath)) {
+        //unzip component
+        unZip();
+        console.log("esisto");
+        parseComponent();
+      }
+     
     //analize frequency term
-    tfidf.addFileSync(newpath);
-    console.log(tfidf.tfidf('Class', 0));
-    
-    unZip();
-
+    //tfidf.addFileSync(newpath);
+    //console.log(tfidf.tfidf('Class', 0));
+    //insert into neo4j
+    session.run(queryForCreateNode());
   }else {
     //no file uploaded
     res.write("you must select a file");
@@ -98,10 +102,22 @@ function queryForCreateNode() {
     return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
 }
 function unZip() {
-  const source= newpath ;
-  const target= '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/';
+  var source = newpath;
+  var target = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent';
   extract(source, {dir: target}, function (err) {
     if(err != undefined)
       console.log(err);
   })
+}
+function parseComponent() {
+  //remove extention path
+  newpath = newpath.split('.').slice(0, -1).join('.');
+  child = exec('java -jar /home/dom/Desktop/SoftwareReuse/Server-EBSearch/ExternalTools/JavaT.jar -path '+newpath+' -out /home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent',
+  function (error, stdout, stderr){
+    console.log('stdout: ' + stdout);
+    console.log('stderr: ' + stderr);
+    if(error !== null){
+      console.log('exec error: ' + error);
+    }
+  });
 }
