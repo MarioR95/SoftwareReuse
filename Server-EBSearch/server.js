@@ -23,6 +23,7 @@ var GSON= require('gson');
 //class and dependencies
 var cls = [];
 var dependencies = [];
+
 http.createServer(function (req, res) {
   //UPLOAD component
   if (req.url == '/componentupload') {
@@ -36,9 +37,12 @@ http.createServer(function (req, res) {
     initPage(res);
   }
 }).listen(8080); 
+
 function loadComponent(req,res,err, fields, files) {
+  console.log("**********LOAD COMPONENT**********");
   var oldpath = files.filetoupload.path;
   newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
+  //parameters FORM (for ontology, TO DO)
   name = fields.name;
   description = fields.description;
   note = fields.note;
@@ -54,20 +58,23 @@ function loadComponent(req,res,err, fields, files) {
   if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
       fs.copyFile(oldpath, newpath, function (err) {
         if (err) throw err;
-        res.write('File uploaded and moved!');
+        res.write('File UPLOAD IN REPOSITORY');
         res.end();
       });
+      console.log("**********UNZIP COMPONENT*********");
       unZip();
+      console.log("**********PARSE COMPONENT*********");
       parseComponent();
-    //analize frequency term
-    //tfidf.addFileSync(newpath);
-    //console.log(tfidf.tfidf('Class', 0));
+      //analize frequency term (TO DO)
+      //tfidf.addFileSync(newpath);
+      //console.log(tfidf.tfidf('Class', 0));
   }else {
     //no file uploaded
     res.write("you must select a file");
     res.end();
   }
 }
+//to do
 function searchComponent(res) {
   //retrive all element to neo4j
   console.log("search");
@@ -84,7 +91,8 @@ function searchComponent(res) {
   res.end();
 }
 function initPage(res) {
-   //HTML PAGE 
+   //HTML PAGE
+   console.log("**********LOAD HTML PAGE**********"); 
    res.writeHead(200,{'Content-type': 'text/html'});
    fs.readFile('./src/view/index.html',null,function(error,data) {
      if(error) {
@@ -101,7 +109,8 @@ function unZip() {
   extract(source, {dir: target}, function (err) {
     if(err != undefined)
       console.log(err);
-  })
+  });
+  console.log("**********UNZIP SUCCESS**********");
 }
 function parseComponent() {
   //remove extention path
@@ -113,6 +122,8 @@ function parseComponent() {
     if(error !== null){
       console.log('exec error: ' + error);
     }
+    console.log("**********PARSE SUCCESS**********");
+    console.log("**********START HANDLE JSONFILE**********");
     handleJSONFIle();
   });
 
@@ -122,51 +133,49 @@ function handleJSONFIle() {
   var jsonContent = [];
   jsonContent = GSON.parse(contents);
   for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
-    console.log(jsonContent.class[i]+ " USA: ");
     cls[i] = jsonContent.class[i];
     for(j = 0; j < Object.keys(jsonContent.dependencies).length;j++) {
       dependencies[j] = jsonContent.dependencies[j];
-      for(k = 0; k < Object.keys(jsonContent.dependencies[j]).length; k++) {
-        if(jsonContent.dependencies[j] != undefined || jsonContent.dependencies[j] != null)
-          console.log("DEP "+jsonContent.dependencies[j][k]);
-      }
     }  
   }
+  console.log("**********START LOAD COMPONENT INTO NEO4J**********");
   insertComponent();
+  console.log("**********INSERT SUCCESS**********");
   fs.unlinkSync("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/result.json");
+  console.log("**********REMOVING JSON FILE FROM REPOSITORY WITH SUCCESS**********");
 }
 function insertComponent() {
   //session.run(queryForCreateNode());
   var nameComponentClass;
   var nameComponentDepen;
+  var indexForChangeNameDep = [];
   //insert nodeClass
-  for(i = 0; i < cls.length; i++) {
+  for(i= 0, k = 0; i < cls.length; k++,i++) {
     nameComponentClass = "NODE"+i;
-    session.run('MERGE(n:'+nameComponentClass+' {Class_Path: '+"'"+cls[i]+"'"+'})')
+    session.run('MERGE(n:'+nameComponentClass+' {Class_Path: '+"'"+cls[i]+"'"+', Project_Path:'+"'"+newpath+"'"+'})')
     .catch( function(error) {
       console.log(error);
       driver.close();
     });
-    for(k = 0; k < dependencies.length; k++) {
-      for (j = 0; j < dependencies[k].length; j++) {
-        nameComponentDepen = "NODE";
-        console.log("Name DEp "+dependencies[k][j]);
-        session
-        .run('MERGE(n:'+nameComponentDepen+' {Class_Path: '+"'"+dependencies[k][j]+"'"+'})')
-        .catch( function(error) {
-          console.log(error);
-          driver.close();
-        });
-        session
-        .run('MATCH (c:'+nameComponentClass+'), (d:'+nameComponentDepen+') MERGE (c)-[u:USE]->(d)')
-        .catch( function(error) {
-          console.log(error);
-          driver.close();
-        });
-        //console.log("Match tra"+'MATCH (c:'+nameComponentClass+'), (d:'+nameComponentDepen+') MERGE (c)-[u:USE]->(d)');
-      }
+    for (j = 0; j < dependencies[k].length; j++) {
+      nameComponentDepen = "NODE"+k+j;
+      indexForChangeNameDep.push(nameComponentDepen);
+      //insert nodeDep
+      session
+      .run('MERGE(n:'+nameComponentDepen+' {Class_Path: '+"'"+dependencies[k][j]+"'"+', Project_Path:'+"'"+newpath+"'"+'})')
+      .catch( function(error) {
+        console.log(error);
+        driver.close();
+      });
+      //Create relation Class --> Dependencies
+      session
+      .run('MATCH (c:'+nameComponentClass+'), (d:'+nameComponentDepen+') MERGE (c)-[u:USE]->(d)')
+      .catch( function(error) {
+        console.log(error);
+        driver.close();
+      });
     }
-    //set unique name for node Class
+    //set unique name for node Class in Neo4j
     session
     .run('MATCH (n:'+nameComponentClass+') SET n:'+makeid()+' REMOVE n:'+nameComponentClass+"")
     .catch( function(error) {
@@ -174,17 +183,17 @@ function insertComponent() {
       driver.close();
     });
   }
-  //set node dependencies with unique name
-  session
-    .run('MATCH (n:NODE) SET n:'+makeid()+' REMOVE n:NODE')
+  //set unique name dependencies in neo4j
+  for(i = 0; i < indexForChangeNameDep.length; i++) {
+    session
+    .run('MATCH (n:'+indexForChangeNameDep[i]+') SET n:'+makeid()+' REMOVE n:'+indexForChangeNameDep[i]+"")
     .catch( function(error) {
       console.log(error);
       driver.close();
     });
+  }
 }
-function queryForCreateNode() {
-  return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
-}
+// return IDString UNIQUE
 function makeid() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -194,3 +203,7 @@ function makeid() {
 
   return text;
 }
+/*
+function queryForCreateNode() {
+  return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
+}*/
