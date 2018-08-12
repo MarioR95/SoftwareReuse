@@ -7,10 +7,13 @@
     "debug": "^3.1.0",
     "extract-zip": "^1.6.7",
     "formidable": "^1.2.1",
+    "gson": "^0.1.5",
     "inherits": "^2.0.3",
     "neo4j": "^2.0.0-RC2",
-    "neo4j-driver": "^1.6.3",
-    "node-tfidf": "0.0.2"
+    "neo4j-driver": "^1.5.0",
+    "node-tfidf": "0.0.2",
+    "sequential-task-queue": "^1.2.1",
+    "sync": "^0.2.5"
   },
   "devDependencies": {},
   "scripts": {
