@@ -1,6 +1,8 @@
 var http = require('http');
 //for handle file system
 var fs = require('fs');
+//global var response 
+var response;
 //for handle form 
 var formidable = require('formidable');
 //for term frequency
@@ -10,14 +12,16 @@ var tfidf = new TfIdf();
 var neo4j = require('neo4j-driver').v1;
 var driver = neo4j.driver('Bolt://localhost',neo4j.auth.basic('neo4j','123456'));
 var session = driver.session();
+//path component repository without extention
+var newpath;
+//path component repository with extention
+var completePath;
 //fields form sent
-var newpath,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
+var name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for extract zip
 var extract = require('extract-zip')
 //for run child process
 var exec = require('child_process').exec, child;
-//for code Syncronus
-var Sync = require('sync');
 //for parse file JSON
 var GSON= require('gson');
 //class and dependencies
@@ -26,80 +30,72 @@ var dependencies = [];
 
 http.createServer(function (req, res) {
   //UPLOAD component
+  response = res;
   if (req.url == '/componentupload') {
     var form = new formidable.IncomingForm();    
     form.parse(req, function (err, fields, files) {
-      loadComponent(req,res,err, fields, files);
+      loadComponent(fields, files);
     });
   } else if(req.url == '/componentsearch') {
-      searchComponent(res);
+      searchComponent();
   }else {
-    initPage(res);
+    initPage();
   }
 }).listen(8080); 
 
-function loadComponent(req,res,err, fields, files) {
+function loadComponent(fields, files) {
   console.log("**********LOAD COMPONENT**********");
-  var oldpath = files.filetoupload.path;
-  newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
-  //parameters FORM (for ontology, TO DO)
-  name = fields.name;
-  description = fields.description;
-  note = fields.note;
-  version = fields.version;
-  uri = fields.uri;
-  entry_point = fields.entry_point;
-  tags = fields.tags;
-  author = fields.author;
-  technology = fields.technology;
-  granularity = fields.granularity;
-  domain = fields.domain;
+  if(files.filetoupload != undefined) {
+    var oldpath = files.filetoupload.path;
+    newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
+    completePath = newpath;
+    //parameters FORM (for ontology, TO DO)
+    name = fields.name;
+    description = fields.description;
+    note = fields.note;
+    version = fields.version;
+    uri = fields.uri;
+    entry_point = fields.entry_point;
+    tags = fields.tags;
+    author = fields.author;
+    technology = fields.technology;
+    granularity = fields.granularity;
+    domain = fields.domain;
 
-  if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
-      fs.copyFile(oldpath, newpath, function (err) {
-        if (err) throw err;
-        res.write('File UPLOAD IN REPOSITORY');
-        res.end();
-      });
-      console.log("**********UNZIP COMPONENT*********");
-      unZip();
-      console.log("**********PARSE COMPONENT*********");
-      parseComponent();
-      //analize frequency term (TO DO)
-      //tfidf.addFileSync(newpath);
-      //console.log(tfidf.tfidf('Class', 0));
-  }else {
-    //no file uploaded
-    res.write("you must select a file");
-    res.end();
-  }
+    if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
+        fs.copyFile(oldpath, newpath, function (err) {
+          if (err)
+            errorPage("Component not saved into repository");
+        });
+        console.log("**********UNZIP COMPONENT*********");
+        unZip();
+        //analize frequency term (TO DO)
+        //tfidf.addFileSync(newpath);
+        //console.log(tfidf.tfidf('Class', 0));
+    }else {
+      //no file uploaded
+      errorPage("you must select a file");
+    }
+  }else 
+    errorPage("Component not valid!");  
 }
 //to do
-function searchComponent(res) {
+function searchComponent() {
   //retrive all element to neo4j
   console.log("search");
-  res.write('all component directory');
-  session
-  .run("MATCH (N) RETURN N.Name")
-  .then(function(result) {
-    result.records.forEach(function(record){
-       
-       console.log(record.get("N.Name"));
-       
-    });
-  })
-  res.end();
+  response.write('Work in progress');
+  response.end();
 }
-function initPage(res) {
+function initPage() {
    //HTML PAGE
    console.log("**********LOAD HTML PAGE**********"); 
-   res.writeHead(200,{'Content-type': 'text/html'});
+   response.writeHead(200,{'Content-type': 'text/html'});
    fs.readFile('./src/view/index.html',null,function(error,data) {
      if(error) {
-       res.writeHead(404);
-       res.write('Page not found');
+      response.writeHead(404);
+      response.write('Page not found');
      }else {
-       res.end(data);
+      response.end(data);
      }
    });
 }
@@ -111,6 +107,8 @@ function unZip() {
       console.log(err);
   });
   console.log("**********UNZIP SUCCESS**********");
+  console.log("**********PARSE COMPONENT*********");
+  parseComponent();
 }
 function parseComponent() {
   //remove extention path
@@ -119,12 +117,13 @@ function parseComponent() {
   function (error, stdout, stderr){
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
-    if(error !== null){
-      console.log('exec error: ' + error);
+    if(error){
+      errorPage("Parse Failed");
+    }else {
+      console.log("**********PARSE SUCCESS**********");
+      console.log("**********START HANDLE JSONFILE**********");
+      handleJSONFIle();
     }
-    console.log("**********PARSE SUCCESS**********");
-    console.log("**********START HANDLE JSONFILE**********");
-    handleJSONFIle();
   });
 
 }
@@ -143,6 +142,8 @@ function handleJSONFIle() {
   console.log("**********INSERT SUCCESS**********");
   fs.unlinkSync("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/result.json");
   console.log("**********REMOVING JSON FILE FROM REPOSITORY WITH SUCCESS**********");
+  response.write('FILES CORRECTLY INSERTED IN THE REPOSITORY AND THE DATABASE');
+  response.end();
 }
 function insertComponent() {
   //session.run(queryForCreateNode());
@@ -207,3 +208,9 @@ function makeid() {
 function queryForCreateNode() {
   return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
 }*/
+function errorPage(mess) {
+  fs.unlinkSync(completePath);
+  console.log("**********REMOVING COMPONENT FROM REPOSITORY AFTER ERROR: "+mess+"**********");
+  response.writeHead(500, {'Content-Type': 'text/plain'});
+  response.end(mess);
+}
