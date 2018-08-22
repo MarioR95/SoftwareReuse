@@ -1,8 +1,6 @@
 var http = require('http');
 //for handle file system
 var fs = require('fs');
-//global var response 
-var response;
 //for handle form 
 var formidable = require('formidable');
 //for term frequency
@@ -16,7 +14,7 @@ var session = driver.session();
 var newpath;
 //path component repository with extention
 var completePath;
-//fields form sent
+//fields sent form
 var name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for extract zip
 var extract = require('extract-zip')
@@ -25,25 +23,21 @@ var exec = require('child_process').exec, child;
 //for parse file JSON
 var GSON= require('gson');
 //class and dependencies
-var cls = [];
-var dependencies = [];
-
-http.createServer(function (req, res) {
-  //UPLOAD component
-  response = res;
-  if (req.url == '/componentupload') {
+var cls = [] , dependencies = [];
+http.createServer(function (request, response) {
+  if (request.url == '/componentupload') {
     var form = new formidable.IncomingForm();    
-    form.parse(req, function (err, fields, files) {
-      loadComponent(fields, files);
+    form.parse(request, function (err, fields, files) {
+      loadComponent(response,fields, files);
     });
-  } else if(req.url == '/componentsearch') {
-      searchComponent();
+  } else if(request.url == '/componentsearch') {
+      searchComponent(response);
   }else {
-    initPage();
+    initPage(response);
   }
 }).listen(8080); 
 
-function loadComponent(fields, files) {
+function loadComponent(response,fields, files) {
   console.log("**********LOAD COMPONENT**********");
   if(files.filetoupload != undefined) {
     var oldpath = files.filetoupload.path;
@@ -61,32 +55,27 @@ function loadComponent(fields, files) {
     technology = fields.technology;
     granularity = fields.granularity;
     domain = fields.domain;
-
-    if(newpath.localeCompare("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/") != 0) {
-        fs.copyFile(oldpath, newpath, function (err) {
-          if (err)
-            errorPage("Component not saved into repository");
-        });
-        console.log("**********UNZIP COMPONENT*********");
-        unZip();
-        //analize frequency term (TO DO)
-        //tfidf.addFileSync(newpath);
-        //console.log(tfidf.tfidf('Class', 0));
-    }else {
-      //no file uploaded
-      errorPage("you must select a file");
-    }
+    fs.copyFile(oldpath, newpath, function (err) {
+      if (err)
+        errorPage("Component not saved into repository");
+    });
+    console.log("**********UNZIP COMPONENT*********");
+    //start chain of function unZip() -> parseComponent() -> handleJSONFIle() -> insertComponent() -> (CONTINUE) handleJSONFIle() (because you have to do them synchronously)
+    unZip(response);
+    //analize frequency term (TO DO)
+    //tfidf.addFileSync(newpath);
+    //console.log(tfidf.tfidf('Class', 0));
   }else 
     errorPage("Component not valid!");  
 }
 //to do
-function searchComponent() {
+function searchComponent(response) {
   //retrive all element to neo4j
   console.log("search");
   response.write('Work in progress');
   response.end();
 }
-function initPage() {
+function initPage(response) {
    //HTML PAGE
    console.log("**********LOAD HTML PAGE**********"); 
    response.writeHead(200,{'Content-type': 'text/html'});
@@ -99,7 +88,7 @@ function initPage() {
      }
    });
 }
-function unZip() {
+function unZip(response) {
   var source = newpath;
   var target = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent';
   extract(source, {dir: target}, function (err) {
@@ -108,9 +97,9 @@ function unZip() {
   });
   console.log("**********UNZIP SUCCESS**********");
   console.log("**********PARSE COMPONENT*********");
-  parseComponent();
+  parseComponent(response);
 }
-function parseComponent() {
+function parseComponent(response) {
   //remove extention path
   newpath = newpath.split('.').slice(0, -1).join('.');
   child = exec('java -jar /home/dom/Desktop/SoftwareReuse/Server-EBSearch/ExternalTools/JavaT.jar -path '+newpath+' -out /home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent',
@@ -122,12 +111,12 @@ function parseComponent() {
     }else {
       console.log("**********PARSE SUCCESS**********");
       console.log("**********START HANDLE JSONFILE**********");
-      handleJSONFIle();
+      handleJSONFIle(response);
     }
   });
 
 }
-function handleJSONFIle() {
+function handleJSONFIle(response) {
   var contents = fs.readFileSync("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/result.json");
   var jsonContent = [];
   jsonContent = GSON.parse(contents);
@@ -194,8 +183,8 @@ function insertComponent() {
     });
   }
 }
-// return IDString UNIQUE
 function makeid() {
+  // return IDString UNIQUE
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -204,13 +193,13 @@ function makeid() {
 
   return text;
 }
-/*
-function queryForCreateNode() {
-  return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
-}*/
 function errorPage(mess) {
   fs.unlinkSync(completePath);
   console.log("**********REMOVING COMPONENT FROM REPOSITORY AFTER ERROR: "+mess+"**********");
   response.writeHead(500, {'Content-Type': 'text/plain'});
   response.end(mess);
 }
+/*
+function queryForCreateNode() {
+  return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
+}*/

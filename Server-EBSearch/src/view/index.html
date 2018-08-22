@@ -25,20 +25,20 @@
             <form action="componentupload" method="post" enctype="multipart/form-data" id="js-upload-form">
               <div class="form-inline">
                 <div class="form-group">
-                  <input type="file" name="filetoupload" id="js-upload-files" multipl>
+                  <input type="file" name="filetoupload" id="js-upload-files" multipl required>
                 </div>
                 <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Submit</button><br>
-                Name:<br><input type="text" name="name"><br>
-                Description:<br><textarea type="textarea" rows="4" cols="50" name="description"></textarea><br>
+                Name:<br><input type="text" name="name" required><br>
+                Description:<br><textarea type="textarea" rows="4" cols="50" name="description" required></textarea><br>
                 Note:<br><input type="text" name="note"><br>
-                Version:<br><input type="text" name="version"><br>
-                Uri:<br><input type="text" name="uri"><br>
-                Entry Point:<br><input type="text" name="entry_point"><br>
-                Tags:<br><input type="text" name="tags"><br>
-                Author:<br><input type="text" name="author"><br>
-                Technology:<br><input type="text" name="technology"><br>
-                Granularity:<br><input type="text" name="granularity"><br>
-                Domain:<br><input type="text" name="domain"><br>
+                Version:<br><input type="text" name="version" required><br>
+                Uri:<br><input type="text" name="uri" required><br>
+                Entry Point:<br><input type="text" name="entry_point" required><br>
+                Tags:<br><input type="text" name="tags" required><br>
+                Author:<br><input type="text" name="author" required><br>
+                Technology:<br><input type="text" name="technology" required><br>
+                Granularity:<br><input type="text" name="granularity" required><br>
+                Domain:<br><input type="text" name="domain" required><br>
               </div>
             </form>
      
