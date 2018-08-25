@@ -15,7 +15,7 @@ var newpath;
 //path component repository with extention
 var completePath;
 //fields sent form
-var name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
+var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for extract zip
 var extract = require('extract-zip')
 //for run child process
@@ -24,6 +24,9 @@ var exec = require('child_process').exec, child;
 var GSON= require('gson');
 //class and dependencies
 var cls = [] , dependencies = [];
+//for find file on directory
+var find = require('find');
+
 http.createServer(function (request, response) {
   if (request.url == '/componentupload') {
     var form = new formidable.IncomingForm();    
@@ -135,7 +138,25 @@ function handleJSONFIle(response) {
   response.end();
 }
 function insertComponent() {
-  //session.run(queryForCreateNode());
+  //insert project unzip into neo4j
+  session.run(queryForCreateNodeProject())
+  .catch( function(error) {
+    console.log(error);
+    driver.close();
+  });
+  //search any file for documentation on project
+  find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newpath, function(files) {
+    console.log("DOCUMENTATION: "+files);
+    //insert relationship of projet and documentation
+    for(i = 0; i < files.length; i++) {
+      var idDocumentation = makeid();
+      session.run('MATCH(p:'+idProject+') CREATE(d:'+idDocumentation+ '{pathDocument:'+"'"+files[i]+"'"+', type:"documentation"}) CREATE (p)-[r:DOCUMENTATION]->(d)')
+      .catch( function(error) {
+        console.log(error);
+        driver.close();
+      }); 
+    }
+  });
   var nameComponentClass;
   var nameComponentDepen;
   var indexForChangeNameDep = [];
@@ -199,7 +220,8 @@ function errorPage(mess) {
   response.writeHead(500, {'Content-Type': 'text/plain'});
   response.end(mess);
 }
-/*
-function queryForCreateNode() {
-  return 'CREATE(node:Component {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
-}*/
+
+function queryForCreateNodeProject() {
+  idProject = makeid();
+  return 'CREATE(p:'+idProject+' {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
+}
