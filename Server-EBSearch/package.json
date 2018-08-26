@@ -6,6 +6,7 @@
   "dependencies": {
     "debug": "^3.1.0",
     "extract-zip": "^1.6.7",
+    "find": "^0.2.9",
     "formidable": "^1.2.1",
     "gson": "^0.1.5",
     "inherits": "^2.0.3",
