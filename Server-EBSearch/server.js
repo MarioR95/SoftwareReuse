@@ -1,3 +1,6 @@
+//module that manages local paths
+var paths= require('./paths-manager');
+
 var http = require('http');
 //for handle file system
 var fs = require('fs');
@@ -27,24 +30,34 @@ var cls = [] , dependencies = [];
 //for find file on directory
 var find = require('find');
 
-http.createServer(function (request, response) {
-  if (request.url == '/componentupload') {
-    var form = new formidable.IncomingForm();    
-    form.parse(request, function (err, fields, files) {
-      loadComponent(response,fields, files);
-    });
-  } else if(request.url == '/componentsearch') {
-      searchComponent(response);
-  }else {
-    initPage(response);
-  }
-}).listen(8080); 
+var express = require('express');
+var app= express();
+//to handle static file from src directory
+app.use(express.static("src"));
+app.listen(8080, function(){
+	console.log("SERVER STARTED");
+	console.log(paths.projectsRepoPATH);
+});
+app.get("/", function(req,res) {
+	
+	if (req.url == '/componentupload') {
+	    var form = new formidable.IncomingForm();    
+	    form.parse(req, function (err, fields, files) {
+	      loadComponent(res,fields, files);
+	    });
+	  } else if(req.url == '/componentsearch') {
+	      searchComponent(res);
+	  }else {
+	    initPage(res);
+	  }
+});
+
 
 function loadComponent(response,fields, files) {
   console.log("**********LOAD COMPONENT**********");
   if(files.filetoupload != undefined) {
     var oldpath = files.filetoupload.path;
-    newpath = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/' + files.filetoupload.name;
+    newpath =  paths.projectsRepoPATH +files.filetoupload.name;
     completePath = newpath;
     //parameters FORM (for ontology, TO DO)
     name = fields.name;
@@ -62,65 +75,69 @@ function loadComponent(response,fields, files) {
       if (err)
         errorPage("Component not saved into repository");
     });
-    console.log("**********UNZIP COMPONENT*********");
+    console.log("-File unzipped correctly");
     //start chain of function unZip() -> parseComponent() -> handleJSONFIle() -> insertComponent() -> (CONTINUE) handleJSONFIle() (because you have to do them synchronously)
     unZip(response);
     //analize frequency term (TO DO)
     //tfidf.addFileSync(newpath);
     //console.log(tfidf.tfidf('Class', 0));
   }else 
-    errorPage("Component not valid!");  
+    errorPage("-File format is not valid!");  
 }
 //to do
 function searchComponent(response) {
   //retrive all element to neo4j
-  console.log("search");
-  response.write('Work in progress');
+  console.log("Search");
+  response.write('-Work in progress');
   response.end();
 }
+
 function initPage(response) {
    //HTML PAGE
-   console.log("**********LOAD HTML PAGE**********"); 
+   console.log("-Index loaded successfully"); 
    response.writeHead(200,{'Content-type': 'text/html'});
-   fs.readFile('./src/view/index.html',null,function(error,data) {
+   fs.readFile('./src/view/insert.html',null,function(error,data) {
      if(error) {
       response.writeHead(404);
-      response.write('Page not found');
+      response.write('-Page not found');
      }else {
       response.end(data);
      }
    });
 }
+
 function unZip(response) {
   var source = newpath;
-  var target = '/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent';
+  var target = paths.projectsRepoPATH;
   extract(source, {dir: target}, function (err) {
     if(err != undefined)
       console.log(err);
   });
-  console.log("**********UNZIP SUCCESS**********");
-  console.log("**********PARSE COMPONENT*********");
+  console.log("-Unzipped successfully");
+  console.log("-Component parsed correctly");
   parseComponent(response);
 }
+
 function parseComponent(response) {
   //remove extention path
-  newpath = newpath.split('.').slice(0, -1).join('.');
-  child = exec('java -jar /home/dom/Desktop/SoftwareReuse/Server-EBSearch/ExternalTools/JavaT.jar -path '+newpath+' -out /home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent',
+  var projectPATH = newpath.split('.').slice(0, -1).join('.');
+  child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path'+projectPATH+' -out '+paths.projectsRepoPATH,
   function (error, stdout, stderr){
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if(error){
-      errorPage("Parse Failed");
+      errorPage("-Parse Failed");
     }else {
-      console.log("**********PARSE SUCCESS**********");
-      console.log("**********START HANDLE JSONFILE**********");
+      console.log("-Parsed correctly");
+      console.log("-Start handle JSon file");
       handleJSONFIle(response);
     }
   });
 
 }
+
 function handleJSONFIle(response) {
-  var contents = fs.readFileSync("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/result.json");
+  var contents = fs.readFileSync(paths.projectsRepoPATH+"result.json");
   var jsonContent = [];
   jsonContent = GSON.parse(contents);
   for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
@@ -129,14 +146,15 @@ function handleJSONFIle(response) {
       dependencies[j] = jsonContent.dependencies[j];
     }  
   }
-  console.log("**********START LOAD COMPONENT INTO NEO4J**********");
+  console.log("-Start to load component into Neo4j DB");
   insertComponent();
-  console.log("**********INSERT SUCCESS**********");
-  fs.unlinkSync("/home/dom/Desktop/SoftwareReuse/Server-EBSearch/repositoryComponent/result.json");
-  console.log("**********REMOVING JSON FILE FROM REPOSITORY WITH SUCCESS**********");
-  response.write('FILES CORRECTLY INSERTED IN THE REPOSITORY AND THE DATABASE');
+  console.log("-Insert correctly");
+  fs.unlinkSync(paths.projectsRepoPATH+"result.json");
+  console.log("-JSon file removing from repository");
+  response.write('-Files correctly stored into DB');
   response.end();
 }
+
 function insertComponent() {
   //insert project unzip into neo4j
   session.run(queryForCreateNodeProject())
@@ -204,6 +222,7 @@ function insertComponent() {
     });
   }
 }
+
 function makeid() {
   // return IDString UNIQUE
   var text = "";
@@ -214,9 +233,10 @@ function makeid() {
 
   return text;
 }
+
 function errorPage(mess) {
   fs.unlinkSync(completePath);
-  console.log("**********REMOVING COMPONENT FROM REPOSITORY AFTER ERROR: "+mess+"**********");
+  console.log("-Removing component afert error: "+mess);
   response.writeHead(500, {'Content-Type': 'text/plain'});
   response.end(mess);
 }
