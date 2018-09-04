@@ -4,15 +4,16 @@ var driver = neo4j.driver('bolt://localhost',neo4j.auth.basic('neo4j','123456'))
 var session = driver.session();
 //for parse file JSON
 var GSON= require('gson');
-//class and dependencies
-var cls = [] , dependencies = [];
 //for find file on directory
 var find = require('find');
 //for handle file system
 var fs = require('fs');
 var paths= require('../paths-manager');
+//class and dependencies
+var cls = [] , dependencies = [];
+//
 var newPath;
-//fields sent form
+//fields sent from form
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 
 module.exports.doSave = function (response,files,fields) {
@@ -50,7 +51,7 @@ module.exports.doSave = function (response,files,fields) {
     find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath.split('.').slice(0, -1).join('.'), function(documents) {
         console.log("NEWPATH: "+newPath);
         console.log("DOCUMENTATION: "+documents);
-        //insert relationship of projet and documentation
+        //insert relationship of project and documentation
         for(i = 0; i < documents.length; i++) {
         var idDocumentation = makeid();
         session.run('MATCH(p:'+idProject+') CREATE(d:'+idDocumentation+ '{pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) CREATE (p)-[r:DOCUMENTATION]->(d)')
@@ -111,18 +112,22 @@ module.exports.doSave = function (response,files,fields) {
     console.log("-JSon file removing from repository");
     response.write('-Files correctly stored into DB');
     response.end();
-}      
+}  
+
+/*This function make an ID for any node that must be stored into DB. */
 function makeid() {
-// return IDString UNIQUE
-var text = "";
-var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-
-for (var i = 0; i < 5; i++)
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-return text;
+	// return IDString UNIQUE
+	var text = "";
+	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	
+	for (var i = 0; i < 5; i++)
+	    text += possible.charAt(Math.floor(Math.random() * possible.length));
+	
+	return text;
 }
+
+/*TODO: change function name: chist fa schif com a domenico*/
 function queryForCreateNodeProject() {
-idProject = makeid();
-return 'CREATE(p:'+idProject+' {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
+	idProject = makeid();
+	return 'CREATE(p:'+idProject+' {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
 }
