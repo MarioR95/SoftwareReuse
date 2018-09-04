@@ -1,5 +1,5 @@
 //module that manages local paths
-var paths= require('./paths-manager');
+var paths= require('./api/paths-manager');
 //for handle file system
 var fs = require('fs');
 //for handle form 
@@ -32,7 +32,7 @@ var express = require('express');
 var app= express();
 
 //to handle static file from src directory
-app.use(express.static("src"));
+app.use(express.static("public"));
 
 app.listen(8080, function(){
 	console.log("SERVER STARTED");
@@ -50,6 +50,8 @@ app.post("/upload", function(req,res){
 	    	if(err){
 	    		
 	    	}
+	    	//console.log("external tool: "+paths.externalToolsPATH);
+	    	//console.log("project repo: "+paths.projectsRepoPATH);
 	    	//console.log(files.filetoupload.name);
 	    	loadComponent(res,fields, files);
 	    });
@@ -101,7 +103,7 @@ function initPage(response) {
    //HTML PAGE
    console.log("-Index loaded successfully"); 
    response.writeHead(200,{'Content-type': 'text/html'});
-   fs.readFile('./src/view/insert.html',null,function(error,data) {
+   fs.readFile('./public/view/insert.html',null,function(error,data) {
      if(error) {
       response.writeHead(404);
       response.write('-Page not found');
@@ -153,7 +155,7 @@ function handleJSONFIle(response) {
     }  
   }
   console.log("-Start to load component into Neo4j DB");
-  insertComponent();
+  //insertComponent();
   console.log("-Insert correctly");
   fs.unlinkSync(paths.projectsRepoPATH+"result.json");
   console.log("-JSon file removing from repository");
