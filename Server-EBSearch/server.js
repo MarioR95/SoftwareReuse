@@ -1,20 +1,18 @@
 //module that manages local paths
 var paths= require('./paths-manager');
-
-var http = require('http');
 //for handle file system
 var fs = require('fs');
 //for handle form 
-var formidable = require('formidable');
+var formidable = require('formidable')
 //for term frequency
 var TfIdf = require('node-tfidf');
 var tfidf = new TfIdf();
 //database access
 var neo4j = require('neo4j-driver').v1;
-var driver = neo4j.driver('Bolt://localhost',neo4j.auth.basic('neo4j','123456'));
+var driver = neo4j.driver('bolt://localhost',neo4j.auth.basic('neo4j','123456'));
 var session = driver.session();
 //path component repository without extention
-var newpath;
+var newPath;
 //path component repository with extention
 var completePath;
 //fields sent form
@@ -32,33 +30,39 @@ var find = require('find');
 
 var express = require('express');
 var app= express();
+
 //to handle static file from src directory
 app.use(express.static("src"));
+
 app.listen(8080, function(){
 	console.log("SERVER STARTED");
-	console.log(paths.projectsRepoPATH);
 });
+
 app.get("/", function(req,res) {
-	
-	if (req.url == '/componentupload') {
-	    var form = new formidable.IncomingForm();    
-	    form.parse(req, function (err, fields, files) {
-	      loadComponent(res,fields, files);
+	initPage(res);
+});
+
+app.post("/upload", function(req,res){
+	//loadComponent(res,req.fields, req.files);
+	    var form = new formidable.IncomingForm();
+
+	    form.parse(req,function(err, fields, files){
+	    	if(err){
+	    		
+	    	}
+	    	//console.log(files.filetoupload.name);
+	    	loadComponent(res,fields, files);
 	    });
-	  } else if(req.url == '/componentsearch') {
-	      searchComponent(res);
-	  }else {
-	    initPage(res);
-	  }
 });
 
 
 function loadComponent(response,fields, files) {
-  console.log("**********LOAD COMPONENT**********");
-  if(files.filetoupload != undefined) {
-    var oldpath = files.filetoupload.path;
-    newpath =  paths.projectsRepoPATH +files.filetoupload.name;
-    completePath = newpath;
+  console.log("-Load Component "+files.filetoupload.name);
+  console.log(files);
+  var currentPath = files.filetoupload.path;
+  if(currentPath != undefined) {
+    newPath =  paths.projectsRepoPATH+files.filetoupload.name;
+    completePath = newPath;
     //parameters FORM (for ontology, TO DO)
     name = fields.name;
     description = fields.description;
@@ -71,12 +75,13 @@ function loadComponent(response,fields, files) {
     technology = fields.technology;
     granularity = fields.granularity;
     domain = fields.domain;
-    fs.copyFile(oldpath, newpath, function (err) {
+    fs.copyFile(currentPath, newPath, function (err) {
       if (err)
         errorPage("Component not saved into repository");
     });
-    console.log("-File unzipped correctly");
     //start chain of function unZip() -> parseComponent() -> handleJSONFIle() -> insertComponent() -> (CONTINUE) handleJSONFIle() (because you have to do them synchronously)
+    console.log(name);
+    console.log("-File unzipped correctly");
     unZip(response);
     //analize frequency term (TO DO)
     //tfidf.addFileSync(newpath);
@@ -107,7 +112,7 @@ function initPage(response) {
 }
 
 function unZip(response) {
-  var source = newpath;
+  var source = newPath;
   var target = paths.projectsRepoPATH;
   extract(source, {dir: target}, function (err) {
     if(err != undefined)
@@ -120,13 +125,14 @@ function unZip(response) {
 
 function parseComponent(response) {
   //remove extention path
-  var projectPATH = newpath.split('.').slice(0, -1).join('.');
-  child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path'+projectPATH+' -out '+paths.projectsRepoPATH,
+  newPath = newPath.split('.').slice(0, -1).join('.');
+  console.log(paths.externalToolsPATH);
+  child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
   function (error, stdout, stderr){
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
     if(error){
-      errorPage("-Parse Failed");
+      errorPage("-Parse Failed", response);
     }else {
       console.log("-Parsed correctly");
       console.log("-Start handle JSon file");
@@ -163,7 +169,7 @@ function insertComponent() {
     driver.close();
   });
   //search any file for documentation on project
-  find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newpath, function(files) {
+  find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(files) {
     console.log("DOCUMENTATION: "+files);
     //insert relationship of projet and documentation
     for(i = 0; i < files.length; i++) {
@@ -181,7 +187,7 @@ function insertComponent() {
   //insert nodeClass
   for(i= 0, k = 0; i < cls.length; k++,i++) {
     nameComponentClass = "NODE"+i;
-    session.run('MERGE(n:'+nameComponentClass+' {Class_Path: '+"'"+cls[i]+"'"+', Project_Path:'+"'"+newpath+"'"+'})')
+    session.run('MERGE(n:'+nameComponentClass+' {Class_Path: '+"'"+cls[i]+"'"+', Project_Path:'+"'"+newPath+"'"+'})')
     .catch( function(error) {
       console.log(error);
       driver.close();
@@ -191,7 +197,7 @@ function insertComponent() {
       indexForChangeNameDep.push(nameComponentDepen);
       //insert nodeDep
       session
-      .run('MERGE(n:'+nameComponentDepen+' {Class_Path: '+"'"+dependencies[k][j]+"'"+', Project_Path:'+"'"+newpath+"'"+'})')
+      .run('MERGE(n:'+nameComponentDepen+' {Class_Path: '+"'"+dependencies[k][j]+"'"+', Project_Path:'+"'"+newPath+"'"+'})')
       .catch( function(error) {
         console.log(error);
         driver.close();
@@ -234,14 +240,14 @@ function makeid() {
   return text;
 }
 
-function errorPage(mess) {
+function errorPage(mess,res) {
   fs.unlinkSync(completePath);
-  console.log("-Removing component afert error: "+mess);
-  response.writeHead(500, {'Content-Type': 'text/plain'});
-  response.end(mess);
+  console.log("-Removing component after error: "+mess);
+  res.writeHead(500, {'Content-Type': 'text/plain'});
+  res.end(mess);
 }
 
 function queryForCreateNodeProject() {
   idProject = makeid();
-  return 'CREATE(p:'+idProject+' {Path:'+"'"+newpath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
+  return 'CREATE(p:'+idProject+' {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
 }

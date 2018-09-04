@@ -14,7 +14,7 @@
 		<!-- MultiStep Form -->
 		<div class="row">
 		    <div class="col-md-6 col-md-offset-3">
-		        <form id="msform" action="componentupload" enctype="multipart/form-data">
+		        <form id="msform" action="upload" enctype="multipart/form-data" method="post">
 		            <!-- progressbar -->
 		            <ul id="progressbar">
 		                <li class="active">Source File</li>
@@ -24,7 +24,7 @@
 		            <fieldset>
 		                <h2 class="fs-title">Source File</h2>
 		                <h3 class="fs-subtitle">Path of the component</h3>
-		                <input type="file" name="filetoupload" id="js-upload-files" multipl required>
+		                <input type="file" name="filetoupload" id="js-upload-files" multiple="multiple" required>
 		                <input type="button" name="next" class="next action-button" value="Next"/>
 		            </fieldset>
 		            <fieldset>
