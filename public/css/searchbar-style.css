@@ -1,0 +1,99 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+body {
+	font-family: montserrat, arial, verdana;
+    background: transparent;
+}
+
+#custom-search-input{
+    padding: 3px;
+    margin-top:3%;
+    border: solid 1px #E4E4E4;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+#custom-search-input input{
+    border: 0;
+    box-shadow: none;
+}
+
+#custom-search-input button{
+    margin: 2px 0 0 0;
+    background: none;
+    box-shadow: none;
+    border: 0;
+    color: #666666;
+    padding: 0 8px 0 10px;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+    border: 0;
+    box-shadow: none;
+    border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+    font-size: 23px;
+}
+
+
+
+
+/*This style regard the insert card*/
+
+.card-box {
+	background: #FAFAFA;
+	min-height: 300px;
+	position: relative;
+	padding: 30px 30px 20px;
+	margin-bottom: 20px;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	position: relative;
+	cursor: pointer;
+}
+
+.card-box:hover {
+	background: linear-gradient(to right, #ffffff 0%, #e3d6ff 51%, #ceb5ff 100%);
+}
+
+.card-box:after {
+	display: block;
+	background: #6441A5;
+	border-top: 2px solid #5f3aa5;
+	content: '';
+	width: 100%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+}
+
+.card-title h2 {
+	margin: 0;
+	padding-top: 5%;
+	color: #6441A5;
+	font-family: 'Oswald', sans-serif;
+	text-transform: uppercase;
+	font-size: 24px;
+	line-height: 1;
+	margin-bottom: 15px;
+}
+
+.card-title p {
+	margin: 0;
+	margin-bottom: 10px;
+	font-size: 16px;
+}
+
+
+.btn{
+	background: #6441A5;
+}

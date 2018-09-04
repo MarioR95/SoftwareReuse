@@ -4,8 +4,11 @@ var paths= require('./api/paths-manager');
 var fs = require('fs');
 var express = require('express');
 var app= express();
+//
+var componentAPI = require('./api/component/component-api');
 
-//to handle static file from src directory
+
+//to handle static file from public directory
 app.use(express.static("../public"));
 
 app.listen(8080, function(){
@@ -13,17 +16,22 @@ app.listen(8080, function(){
 });
 
 app.get("/", function(req,res) {
-	initPage(res);
+	loadPage(res,'../index.html');
 });
 
-var componentAPI = require('./api/component/component-api');
+app.get("/insert",function(req, res){
+	 loadPage(res,'../public/view/insert.html')
+});
+
+
 componentAPI.upload(app);
 
-function initPage(response) {
+
+function loadPage(response,url) {
    //HTML PAGE
-   console.log("-Index loaded successfully"); 
+   console.log("-Page loaded successfully"); 
    response.writeHead(200,{'Content-type': 'text/html'});
-   fs.readFile('../public/view/insert.html',null,function(error,data) {
+   fs.readFile(url,null,function(error,data) {
      if(error) {
       response.writeHead(404);
       response.write('-Page not found');

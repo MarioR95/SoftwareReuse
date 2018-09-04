@@ -1,49 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Reuse Component</title>
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<title>Component Reuse</title>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="css/searchbar-style.css" rel="stylesheet">	
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <br>
-        Component Database 
-        <form action="componentsearch" method="post" enctype="multipart/form-data" id="js-upload-form" style="display: inline;">
-            <div class="form-inline">
-                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">All element database</button>
-            </div>
-        </form>
-        <br>        
-        <div class="panel panel-default">
-          <div class="panel-heading"><strong>Upload Component</strong></div>
-          <div class="panel-body">
-  
-            <!-- Standar Form -->
-            <h4>Select files from your computer</h4>
-            <form action="componentupload" method="post" enctype="multipart/form-data" id="js-upload-form">
-              <div class="form-inline">
-                <div class="form-group">
-                  <input type="file" name="filetoupload" id="js-upload-files" multipl required>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6" style="width:100%; margin-top: 10%;">
+				<h2>Search component into repository</h2>
+				<div id="custom-search-input">
+					<div class="input-group col-md-12">
+						<input type="text" class="form-control input-lg" placeholder="Type here..." />
+						<span class="input-group-btn">
+							<button class="btn btn-info btn-lg" type="button">
+								<i class="glyphicon glyphicon-search"></i>
+							</button>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	 <div class="container" style="margin-top: 10%">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-box">
+                    <div class="card-title">
+                        <h2>Insert new component</h2>
+                        <p>In this section you can insert new component into repository.</p>
+                    </div>
+                    <button class="btn" onclick="window.location.href='./insert'"><b style="color: white;">INSERT</b></button>
                 </div>
-                <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Submit</button><br>
-                Name:<br><input type="text" name="name" required><br>
-                Description:<br><textarea type="textarea" rows="4" cols="50" name="description" required></textarea><br>
-                Note:<br><input type="text" name="note"><br>
-                Version:<br><input type="text" name="version" required><br>
-                Uri:<br><input type="text" name="uri" required><br>
-                Entry Point:<br><input type="text" name="entry_point" required><br>
-                Tags:<br><input type="text" name="tags" required><br>
-                Author:<br><input type="text" name="author" required><br>
-                Technology:<br><input type="text" name="technology" required><br>
-                Granularity:<br><input type="text" name="granularity" required><br>
-                Domain:<br><input type="text" name="domain" required><br>
-              </div>
-            </form>
-     
-          </div>
-        </div>
-      </div> <!-- /container -->
+            </div>
+     	</div>
+   	</div>
 </body>
 </html> 
