@@ -35,10 +35,13 @@ function unZip(response,files,fields) {
     });
     console.log("-Unzipped successfully");
     console.log("-Component parsed correctly");
-    parseComponent(response,files,fields);
+    if(fields.java != undefined){
+    	parseJavaComponent(response,files,fields);
+    }else 
+    	console.log("Language not supported");
 }
   
-function parseComponent(response,files,fields) {
+function parseJavaComponent(response,files,fields) {
 //remove extention path
 newPath = newPath.split('.').slice(0, -1).join('.');
 console.log(paths.externalToolsPATH);

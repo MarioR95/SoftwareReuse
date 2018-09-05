@@ -9,7 +9,8 @@ module.exports.upload = function (app) {
                 if(err){
                     console.log(err);
                 }
-                component.loadComponent(res,fields,files);
+                component.loadComponent(res,fields,files);             
             });
     });
+    
 };

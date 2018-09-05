@@ -17,15 +17,50 @@
 		        <form id="msform" action="upload" enctype="multipart/form-data" method="post">
 		            <!-- progressbar -->
 		            <ul id="progressbar">
-		                <li class="active">Source File</li>
+		                <li class="active">Select Type</li>
+		                <li>Source File</li>
+		                <li>Resource Type</li>
 		                <li>Domain Modeling</li>
 		            </ul>
 		            <!-- fieldsets -->
+		             <fieldset>
+		                <h2 class="fs-title">Select Type</h2>
+		                <h3 class="fs-subtitle">Select project type</h3>
+		                <div class="funkyradio">
+			            	<div class="funkyradio-default">
+					            <input type="radio" name="java" id="java" checked/>
+					            <label for="java">JAVA Project</label>
+					        </div>
+					        <!-- ADD HERE OTHER PROJECT TYPES -->
+				    	</div>	    	
+		                <input type="button" name="next" class="next action-button" value="Next"/>
+		            </fieldset>
 		            <fieldset>
 		                <h2 class="fs-title">Source File</h2>
 		                <h3 class="fs-subtitle">Path of the component</h3>
-		                <input type="file" name="filetoupload" id="js-upload-files" multiple="multiple" required>
-		                <input type="button" name="next" class="next action-button" value="Next"/>
+		                <input type="file" class="filetoupload" name="filetoupload" id="js-upload-files" multiple="multiple" required>
+		                <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+		                <input type="button" name="next" class="validator-file action-button" value="Next"/>
+		            </fieldset>
+		            <fieldset>
+		                <h2 class="fs-title">Resource Type</h2>
+		                <h3 class="fs-subtitle">Resource to be stored</h3>
+		     			<div class="funkyradio" id="type-res" >
+	                		<div class="funkyradio-default">
+				            <input type="checkbox" name="doc" id="docs" checked/>
+				            <label for="docs">Documentation</label>
+					        </div>
+					        <div class="funkyradio-default">
+					            <input type="checkbox" name="source" id="classes"checked/>
+					            <label for="classes">Source File</label>
+					        </div>
+					        <div class="funkyradio-default">
+					            <input type="checkbox" name="test" id="test"checked/>
+					            <label for="test">Test File</label>
+		               		</div>
+	               		</div>
+	             	   <input type="button" name="previous" class="previous action-button-previous" value="Previous"/>
+				 	   <input type="button" name="next" class="validator-res action-button" value="Next"/>
 		            </fieldset>
 		            <fieldset>
 		                <h2 class="fs-title">Domain Modeling</h2>
