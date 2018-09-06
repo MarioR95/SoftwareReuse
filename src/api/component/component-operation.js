@@ -8,6 +8,8 @@ var paths= require('../paths-manager');
 var newPath;
 //fields sent from form
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
+//for run child process
+var exec = require('child_process').exec, child;
 
 module.exports.doSaveSourceFile = function (cls,dependencies) {
     console.log("-Storing Files...");
@@ -102,7 +104,7 @@ module.exports.createProjectNode = function (files,fields) {
     domain = fields.domain;
 
     //WRITE FILE
-    writeDomainValues();
+    writeDomainValues(fields);
     
     idProject = makeid();
     console.log("-Start to load component into Neo4j DB");
@@ -133,21 +135,31 @@ function makeid() {
 }
 
 
-function writeDomainValues(){
+function writeDomainValues(fields){
 	fs.writeFile("../repository/values.txt",
-    		"name:"+name+"\n" +
-			"description:"+description+"\n" +
-			"note:"+note+"\n" +
-			"version:"+version+"\n" +
-			"uri:"+uri+"\n" +
-			"entry_point:"+entry_point+"\n" +
-			"tags:"+tags+"\n" +
-			"author:"+author+"\n" +
-			"technology:"+technology+"\n" +
-			"domain:"+domain+"\n", function(err){
+    		"Name:"+name+"\n" +
+			"Description:"+description+"\n" +
+			"Note:"+note+"\n" +
+			"Version:"+version+"\n" +
+			"URI:"+uri+"\n" +
+			"EntryPoint:"+entry_point+"\n" +
+			"Author:"+author+"\n" +
+			"Technology:"+technology+"\n" +
+			"Domain:"+domain+"\n", function(err){
     	if(err){
     		console.log(err);
     	}
     });
     console.log("Ontology file written correctly");
+    updateOntology(fields);
+}
+
+function updateOntology(fields) {
+    child = exec('java -jar '+paths.externalToolsPATH+'ONTUpdater.jar '+paths.projectsRepoPATH+'values.txt '+paths.rootPATH+"ONTRepository/"+fields.name,
+        function (error, stdout, stderr){
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if(error)
+            	console.log(error);
+        });
 }

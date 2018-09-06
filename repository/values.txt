@@ -1,10 +1,9 @@
-name:HelloSample
-description:ddD
-note:D
-version:3.5.7
-uri:D
-entry_point:D
-tags:D
-author:Mario Ruggiero
-technology:Java
-domain:Hello
+Name:Sonya
+Description:Et nostrud voluptatem ab neque et asperiores quidem eos necessitatibus in autem unde ipsum vitae
+Note:Deleniti fugiat provident non itaque ullamco eos aliquid veniam est commodo aperiam provident facilis
+Version:Debitis eius in blanditiis veniam qui autem tenetur
+URI:Et animi exercitationem labore natus cupidatat autem voluptate
+EntryPoint:Ab molestiae est rerum quia consequatur incididunt velit consequatur dignissimos est dolorem magnam
+Author:Et ipsum eu eius elit blanditiis aut harum qui voluptas laborum ut architecto at
+Technology:Reprehenderit eius voluptatibus numquam eaque eveniet fugiat consequatur aliquam nesciunt totam sint nostrud sint dolorum sed
+Domain:Dolores quo quo omnis officia duis velit qui dignissimos dolores alias ad sunt elit
