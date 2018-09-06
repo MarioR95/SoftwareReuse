@@ -2,65 +2,15 @@
 var neo4j = require('neo4j-driver').v1;
 var driver = neo4j.driver('bolt://localhost',neo4j.auth.basic('neo4j','123456'));
 var session = driver.session();
-//for parse file JSON
-var GSON= require('gson');
-//for find file on directory
-var find = require('find');
 //for handle file system
 var fs = require('fs');
 var paths= require('../paths-manager');
-//class and dependencies
-var cls = [] , dependencies = [];
-//
 var newPath;
 //fields sent from form
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 
-module.exports.doSave = function (response,files,fields) {
-    newPath =  paths.projectsRepoPATH+files.filetoupload.name;
-    //parameters FORM (for ontology, TO DO)
-    name = fields.name;
-    description = fields.description;
-    note = fields.note;
-    version = fields.version;
-    uri = fields.uri;
-    entry_point = fields.entry_point;
-    tags = fields.tags;
-    author = fields.author;
-    technology = fields.technology;
-    granularity = fields.granularity;
-    domain = fields.domain;
-
-    var contents = fs.readFileSync(paths.projectsRepoPATH+"result.json");
-    var jsonContent = [];
-    jsonContent = GSON.parse(contents);
-    for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
-        cls[i] = jsonContent.class[i];
-        for(j = 0; j < Object.keys(jsonContent.dependencies).length;j++) {
-        dependencies[j] = jsonContent.dependencies[j];
-        }  
-    }
-    console.log("-Start to load component into Neo4j DB");
-    //insert project unzip into neo4j
-    session.run(queryForCreateNodeProject())
-    .catch( function(error) {
-        console.log(error);
-        driver.close();
-    });
-    //search any file for documentation on project
-    find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath.split('.').slice(0, -1).join('.'), function(documents) {
-        console.log("NEWPATH: "+newPath);
-        console.log("DOCUMENTATION: "+documents);
-        //insert relationship of project and documentation
-        for(i = 0; i < documents.length; i++) {
-        var idDocumentation = makeid();
-        session.run('MATCH(p:'+idProject+') CREATE(d:'+idDocumentation+ '{pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) CREATE (p)-[r:DOCUMENTATION]->(d)')
-        .catch( function(error) {
-            console.log(error);
-            driver.close();
-        }); 
-        }
-    });
+module.exports.doSaveSourceFile = function (cls,dependencies) {
+    console.log("-Storing Files...");
     var nameComponentClass;
     var nameComponentDepen;
     var indexForChangeNameDep = [];
@@ -107,12 +57,65 @@ module.exports.doSave = function (response,files,fields) {
         driver.close();
         });
     }
-    console.log("-Insert correctly");
-    fs.unlinkSync(paths.projectsRepoPATH+"result.json");
-    console.log("-JSon file removing from repository");
-    response.write('-Files correctly stored into DB');
-    response.end();
-}  
+    console.log("-Files stored correctly");
+} 
+
+module.exports.doSaveDocuments = function (documents) {
+    console.log("Do save doc  "+documents);
+    for(i = 0; i < documents.length; i++) {
+        var idDocumentation = makeid();
+        session.run('MATCH('+idProject+':Project) MERGE('+idDocumentation+':Document {pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) MERGE ('+idProject+')-[r:hasDocumentation]->('+idDocumentation+')')
+        .catch( function(error) {
+            console.log(error);
+            driver.close();
+        }); 
+    }
+    console.log("-Docs stored correctly");
+
+}
+module.exports.doSaveTestFile = function (tests) {
+    console.log("Do save test  "+tests);
+    for(i = 0; i < tests.length; i++) {
+        var idTests = makeid();
+        session.run('MATCH('+idProject+':Project) MERGE('+idTests+':Test {pathTestFile:'+"'"+tests[i]+"'"+', type:"test"}) MERGE ('+idProject+')-[r:hasTest]->('+idTests+')')
+        .catch( function(error) {
+            console.log(error);
+            driver.close();
+        }); 
+    }  
+    console.log("-Test files stored correctly");
+
+}
+
+module.exports.createProjectNode = function (files,fields) {
+    newPath =  paths.projectsRepoPATH+files.filetoupload.name;
+    name = fields.name;
+    description = fields.description;
+    note = fields.note;
+    version = fields.version;
+    uri = fields.uri;
+    entry_point = fields.entry_point;
+    tags = fields.tags;
+    author = fields.author;
+    technology = fields.technology;
+    granularity = fields.granularity;
+    domain = fields.domain;
+
+    idProject = makeid();
+    console.log("-Start to load component into Neo4j DB");
+    //insert project unzip into neo4j
+    session.run('MERGE('+idProject+':Project {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})')
+    .catch( function(error) {
+        console.log(error);
+        driver.close();
+    });
+    console.log("-Node project stored correctly");
+}
+
+module.exports.endOperations = function (res) {
+	res.writeHead(301, {Location: "/"});
+    res.end();
+}
 
 /*This function make an ID for any node that must be stored into DB. */
 function makeid() {
@@ -124,10 +127,4 @@ function makeid() {
 	    text += possible.charAt(Math.floor(Math.random() * possible.length));
 	
 	return text;
-}
-
-/*TODO: change function name: chist fa schif com a domenico*/
-function queryForCreateNodeProject() {
-	idProject = makeid();
-	return 'CREATE(p:'+idProject+' {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})';
 }
