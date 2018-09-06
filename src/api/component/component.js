@@ -12,7 +12,6 @@ var componentOperation = require('./component-operation');
 var GSON= require('gson');
 //for find file on directory
 var find = require('find');
-var sync = require('sync');
 
 
 module.exports.loadComponent = function (response,fields, files) {
@@ -45,20 +44,19 @@ module.exports.loadComponent = function (response,fields, files) {
 }
 
 
-  
 function parseJavaComponent(response,files,fields) {
     var contents;
     //remove extention path
     newPath = newPath.split('.').slice(0, -1).join('.');
     console.log(paths.externalToolsPATH);
     componentOperation.createProjectNode(files,fields);
-    beforeStoring(fields);
+    checkAndSave(fields);
     componentOperation.endOperations(response);
     
 }
 
 
-function beforeStoring(fields){
+function checkAndSave(fields){
    	if(fields.source != undefined) {
    		var cls=[], dependencies=[];
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
