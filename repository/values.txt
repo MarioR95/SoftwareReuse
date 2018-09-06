@@ -1,0 +1,10 @@
+name:HelloSample
+description:ddD
+note:D
+version:3.5.7
+uri:D
+entry_point:D
+tags:D
+author:Mario Ruggiero
+technology:Java
+domain:Hello

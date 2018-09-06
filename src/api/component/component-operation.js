@@ -101,6 +101,9 @@ module.exports.createProjectNode = function (files,fields) {
     granularity = fields.granularity;
     domain = fields.domain;
 
+    //WRITE FILE
+    writeDomainValues();
+    
     idProject = makeid();
     console.log("-Start to load component into Neo4j DB");
     //insert project unzip into neo4j
@@ -127,4 +130,24 @@ function makeid() {
 	    text += possible.charAt(Math.floor(Math.random() * possible.length));
 	
 	return text;
+}
+
+
+function writeDomainValues(){
+	fs.writeFile("../repository/values.txt",
+    		"name:"+name+"\n" +
+			"description:"+description+"\n" +
+			"note:"+note+"\n" +
+			"version:"+version+"\n" +
+			"uri:"+uri+"\n" +
+			"entry_point:"+entry_point+"\n" +
+			"tags:"+tags+"\n" +
+			"author:"+author+"\n" +
+			"technology:"+technology+"\n" +
+			"domain:"+domain+"\n", function(err){
+    	if(err){
+    		console.log(err);
+    	}
+    });
+    console.log("Ontology file written correctly");
 }
