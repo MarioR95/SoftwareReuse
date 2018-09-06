@@ -69,6 +69,7 @@ function checkAndSave(fields){
                 console.log("-File parsed correctly");
                 console.log("-Start handle JSon file...");
                 contents = fs.readFileSync(paths.projectsRepoPATH+"result.json");
+                fs.unlinkSync(paths.projectsRepoPATH+'result.json');
                 var jsonContent = [];
                 jsonContent = GSON.parse(contents);
                 for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
@@ -78,7 +79,6 @@ function checkAndSave(fields){
                     }  
                 }
                 console.log("JSon file parsed correctly");
-                fs.unlink(paths.projectsRepoPATH+'result.json');
                 componentOperation.doSaveSourceFile(cls,dependencies);
             }
         });
