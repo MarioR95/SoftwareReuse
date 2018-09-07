@@ -1,9 +1,9 @@
-Name:Kylie Watson
-Description:Qui laboris commodo sit voluptatem dolor excepturi laboriosam eum dolorem ipsa qui necessitatibus earum ad in qui
-Note:Eiusmod ipsam elit laborum impedit
-Version:Itaque sapiente eum eius consectetur ipsum
-URI:Ex exercitationem adipisicing numquam est et non libero omnis repudiandae deleniti consequatur consequatur dolorem ipsum adipisicing voluptates molestiae
-EntryPoint:Rerum aut esse pariatur Occaecat molestias ut ea exercitation est sapiente tempore et dicta adipisicing nisi inventore excepteur maiores
-Author:Dolor nulla voluptas quia et sit molestiae quas deserunt perspiciatis magni sed numquam nihil dolore
-Technology:Iure dolore id qui molestiae excepteur nisi incididunt est et possimus illo odit quia
-Domain:Et ex laboris qui placeat incidunt nobis aliquip anim aliqua Aut laboris aperiam voluptas non
+Name:Lynn Campos
+Description:Mollit nemo veniam, proident, numquam dolore tempora sequi eius cumque repellendus.
+Note:A
+Version:1
+URI:http://www.mipinyketatu.co
+EntryPoint:Modi consectetur laboriosam amet dolorum quis nihil
+Author:Veda Herrera
+Technology:Esse, illum, et omnis quas et recusandae. Minima inventore tempora qui aut qui corporis eum.
+Domain:Colon Benson Co
