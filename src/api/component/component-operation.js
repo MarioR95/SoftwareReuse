@@ -10,6 +10,31 @@ var newPath;
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for run child process
 var exec = require('child_process').exec, child;
+module.exports.createProjectNode = function (files,fields) {
+    newPath =  paths.projectsRepoPATH+files.filetoupload.name;
+    name = fields.name;
+    description = fields.description;
+    note = fields.note;
+    version = fields.version;
+    uri = fields.uri;
+    entry_point = fields.entry_point;
+    author = fields.author;
+    technology = fields.technology;
+    domain = fields.domain;
+
+    //WRITE FILE
+    writeDomainValues(fields);
+    
+    idProject = makeid();
+    console.log("-Start to load component into Neo4j DB");
+    //insert project unzip into neo4j
+    session.run('MERGE(Project:'+idProject+' {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})')
+    .catch( function(error) {
+        console.log(error);
+        driver.close();
+    });
+    console.log("-Node project stored correctly");
+}
 
 module.exports.doSaveSourceFile = function (cls,dependencies) {
     console.log("-Storing Files...");
@@ -61,12 +86,11 @@ module.exports.doSaveSourceFile = function (cls,dependencies) {
     }
     console.log("-Files stored correctly");
 } 
-
 module.exports.doSaveDocuments = function (documents) {
     console.log("Do save doc  "+documents);
     for(i = 0; i < documents.length; i++) {
         var idDocumentation = makeid();
-        session.run('MATCH('+idProject+':Project) MERGE('+idDocumentation+':Document {pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) MERGE ('+idProject+')-[r:hasDocumentation]->('+idDocumentation+')')
+        session.run('MATCH(Project:'+idProject+') MERGE(Document:'+idDocumentation+' {pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) MERGE (Project)-[r:hasDocumentation]->(Document)')
         .catch( function(error) {
             console.log(error);
             driver.close();
@@ -79,7 +103,7 @@ module.exports.doSaveTestFile = function (tests) {
     console.log("Do save test  "+tests);
     for(i = 0; i < tests.length; i++) {
         var idTests = makeid();
-        session.run('MATCH('+idProject+':Project) MERGE('+idTests+':Test {pathTestFile:'+"'"+tests[i]+"'"+', type:"test"}) MERGE ('+idProject+')-[r:hasTest]->('+idTests+')')
+        session.run('MATCH(Project:'+idProject+') MERGE(Test:'+idTests+' {pathTestFile:'+"'"+tests[i]+"'"+', type:"test"}) MERGE (Project)-[r:hasTest]->(Test)')
         .catch( function(error) {
             console.log(error);
             driver.close();
@@ -88,33 +112,6 @@ module.exports.doSaveTestFile = function (tests) {
     console.log("-Test files stored correctly");
 
 }
-
-module.exports.createProjectNode = function (files,fields) {
-    newPath =  paths.projectsRepoPATH+files.filetoupload.name;
-    name = fields.name;
-    description = fields.description;
-    note = fields.note;
-    version = fields.version;
-    uri = fields.uri;
-    entry_point = fields.entry_point;
-    author = fields.author;
-    technology = fields.technology;
-    domain = fields.domain;
-
-    //WRITE FILE
-    writeDomainValues(fields);
-    
-    idProject = makeid();
-    console.log("-Start to load component into Neo4j DB");
-    //insert project unzip into neo4j
-    session.run('MERGE('+idProject+':Project {Path:'+"'"+newPath+"'"+', Name:'+"'"+name+"'"+', Description:'+"'"+description+"'"+', Note:'+"'"+note+"'"+', Version:'+"'"+version+"'"+', Uri:'+"'"+uri+"'"+', Entry_point:'+"'"+entry_point+"'"+', Tags:'+"'"+tags+"'"+', Author:'+"'"+author+"'"+', Technology:'+"'"+technology+"'"+', Granurality:'+"'"+granularity+"'"+', Domain:'+"'"+domain+"'"+'})')
-    .catch( function(error) {
-        console.log(error);
-        driver.close();
-    });
-    console.log("-Node project stored correctly");
-}
-
 module.exports.endOperations = function (res) {
 	res.writeHead(301, {Location: "/"});
     res.end();
