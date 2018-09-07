@@ -1,0 +1,101 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:Ontology rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont"/>
+  <owl:Class rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#EntryPoint">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Domain">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Note">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Version">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Author">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#URI">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Description">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Name">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Technology">
+    <rdfs:domain>
+      <owl:Restriction>
+        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project"/>
+        <owl:onProperty rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+      </owl:Restriction>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <j.0:Project rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project858418212">
+    <j.0:EntryPoint>Rerum aut esse pariatur Occaecat molestias ut ea exercitation est sapiente tempore et dicta adipisicing nisi inventore excepteur maiores</j.0:EntryPoint>
+    <j.0:Note>Eiusmod ipsam elit laborum impedit</j.0:Note>
+    <j.0:Name>Kylie Watson</j.0:Name>
+    <j.0:Technology>Iure dolore id qui molestiae excepteur nisi incididunt est et possimus illo odit quia</j.0:Technology>
+    <j.0:Description>Qui laboris commodo sit voluptatem dolor excepturi laboriosam eum dolorem ipsa qui necessitatibus earum ad in qui</j.0:Description>
+    <j.0:Domain>Et ex laboris qui placeat incidunt nobis aliquip anim aliqua Aut laboris aperiam voluptas non</j.0:Domain>
+    <j.0:Version>Itaque sapiente eum eius consectetur ipsum</j.0:Version>
+    <j.0:Author>Dolor nulla voluptas quia et sit molestiae quas deserunt perspiciatis magni sed numquam nihil dolore</j.0:Author>
+    <j.0:URI>Ex exercitationem adipisicing numquam est et non libero omnis repudiandae deleniti consequatur consequatur dolorem ipsum adipisicing voluptates molestiae</j.0:URI>
+  </j.0:Project>
+</rdf:RDF>

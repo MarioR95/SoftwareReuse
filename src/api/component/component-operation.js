@@ -97,10 +97,8 @@ module.exports.createProjectNode = function (files,fields) {
     version = fields.version;
     uri = fields.uri;
     entry_point = fields.entry_point;
-    tags = fields.tags;
     author = fields.author;
     technology = fields.technology;
-    granularity = fields.granularity;
     domain = fields.domain;
 
     //WRITE FILE
@@ -155,7 +153,7 @@ function writeDomainValues(fields){
 }
 
 function updateOntology(fields) {
-    child = exec('java -jar '+paths.externalToolsPATH+'ONTUpdater.jar '+paths.projectsRepoPATH+'values.txt '+paths.rootPATH+"ONTRepository/"+fields.name,
+    child = exec('java -jar '+paths.externalToolsPATH+'ONTUpdater.jar '+paths.projectsRepoPATH+'values.txt '+paths.rootPATH+"ont_repository/"+fields.name,
         function (error, stdout, stderr){
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
