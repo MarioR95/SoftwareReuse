@@ -32,7 +32,6 @@ module.exports.loadComponent = function (response,fields, files) {
           console.log("-File unzipped correctly");
           //PARSE FILE INTO FOLDER 
           if(fields.java != undefined){
-          	console.log("@@@@@@@@@HO INSERITO UN PROJETTO JAVA");
           	parseJavaComponent(response,files,fields);
             console.log("-Component parsed correctly");
           }else 
