@@ -4,13 +4,12 @@ var paths= require('./api/paths-manager');
 var fs = require('fs');
 var express = require('express');
 var app= express();
-//
+
 var componentAPI = require('./api/component/component-api');
 
 
 //to handle static file from public directory
 app.use(express.static("../public"));
-
 app.listen(8080, function(){
 	console.log("SERVER STARTED");
 });
@@ -24,8 +23,14 @@ app.get("/insert",function(req, res){
 });
 
 
-componentAPI.upload(app);
+app.get("/results", function(req,res){
+	//componentAPI.search();
+	loadPage(res, '../public/view/search-result.html');
+});
 
+
+componentAPI.upload(app);
+componentAPI.showContent(app);
 
 function loadPage(response,url) {
    //HTML PAGE

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+		rel="stylesheet" id="bootstrap-css" />
+	<link 
+		href="css/table-style.css"
+		rel="stylesheet">
+</head>
+<body>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/tablehandler.js"></script>
+
+	<div class="container">
+		<h3>Results</h3>
+		<hr>
+		<div class="row">
+			<div class="panel panel-primary filterable" style="border-color: #6441A5">
+				<div class="panel-heading" style="background: #6441A5">
+					<h3 class="panel-title">Users</h3>
+					<div class="pull-right">
+						<button class="btn btn-default btn-xs btn-filter">
+							<span class="glyphicon glyphicon-filter"></span> Filter
+						</button>
+					</div>
+				</div>
+				<table class="table">
+					<thead>
+						<tr class="filters">
+							<th><input type="text" class="form-control" placeholder="#" disabled></th>
+							<th><input type="text" class="form-control" placeholder="Name" disabled></th>
+							<th><input type="text" class="form-control" placeholder="Description" disabled></th>
+							<th><span class="glyphicon glyphicon-cog" style="padding-left:40%;"></span></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<form action="show" method="post" enctype="multipart/form-data" hidden>
+							<input type="hidden"
+										   value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/COLOR/src/AppGrafica.java"
+										   name="content" hidden>
+								<td>1</td>
+								<td>
+									 AppGrafica.java
+							    </td>
+								<td>Una bella descrizione</td>
+								<td>
+									<input type="submit" value="VIEW" class="btn btn-success" style="padding: 2% 4%;">
+									<input type="submit" value="RUN" class="btn btn-success" style="margin-left: 20%; padding: 2% 4%;">
+								</td>
+							</form>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+</body>
