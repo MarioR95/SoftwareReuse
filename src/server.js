@@ -31,6 +31,7 @@ app.get("/results", function(req,res){
 
 componentAPI.upload(app);
 componentAPI.showContent(app);
+componentAPI.runContent(app);
 
 function loadPage(response,url) {
    //HTML PAGE
