@@ -41,20 +41,27 @@
 					</thead>
 					<tbody>
 						<tr>
-							<form action="show" method="post" enctype="multipart/form-data" hidden>
-							<input type="hidden"
-										   value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/COLOR/src/AppGrafica.java"
-										   name="content" hidden>
 								<td>1</td>
 								<td>
 									 AppGrafica.java
 							    </td>
 								<td>Una bella descrizione</td>
-								<td>
-									<input type="submit" value="VIEW" class="btn btn-success" style="padding: 2% 4%;">
-									<input type="submit" value="RUN" class="btn btn-success" style="margin-left: 20%; padding: 2% 4%;">
-								</td>
-							</form>
+							<td>
+								<form action="show" method="post" enctype="multipart/form-data">
+									<input type="hidden"
+										value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/COLOR/src/AppGrafica.java"
+										name="content" hidden> 
+									<input type="submit"
+										value="VIEW" class="btn btn-success" style="padding: 2% 4%;margin: 1%;">
+								</form>
+								<form action="run" method="post" enctype="multipart/form-data" class="form-run">
+									<input type="hidden"
+										value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/COLOR/src/AppGrafica.java"
+										name="content" hidden> 
+									<input type="submit"
+										value="RUN" class="btn btn-success" style="padding: 2% 4%; margin:1%;">
+								</form>
+							</td>
 						</tr>
 					</tbody>
 				</table>
