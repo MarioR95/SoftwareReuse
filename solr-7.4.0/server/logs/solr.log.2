@@ -1,38 +1,35 @@
-2018-09-12 11:07:18.734 INFO  (main) [   ] o.e.j.u.log Logging initialized @3380ms to org.eclipse.jetty.util.log.Slf4jLog
-2018-09-12 11:07:19.105 INFO  (main) [   ] o.e.j.s.Server jetty-9.4.10.v20180503; built: 2018-05-03T15:56:21.710Z; git: daa59876e6f384329b122929e70a80934569428c; jvm 1.8.0_181-b13
-2018-09-12 11:07:19.168 INFO  (main) [   ] o.e.j.d.p.ScanningAppProvider Deployment monitor [file:///home/dom/Desktop/SoftwareReuse/solr-7.4.0/server/contexts/] at interval 0
-2018-09-12 11:07:21.002 INFO  (main) [   ] o.e.j.w.StandardDescriptorProcessor NO JSP Support for /solr, did not find org.apache.jasper.servlet.JspServlet
-2018-09-12 11:07:21.018 INFO  (main) [   ] o.e.j.s.session DefaultSessionIdManager workerName=node0
-2018-09-12 11:07:21.018 INFO  (main) [   ] o.e.j.s.session No SessionScavenger set, using defaults
-2018-09-12 11:07:21.024 INFO  (main) [   ] o.e.j.s.session node0 Scavenging every 600000ms
-2018-09-12 11:07:21.173 INFO  (main) [   ] o.a.s.u.c.SSLCredentialProviderFactory Processing SSL Credential Provider chain: env;sysprop
-2018-09-12 11:07:21.321 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter Using logger factory org.apache.logging.slf4j.Log4jLoggerFactory
-2018-09-12 11:07:21.424 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter  ___      _       Welcome to Apache Solr™ version 7.4.0
-2018-09-12 11:07:21.424 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter / __| ___| |_ _   Starting in standalone mode on port 8983
-2018-09-12 11:07:21.425 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter \__ \/ _ \ | '_|  Install dir: /home/dom/Desktop/SoftwareReuse/solr-7.4.0
-2018-09-12 11:07:21.425 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter |___/\___/_|_|    Start time: 2018-09-12T11:07:21.425Z
-2018-09-12 11:07:21.664 INFO  (main) [   ] o.a.s.c.SolrResourceLoader Using system property solr.solr.home: /home/dom/Desktop/SoftwareReuse/solr-7.4.0/server/solr
-2018-09-12 11:07:21.695 INFO  (main) [   ] o.a.s.c.SolrXmlConfig Loading container configuration from /home/dom/Desktop/SoftwareReuse/solr-7.4.0/server/solr/solr.xml
-2018-09-12 11:07:22.025 INFO  (main) [   ] o.a.s.c.SolrXmlConfig MBean server found: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a, but no JMX reporters were configured - adding default JMX reporter.
-2018-09-12 11:07:24.333 INFO  (main) [   ] o.a.s.c.TransientSolrCoreCacheDefault Allocating transient cache for 2147483647 transient cores
-2018-09-12 11:07:24.336 INFO  (main) [   ] o.a.s.h.a.MetricsHistoryHandler No .system collection, keeping metrics history in memory.
-2018-09-12 11:07:24.513 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.node' (registry 'solr.node') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
-2018-09-12 11:07:24.514 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.jvm' (registry 'solr.jvm') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
-2018-09-12 11:07:24.529 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.jetty' (registry 'solr.jetty') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
-2018-09-12 11:07:24.558 INFO  (main) [   ] o.a.s.c.CorePropertiesLocator Found 0 core definitions underneath /home/dom/Desktop/SoftwareReuse/solr-7.4.0/server/solr
-2018-09-12 11:07:24.686 INFO  (main) [   ] o.e.j.s.h.ContextHandler Started o.e.j.w.WebAppContext@10aa41f2{/solr,file:///home/dom/Desktop/SoftwareReuse/solr-7.4.0/server/solr-webapp/webapp/,AVAILABLE}{file:///home/dom/Desktop/SoftwareReuse/solr-7.4.0/server//solr-webapp/webapp}
-2018-09-12 11:07:24.740 INFO  (main) [   ] o.e.j.s.AbstractConnector Started ServerConnector@34997338{HTTP/1.1,[http/1.1]}{0.0.0.0:8983}
-2018-09-12 11:07:24.740 INFO  (main) [   ] o.e.j.s.Server Started @9388ms
-2018-09-12 11:07:53.410 INFO  (qtp817348612-18) [   ] o.a.s.s.HttpSolrCall [admin] webapp=null path=/admin/cores params={indexInfo=false&wt=json&_=1536750472449} status=0 QTime=200
-2018-09-12 11:07:53.662 INFO  (qtp817348612-19) [   ] o.a.s.s.HttpSolrCall [admin] webapp=null path=/admin/info/system params={wt=json&_=1536750472450} status=0 QTime=449
-2018-09-12 11:07:53.727 INFO  (qtp817348612-19) [   ] o.a.s.s.HttpSolrCall [admin] webapp=null path=/admin/info/system params={wt=json&_=1536750472450} status=0 QTime=33
-2018-09-12 11:11:26.531 INFO  (ShutdownMonitor) [   ] o.e.j.s.AbstractConnector Stopped ServerConnector@34997338{HTTP/1.1,[http/1.1]}{0.0.0.0:8983}
-2018-09-12 11:11:26.532 INFO  (ShutdownMonitor) [   ] o.e.j.s.session node0 Stopped scavenging
-2018-09-12 11:11:26.570 INFO  (ShutdownMonitor) [   ] o.a.s.c.CoreContainer Shutting down CoreContainer instance=735937428
-2018-09-12 11:11:26.578 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.node, tag=null
-2018-09-12 11:11:26.580 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@3569fc08: rootName = null, domain = solr.node, service url = null, agent id = null] for registry solr.node / com.codahale.metrics.MetricRegistry@5869dbdf
-2018-09-12 11:11:26.602 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jvm, tag=null
-2018-09-12 11:11:26.604 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@2a79d4b1: rootName = null, domain = solr.jvm, service url = null, agent id = null] for registry solr.jvm / com.codahale.metrics.MetricRegistry@ff46b14
-2018-09-12 11:11:26.618 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jetty, tag=null
-2018-09-12 11:11:26.619 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@2e9fda69: rootName = null, domain = solr.jetty, service url = null, agent id = null] for registry solr.jetty / com.codahale.metrics.MetricRegistry@19d5ee16
-2018-09-12 11:11:26.639 INFO  (ShutdownMonitor) [   ] o.e.j.s.h.ContextHandler Stopped o.e.j.w.WebAppContext@10aa41f2{/solr,null,UNAVAILABLE}{file:///home/dom/Desktop/SoftwareReuse/solr-7.4.0/server//solr-webapp/webapp}
+2018-09-13 09:25:50.077 INFO  (main) [   ] o.e.j.u.log Logging initialized @1469ms to org.eclipse.jetty.util.log.Slf4jLog
+2018-09-13 09:25:50.331 INFO  (main) [   ] o.e.j.s.Server jetty-9.4.10.v20180503; built: 2018-05-03T15:56:21.710Z; git: daa59876e6f384329b122929e70a80934569428c; jvm 1.8.0_181-b13
+2018-09-13 09:25:50.357 INFO  (main) [   ] o.e.j.d.p.ScanningAppProvider Deployment monitor [file:///home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server/contexts/] at interval 0
+2018-09-13 09:25:50.728 INFO  (main) [   ] o.e.j.w.StandardDescriptorProcessor NO JSP Support for /solr, did not find org.apache.jasper.servlet.JspServlet
+2018-09-13 09:25:50.740 INFO  (main) [   ] o.e.j.s.session DefaultSessionIdManager workerName=node0
+2018-09-13 09:25:50.740 INFO  (main) [   ] o.e.j.s.session No SessionScavenger set, using defaults
+2018-09-13 09:25:50.742 INFO  (main) [   ] o.e.j.s.session node0 Scavenging every 600000ms
+2018-09-13 09:25:50.828 INFO  (main) [   ] o.a.s.u.c.SSLCredentialProviderFactory Processing SSL Credential Provider chain: env;sysprop
+2018-09-13 09:25:50.906 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter Using logger factory org.apache.logging.slf4j.Log4jLoggerFactory
+2018-09-13 09:25:50.910 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter  ___      _       Welcome to Apache Solr™ version 7.4.0
+2018-09-13 09:25:50.910 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter / __| ___| |_ _   Starting in standalone mode on port 8983
+2018-09-13 09:25:50.910 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter \__ \/ _ \ | '_|  Install dir: /home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0
+2018-09-13 09:25:50.912 INFO  (main) [   ] o.a.s.s.SolrDispatchFilter |___/\___/_|_|    Start time: 2018-09-13T09:25:50.912Z
+2018-09-13 09:25:50.942 INFO  (main) [   ] o.a.s.c.SolrResourceLoader Using system property solr.solr.home: /home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server/solr
+2018-09-13 09:25:50.947 INFO  (main) [   ] o.a.s.c.SolrXmlConfig Loading container configuration from /home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server/solr/solr.xml
+2018-09-13 09:25:51.011 INFO  (main) [   ] o.a.s.c.SolrXmlConfig MBean server found: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a, but no JMX reporters were configured - adding default JMX reporter.
+2018-09-13 09:25:53.429 INFO  (main) [   ] o.a.s.c.TransientSolrCoreCacheDefault Allocating transient cache for 2147483647 transient cores
+2018-09-13 09:25:53.607 INFO  (main) [   ] o.a.s.h.a.MetricsHistoryHandler No .system collection, keeping metrics history in memory.
+2018-09-13 09:25:53.841 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.node' (registry 'solr.node') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
+2018-09-13 09:25:53.842 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.jvm' (registry 'solr.jvm') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
+2018-09-13 09:25:53.866 INFO  (main) [   ] o.a.s.m.r.SolrJmxReporter JMX monitoring for 'solr.jetty' (registry 'solr.jetty') enabled at server: com.sun.jmx.mbeanserver.JmxMBeanServer@1e9e725a
+2018-09-13 09:25:53.899 INFO  (main) [   ] o.a.s.c.CorePropertiesLocator Found 0 core definitions underneath /home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server/solr
+2018-09-13 09:25:53.989 INFO  (main) [   ] o.e.j.s.h.ContextHandler Started o.e.j.w.WebAppContext@10aa41f2{/solr,file:///home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server/solr-webapp/webapp/,AVAILABLE}{file:///home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server//solr-webapp/webapp}
+2018-09-13 09:25:54.007 INFO  (main) [   ] o.e.j.s.AbstractConnector Started ServerConnector@cfdebd{HTTP/1.1,[http/1.1]}{0.0.0.0:8983}
+2018-09-13 09:25:54.007 INFO  (main) [   ] o.e.j.s.Server Started @5400ms
+2018-09-13 09:28:21.301 INFO  (ShutdownMonitor) [   ] o.e.j.s.AbstractConnector Stopped ServerConnector@cfdebd{HTTP/1.1,[http/1.1]}{0.0.0.0:8983}
+2018-09-13 09:28:21.301 INFO  (ShutdownMonitor) [   ] o.e.j.s.session node0 Stopped scavenging
+2018-09-13 09:28:21.309 INFO  (ShutdownMonitor) [   ] o.a.s.c.CoreContainer Shutting down CoreContainer instance=735937428
+2018-09-13 09:28:21.321 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.node, tag=null
+2018-09-13 09:28:21.322 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@3569fc08: rootName = null, domain = solr.node, service url = null, agent id = null] for registry solr.node / com.codahale.metrics.MetricRegistry@6b8061a
+2018-09-13 09:28:21.341 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jvm, tag=null
+2018-09-13 09:28:21.354 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@2a79d4b1: rootName = null, domain = solr.jvm, service url = null, agent id = null] for registry solr.jvm / com.codahale.metrics.MetricRegistry@5354b987
+2018-09-13 09:28:21.357 INFO  (ShutdownMonitor) [   ] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jetty, tag=null
+2018-09-13 09:28:21.357 INFO  (ShutdownMonitor) [   ] o.a.s.m.r.SolrJmxReporter Closing reporter [org.apache.solr.metrics.reporters.SolrJmxReporter@2e9fda69: rootName = null, domain = solr.jetty, service url = null, agent id = null] for registry solr.jetty / com.codahale.metrics.MetricRegistry@159aed21
+2018-09-13 09:28:21.367 INFO  (ShutdownMonitor) [   ] o.e.j.s.h.ContextHandler Stopped o.e.j.w.WebAppContext@10aa41f2{/solr,null,UNAVAILABLE}{file:///home/mario/Desktop/eclipse-workspace/SoftwareReuse/solr-7.4.0/server//solr-webapp/webapp}

@@ -1,6 +1,4 @@
-//module that manages local paths
 var paths= require('./api/paths-manager');
-//for handle file system
 var fs = require('fs');
 var express = require('express');
 var app= express();
@@ -8,41 +6,48 @@ var exec = require('child_process').exec, child;
 var componentAPI = require('./api/component/component-api');
 var server;
 
-//to handle static file from public directory
+//To handle static file from public directory
 app.use(express.static("../public"));
 
 server = app.listen(8080, function(){
-  console.log("SERVER STARTED");
+  console.log("WEB SERVER STARTED");
   //start solr server
   child = exec('../solr-7.4.0/bin/solr start',
     function (error, stdout, stderr){
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
         if(error){
-          console.log("SERVER NOT STARTED")
+          console.log("SOLR SERVER NOT STARTED")
         }
     });
-    console.log("SOLR STARTED");
+    console.log("SOLR SERVER STARTED");
 });
 
+//INIT SERVER
 app.get("/", function(req,res) {
-  loadPage(res,'../index.html');
+	loadPage(res,'../index.html');
 });
 
+componentAPI.upload(app);
+//INSERT MODULE
 app.get("/insert",function(req, res){
 	 loadPage(res,'../public/view/insert.html')
 });
 
-
+//SEARCH AND RUN MODULE
 app.get("/results", function(req,res){
-	//componentAPI.search();
-	loadPage(res, '../public/view/search-result.html');
+	componentAPI.showContent(app);
+	componentAPI.runContent(app);
+	loadPage(res, '../public/view/search.html');	
 });
 
-componentAPI.upload(app);
-componentAPI.showContent(app);
-componentAPI.runContent(app);
 
+
+
+/*
+ * Function that load a page from url. 
+ * @PARAM: url: the full path that identify the html file into file system 
+ * @RETURN: html page loaded successfully or a 404 page.*/
 function loadPage(response,url) {
    //HTML PAGE
    console.log("-Page loaded successfully"); 
