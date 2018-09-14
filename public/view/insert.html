@@ -5,10 +5,11 @@
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	    <meta name="viewport" content="width=device-width, initial-scale=1">
 	    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-	    <link href="css/insert-style.css" rel="stylesheet"/>
+	    <link href="css/form-style.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 		<!-- MultiStep Form -->
@@ -47,8 +48,8 @@
 		                <h3 class="fs-subtitle">Resource to be stored</h3>
 		     			<div class="funkyradio" id="type-res" >
 	                		<div class="funkyradio-default">
-				            <input type="checkbox" name="doc" id="docs" checked/>
-				            <label for="docs">Documentation</label>
+					            <input type="checkbox" name="doc" id="docs" checked/>
+					            <label for="docs">Documentation</label>
 					        </div>
 					        <div class="funkyradio-default">
 					            <input type="checkbox" name="source" id="classes"checked/>
@@ -70,7 +71,7 @@
 				        <input type="text" name="author" placeholder="Author" required><br>
 				        <input type="text" name="domain" placeholder="Domain" required><br>
 		                <input type="text" name="technology" placeholder="Technology" required><br>		        
-		                <textarea type="textarea" rows="4" cols="50" name="description"  placeholder="Description" style="resize: none" required"></textarea><br>
+		                <textarea rows="4" cols="50" name="description"  placeholder="Description" style="resize: none" required"></textarea><br>
 		                <input type="text" name="note" placeholder="Note" required><br>
 		                <input type="text" name="uri" placeholder="URI" required><br>
 		                <input type="text" name="entry_point" placeholder="Entry Point" required><br>
@@ -81,6 +82,6 @@
 		    </div>
 		</div>
 		<!-- /.MultiStep Form -->
-		<script type="text/javascript" src="js/insert.js"></script>
+		<script type="text/javascript" src="js/formhandler.js"></script>
 	</body>
 </html>

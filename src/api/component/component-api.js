@@ -3,6 +3,7 @@ var formidable = require('formidable');
 var component = require('./component');
 var fs = require('fs');
 var hljs = require('highlight.js');
+var exec = require('child_process').exec;
 
 module.exports.upload = function(app) {
 	app.post("/upload", function(req, res) {
@@ -33,7 +34,7 @@ module.exports.showContent = function(app) {
 			 */
 			
 			var lineReader = require('readline').createInterface({
-						input : require('fs').createReadStream(fields.content)
+						input : require('fs').createReadStream(fields.contentPath)
 			});
 			lineReader.on('line', function (line) {
 				res.write("<pre><code class='java'>"+hljs.highlightAuto(line).value+"</code></pre>", function(err){
@@ -47,11 +48,37 @@ module.exports.showContent = function(app) {
 };
 
 module.exports.runContent = function(app) {
-	app.get("/run", function(req, res) {
-		var form = formidable.icomingForm();
-		form.parse(req, function(fields, files) {
-
+	app.post("/initComponent", function(req, res) {
+		var form = formidable.IncomingForm();
+		form.parse(req, function(err, fields, files) {
+			exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
+					function(error, stdout, stderr) {
+						if (error) {
+							console.log("-File not visited. ERROR during the inspection");
+						} else {
+							console.log("-File visited correctly");
+							
+							fs.readFile('/home/mario/Desktop/eclipse-workspace/SoftwareReuse/public/view/run.html',null,function(error,data) {
+							     if(error) {
+							      res.writeHead(404);
+							      res.write('-Page not found');
+							     }else {
+							      res.end(data);
+							     }
+							   });
+						}
+			});
 		});
+	});
+	
+	app.get("/getJSON", function(req,res){
+	     res.writeHead(200, {'Content-Type': 'application/json'});
+		 res.end(fs.readFileSync(paths.projectsRepoPATH+"dump_class.json"));
+	});
+
+	
+	app.post("/run",function(req,res){
+		
 	});
 };
 
