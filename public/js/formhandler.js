@@ -85,7 +85,7 @@ $(".submit").click(function(){
 
 
 
-$(".validator-res").click(function(){
+$("#validator-res").click(function(){
 	//Check if at least one checkbox in the resource type is checked
 	if(jQuery('#type-res input[type=checkbox]:checked').length){
 		if(animating) return false;
@@ -128,7 +128,7 @@ $(".validator-res").click(function(){
 	return false;
 });
 
-$(".validator-file").click(function(){
+$("#validator-file").click(function(){
 	//Check if input type file is not empty
 	if($(".filetoupload").val()){
 		if(animating) return false;
@@ -169,4 +169,48 @@ $(".validator-file").click(function(){
 		});
 	}
 	return false;
+});
+
+$('#validator-constructor').click(function(){
+	if($('input:radio[name="constructor"]:checked').length){
+		if(animating) return false;
+		
+		animating = true;
+		
+		current_fs = $(this).parent();
+		next_fs = $(this).parent().next();
+		
+		//activate next step on progressbar using the index of next_fs
+		$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+		
+		//show the next fieldset
+		next_fs.show(); 
+		//hide the current fieldset with style
+		current_fs.animate({opacity: 0}, {
+			step: function(now, mx) {
+				//as the opacity of current_fs reduces to 0 - stored in "now"
+				//1. scale current_fs down to 80%
+				scale = 1 - (1 - now) * 0.2;
+				//2. bring next_fs from the right(50%)
+				left = (now * 50)+"%";
+				//3. increase opacity of next_fs to 1 as it moves in
+				opacity = 1 - now;
+				current_fs.css({
+	        'transform': 'scale('+scale+')',
+	        'position': 'absolute'
+	      });
+				next_fs.css({'left': left, 'opacity': opacity});
+			}, 
+			duration: 800, 
+			complete: function(){
+				current_fs.hide();
+				animating = false;
+			}, 
+			//this comes from the custom easing plugin
+			easing: 'easeInOutBack'
+		});
+	}
+		
+	return false;
+
 });

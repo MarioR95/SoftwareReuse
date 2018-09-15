@@ -8,17 +8,8 @@ public class Moneta implements Cloneable,Serializable{
 	private int valore;
 	
 	//costruttore
-	public Moneta() {
-		
-	}
 	public Moneta(int valore) {
 		this.valore = valore;
-	}
-	public Moneta(float valore) {
-		this.valore = valore;
-	}
-	public Moneta(String valore, int val) {
-		
 	}
 	
 	//metodi di accesso
@@ -27,7 +18,7 @@ public class Moneta implements Cloneable,Serializable{
 	}
 	
 	//metodi modificatori
-	public void setValore(int valore, String vv) {
+	public void setValore(int valore) {
 		this.valore = valore;
 	}
 

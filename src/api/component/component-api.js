@@ -4,6 +4,8 @@ var component = require('./component');
 var fs = require('fs');
 var hljs = require('highlight.js');
 var exec = require('child_process').exec;
+var jsdom= require('jsdom');
+var {JSDOM} = jsdom;
 
 module.exports.upload = function(app) {
 	app.post("/upload", function(req, res) {
@@ -50,7 +52,7 @@ module.exports.showContent = function(app) {
 module.exports.runContent = function(app) {
 	app.post("/initComponent", function(req, res) {
 		var form = formidable.IncomingForm();
-		form.parse(req, function(err, fields, files) {
+		form.parse(req, function(err, fields) {
 			exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
 					function(error, stdout, stderr) {
 						if (error) {
@@ -58,7 +60,7 @@ module.exports.runContent = function(app) {
 						} else {
 							console.log("-File visited correctly");
 							
-							fs.readFile('/home/mario/Desktop/eclipse-workspace/SoftwareReuse/public/view/run.html',null,function(error,data) {
+							fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
 							     if(error) {
 							      res.writeHead(404);
 							      res.write('-Page not found');
@@ -77,8 +79,14 @@ module.exports.runContent = function(app) {
 	});
 
 	
-	app.post("/run",function(req,res){
-		
+	app.get("/initComponent/run",function(req,res){
+		var form= formidable.IncomingForm();
+		form.parse(req, function(err,fields){
+			var url;
+			
+			
+		});
+	
 	});
 };
 

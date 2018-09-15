@@ -1,16 +1,16 @@
 $(document).ready(function(){
+
+	var url,tmp_url;
+
 	$.getJSON( '/getJSON', function( data ) {
-		console.log(data);
-		console.log(data['constructor']);
-		console.log(data.constructor['1']['attribute-type']);
-	
+
 		var i=0;
 		//RETRIEVE ALL CONSTRUCTORS
 		recursiveGetProp(data, 'constructor', function(obj) {		
 			recursiveGetProp(obj, 'name', function(obj) {
 				$('#constructors').append(
 						"<div class='funkyradio-default'>" +
-						"	<input type='radio' name='constructor' class='component-info' id='constructor"+i+"'/>"+
+						"	<input type='radio' name='constructor' class='constructor-info' id='constructor"+i+"' value='"+i+"'/>"+
 						"	<label for='constructor"+i+"'>" +
 						"   	<span class='constructor-name'id='c"+i+"'>"+obj+"( </span>" +
 						 
@@ -24,8 +24,8 @@ $(document).ready(function(){
 			for(c_index in data['constructor']){
 				for(att_index in data.constructor[""+c_index]['attribute-type']){
 					$('#c'+c_index).append(
-						"<span id='ctype"+att_index+"'>"+data.constructor[""+c_index]['attribute-type'][att_index]+"</span>"+
-						"<input type='text' style='width:10%; padding:0 1%; margin:1%' placeholder='value...'/>"
+						"<span id='ctype"+c_index+att_index+"'>"+data.constructor[""+c_index]['attribute-type'][att_index]+"</span>"+
+						"<input class='cvalue"+c_index+"' type='text' name='c"+c_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...'/>"
 					);	
 				}
 				$("#c"+c_index).append("<span> )</span>");
@@ -33,18 +33,17 @@ $(document).ready(function(){
 			
 		});
 
-		
-		
+	
 		var j=0;
 		//RETRIEVE ALL METHODS
 		recursiveGetProp(data, 'method', function(obj) {
 			recursiveGetProp(obj, 'name', function(obj) {
 				$('#methods').append(
 						"<div class='funkyradio-default'>" +
-						"	<input type='radio' name='method' class='component-info' id='method"+j+"'/>"+
+						"	<input type='radio' name='method' class='method-info' id='method"+j+"' value='"+obj+"'/>"+
 						"	<label for='method"+j+"'>" +
-						"   	<span class='method-name'id='m"+j+"'>"+obj+"( </span>" +
-						 
+						"   	<span class='method-name'id='m"+j+"'>"+obj+"(</span>" +
+						 		
 						"	</label>" +
 						"</div>" 
 				);
@@ -55,8 +54,8 @@ $(document).ready(function(){
 			for(m_index in data['method']){
 				for(att_index in data.method[""+m_index]['attribute-type']){
 					$('#m'+m_index).append(
-						"<span id='mtype"+att_index+"'>"+data.method[""+m_index]['attribute-type'][att_index]+"</span>"+
-						"<input type='text' style='width:10%; padding:0 1%; margin:1%' placeholder='value...'/>"
+						"<span id='mtype"+m_index+att_index+"'>"+data.method[""+m_index]['attribute-type'][att_index]+"</span>"+
+						"<input class='mvalue"+m_index+"' type='text' name= 'm"+m_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...'/>"
 					);	
 				}
 				$("#m"+m_index).append("<span> )</span>");
@@ -80,8 +79,39 @@ $(document).ready(function(){
 	        }
 	    }
 	}
+	
+	$(document).on('change', 'input:radio[name="constructor"]', function() {
+		url="ctype=[";
+		var index= $(this).val();
+		$(document).on('change', 'input:text[class=cvalue'+index+']', function(){
+			var name= $(this).attr('name');
+			var id = name.slice(1,name.length);
+			url= url.concat($("#ctype"+id).text()+" "+$(this).val()+",")	
+		});
+		
+	});
 
 	
-	
+	$(document).on('change', 'input:radio[name="method"]', function() {
+		tmp_url= "";
+		var name= $(this).val();
+		tmp_url= tmp_url.concat("]&mname="+name+"&mtype=[");
+		var id= $(this).attr("id");
+		var index= id.substr(id.length-1);	
+		$(document).on('change', 'input:text[class=mvalue'+index+']', function(){
+			var name= $(this).attr('name');
+			var id = name.slice(1,name.length);
+			tmp_url= tmp_url.concat($("#mtype"+id).text()+" "+$(this).val()+",")		
+		});
+		
+	});
+
+
+	$("#run-btn").click(function(){
+		url= url.concat(tmp_url+"]");
+		$('#msform').attr('action', 'initComponent/run?'+url);
+		return true;
+	})
+
 
 });
