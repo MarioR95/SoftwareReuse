@@ -59,18 +59,17 @@ module.exports.runContent = function(app) {
 							console.log("-File not visited. ERROR during the inspection");
 						} else {
 							console.log("-File visited correctly");
-							
-							fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
-							     if(error) {
-							      res.writeHead(404);
-							      res.write('-Page not found');
-							     }else {
-							      res.end(data);
-							     }
-							   });
 						}
 			});
 		});
+		fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
+			if(error) {
+			   res.writeHead(404);
+			   res.write('-Page not found');
+			}else {
+				 res.end(data);
+			}
+	   	});
 	});
 	
 	app.get("/getJSON", function(req,res){

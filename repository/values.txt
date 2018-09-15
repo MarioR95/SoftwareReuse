@@ -1,9 +1,0 @@
-Name:Serina
-Description:Quo ea obcaecati unde esse ut aut adipisicing quo.
-Note:F
-Version:1
-URI:http://www.pubegotuci.biz
-EntryPoint:Aliquip sunt eu aliquid tempore fuga Anim tempor hic illo distinctio Inventore in ad modi aperiam cillum exercitationem molestiae
-Author:Caleb Schultz
-Technology:Vel laudantium, lorem non sit, enim et mollitia voluptatum voluptatibus irure amet, ea nulla vitae tempor quasi consequatur et.
-Domain:Cooley and Cooke Plc
