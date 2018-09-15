@@ -1,9 +1,0 @@
-Name:Mercedes Evans
-Description:Aut ut do dolor excepturi architecto deserunt eos exercitation ea
-Note:Itaque voluptate sit architecto amet
-Version:Voluptate deserunt aut quibusdam commodi incidunt suscipit vel ipsum non ex amet rerum et iste velit
-URI:Non asperiores in sint sit tempora reprehenderit non beatae atque similique fuga
-EntryPoint:Ut molestias quas omnis commodi sunt mollitia
-Author:Mollitia officia ad voluptate quis aut repellendus Corporis fuga Exercitation
-Technology:Maxime sit in hic quasi doloribus ut accusantium qui eu
-Domain:Id sit pariatur Ut Nam voluptatibus rerum porro sed nisi cupiditate assumenda deserunt eos

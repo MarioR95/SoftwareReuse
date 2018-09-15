@@ -1,1 +1,0 @@
-{"method":[{"name":"getValore","attribute-type":[]},{"name":"setValore","attribute-type":["int"]},{"name":"toString","attribute-type":[]},{"name":"equals","attribute-type":["Object"]},{"name":"clone","attribute-type":[]}],"constructor":[{"name":"Moneta","attribute-type":["int"]}],"class":["punto_01/Moneta.java"]}

@@ -150,11 +150,36 @@ function writeDomainValues(fields){
 }
 
 function updateOntology(fields) {
+    //run ONTUpdater
+    //@PARAMS path of values file (values file is the schema Key:Value for build ontology)
+    //@RETURN ontology file into ont_repository
     child = exec('java -jar '+paths.externalToolsPATH+'ONTUpdater.jar '+paths.projectsRepoPATH+'values.txt '+paths.rootPATH+"ont_repository/"+fields.name,
         function (error, stdout, stderr){
             console.log('stdout: ' + stdout);
             console.log('stderr: ' + stderr);
             if(error)
-            	console.log(error);
+                console.log(error);
+            uploadOntologyFile(fields);    
+        });
+}
+
+function uploadOntologyFile(fields) {
+    var nameWithoutSpaces = fields.name.replace(/\s/g,'');
+    var nameOntology = fields.name.split(" ");    
+    fs.rename(paths.rootPATH+"ont_repository/"+nameOntology[0], paths.rootPATH+"ont_repository/"+nameWithoutSpaces+".owl", function(err) {
+        if ( err ) 
+            console.log(err);
+    });    
+    //run FusekiUploader
+    //@PARAMS path of ontology file
+    //@RETURN void
+    child = exec('java -jar '+paths.externalToolsPATH+'FusekiUpload.jar '+paths.rootPATH+"ont_repository/"+nameWithoutSpaces+".owl",
+        function (error, stdout, stderr){
+            console.log('stdout: ' + stdout);
+            console.log('stderr: ' + stderr);
+            if(error)
+                console.log(error);
+            else
+                console.log("END UPLOAD");    
         });
 }

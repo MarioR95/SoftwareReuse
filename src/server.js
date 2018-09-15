@@ -16,11 +16,21 @@ server = app.listen(8080, function(){
     function (error, stdout, stderr){
         console.log('stdout: ' + stdout);
         console.log('stderr: ' + stderr);
-        if(error){
-          console.log("SOLR SERVER NOT STARTED")
-        }
+        if(error)
+          console.log("SOLR SERVER NOT STARTED");
+        else
+          console.log("SOLR SERVER STARTED");    
     });
-    console.log("SOLR SERVER STARTED");
+  //start fuseki server
+  child = exec('../apache-jena-fuseki-3.8.0/fuseki start',
+  function (error, stdout, stderr){
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if(error)
+        console.log("FUSEKI SERVER NOT STARTED");
+      else
+        console.log("FUSEKI SERVER STARTED");    
+  });
 });
 
 //INIT SERVER
