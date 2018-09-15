@@ -1,0 +1,134 @@
+[2018-09-15 13:57:49] Server     INFO  Apache Jena Fuseki 3.8.0
+[2018-09-15 13:57:49] Config     INFO  FUSEKI_HOME=/home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0
+[2018-09-15 13:57:49] Config     INFO  FUSEKI_BASE=/home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run
+[2018-09-15 13:57:49] Config     INFO  Shiro file: file:///home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/shiro.ini
+[2018-09-15 13:57:50] Config     INFO  Configuration file: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/config.ttl
+[2018-09-15 13:57:50] Config     INFO  Load configuration: file:///home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/configuration/OntRepository.ttl
+[2018-09-15 13:57:51] Config     INFO  Register: /OntRepository
+[2018-09-15 13:57:51] Server     INFO  Started 2018/09/15 13:57:51 CEST on port 3030
+[2018-09-15 13:57:54] Admin      INFO  [1] GET http://localhost:3030/$/server
+[2018-09-15 13:57:54] Admin      INFO  [1] 200 OK (32 ms)
+[2018-09-15 13:57:56] Admin      INFO  [2] GET http://localhost:3030/$/server
+[2018-09-15 13:57:56] Admin      INFO  [2] 200 OK (47 ms)
+[2018-09-15 13:57:56] Admin      INFO  [3] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:57:56] Admin      INFO  [3] GET stats dataset /OntRepository
+[2018-09-15 13:57:56] Admin      INFO  [3] 200 OK (100 ms)
+[2018-09-15 13:57:57] Admin      INFO  [4] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:57:57] Admin      INFO  [4] GET stats dataset /OntRepository
+[2018-09-15 13:57:57] Admin      INFO  [4] 200 OK (10 ms)
+[2018-09-15 13:57:58] Fuseki     INFO  [5] GET http://localhost:3030/OntRepository/data
+[2018-09-15 13:57:59] Fuseki     INFO  [5] 200 OK (330 ms)
+[2018-09-15 13:58:55] Admin      INFO  [6] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:58:55] Admin      INFO  [6] GET stats dataset /OntRepository
+[2018-09-15 13:58:55] Admin      INFO  [6] 200 OK (13 ms)
+[2018-09-15 13:58:55] Admin      INFO  [7] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:58:55] Admin      INFO  [7] GET stats dataset /OntRepository
+[2018-09-15 13:58:55] Admin      INFO  [7] 200 OK (3 ms)
+[2018-09-15 13:59:01] Fuseki     INFO  [8] POST http://localhost:3030/OntRepository/query
+[2018-09-15 13:59:01] Fuseki     INFO  [8] Query =   SELECT ?subject ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25
+[2018-09-15 13:59:01] Fuseki     INFO  [8] 200 OK (93 ms)
+[2018-09-15 13:59:21] Admin      INFO  [9] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [9] GET stats dataset /OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [10] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [10] GET stats dataset /OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [9] 200 OK (121 ms)
+[2018-09-15 13:59:21] Admin      INFO  [10] 200 OK (8 ms)
+[2018-09-15 13:59:21] Admin      INFO  [11] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [11] GET stats dataset /OntRepository
+[2018-09-15 13:59:21] Admin      INFO  [11] 200 OK (2 ms)
+[2018-09-15 13:59:22] Fuseki     INFO  [12] GET http://localhost:3030/OntRepository/data
+[2018-09-15 13:59:22] Fuseki     INFO  [12] 200 OK (53 ms)
+[2018-09-15 13:59:44] Admin      INFO  [13] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:44] Admin      INFO  [13] GET stats dataset /OntRepository
+[2018-09-15 13:59:45] Admin      INFO  [13] 200 OK (74 ms)
+[2018-09-15 13:59:45] Admin      INFO  [14] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:45] Admin      INFO  [14] GET stats dataset /OntRepository
+[2018-09-15 13:59:45] Admin      INFO  [14] 200 OK (3 ms)
+[2018-09-15 13:59:49] Fuseki     INFO  [15] GET http://localhost:3030/OntRepository/sparql
+[2018-09-15 13:59:49] Fuseki     WARN  Service Description / SPARQL Query / /OntRepository/sparql
+[2018-09-15 13:59:49] Fuseki     INFO  [15] 404 Service Description: /OntRepository/sparql (1 ms)
+[2018-09-15 13:59:53] Admin      INFO  [16] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:53] Admin      INFO  [16] GET stats dataset /OntRepository
+[2018-09-15 13:59:53] Admin      INFO  [16] 200 OK (8 ms)
+[2018-09-15 13:59:53] Admin      INFO  [17] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 13:59:53] Admin      INFO  [17] GET stats dataset /OntRepository
+[2018-09-15 13:59:53] Admin      INFO  [17] 200 OK (2 ms)
+[2018-09-15 14:00:03] Fuseki     INFO  [18] POST http://localhost:3030/OntRepository/query
+[2018-09-15 14:00:03] Fuseki     INFO  [18] Query =   SELECT ?subject ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25
+[2018-09-15 14:00:03] Fuseki     INFO  [18] 200 OK (34 ms)
+[2018-09-15 14:00:09] Fuseki     INFO  [19] POST http://localhost:3030/OntRepository/query
+[2018-09-15 14:00:09] Fuseki     INFO  [19] Query =   SELECT ?subject ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25
+[2018-09-15 14:00:09] Fuseki     INFO  [19] 200 OK (16 ms)
+[2018-09-15 14:01:10] Fuseki     INFO  [20] POST http://localhost:3030/OntRepository/query
+[2018-09-15 14:01:10] Fuseki     INFO  [20] Query =   SELECT ?RECS ?predicate ?object WHERE {   ?subject ?predicate ?object } LIMIT 25
+[2018-09-15 14:01:10] Fuseki     INFO  [20] 200 OK (9 ms)
+[2018-09-15 14:21:15] Fuseki     INFO  [21] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:21:16] Fuseki     INFO  [21] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:21:16] Fuseki     INFO  [21] 200 OK (611 ms)
+[2018-09-15 14:22:03] Admin      INFO  [22] GET http://localhost:3030/$/server
+[2018-09-15 14:22:03] Admin      INFO  [22] 200 OK (5 ms)
+[2018-09-15 14:22:04] Admin      INFO  [23] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:22:04] Admin      INFO  [23] GET stats dataset /OntRepository
+[2018-09-15 14:22:04] Admin      INFO  [23] 200 OK (2 ms)
+[2018-09-15 14:22:04] Admin      INFO  [24] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:22:04] Admin      INFO  [24] GET stats dataset /OntRepository
+[2018-09-15 14:22:04] Admin      INFO  [24] 200 OK (9 ms)
+[2018-09-15 14:22:06] Fuseki     INFO  [25] GET http://localhost:3030/OntRepository/data
+[2018-09-15 14:22:06] Fuseki     INFO  [25] 200 OK (223 ms)
+[2018-09-15 14:23:45] Fuseki     INFO  [26] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:23:45] Fuseki     INFO  [26] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:23:45] Fuseki     INFO  [26] 200 OK (157 ms)
+[2018-09-15 14:29:17] Fuseki     INFO  [27] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:29:17] Fuseki     INFO  [27] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:29:17] Fuseki     INFO  [27] 200 OK (251 ms)
+[2018-09-15 14:37:28] Admin      INFO  [28] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:28] Admin      INFO  [28] GET stats dataset /OntRepository
+[2018-09-15 14:37:28] Admin      INFO  [28] 200 OK (3 ms)
+[2018-09-15 14:37:28] Admin      INFO  [29] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:28] Admin      INFO  [29] GET stats dataset /OntRepository
+[2018-09-15 14:37:28] Admin      INFO  [29] 200 OK (9 ms)
+[2018-09-15 14:37:29] Admin      INFO  [30] GET http://localhost:3030/$/server
+[2018-09-15 14:37:29] Admin      INFO  [30] 200 OK (2 ms)
+[2018-09-15 14:37:29] Admin      INFO  [31] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:29] Admin      INFO  [31] GET stats dataset /OntRepository
+[2018-09-15 14:37:30] Admin      INFO  [31] 200 OK (6 ms)
+[2018-09-15 14:37:30] Admin      INFO  [32] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:30] Admin      INFO  [32] GET stats dataset /OntRepository
+[2018-09-15 14:37:30] Admin      INFO  [32] 200 OK (2 ms)
+[2018-09-15 14:37:42] Admin      INFO  [33] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:42] Admin      INFO  [33] GET stats dataset /OntRepository
+[2018-09-15 14:37:42] Admin      INFO  [33] 200 OK (60 ms)
+[2018-09-15 14:37:42] Admin      INFO  [34] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:42] Admin      INFO  [34] GET stats dataset /OntRepository
+[2018-09-15 14:37:42] Admin      INFO  [34] 200 OK (2 ms)
+[2018-09-15 14:37:43] Fuseki     INFO  [35] GET http://localhost:3030/OntRepository/data
+[2018-09-15 14:37:44] Fuseki     INFO  [35] 200 OK (330 ms)
+[2018-09-15 14:37:49] Admin      INFO  [36] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:49] Admin      INFO  [36] GET stats dataset /OntRepository
+[2018-09-15 14:37:49] Admin      INFO  [36] 200 OK (5 ms)
+[2018-09-15 14:37:49] Admin      INFO  [37] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:37:49] Admin      INFO  [37] GET stats dataset /OntRepository
+[2018-09-15 14:37:49] Admin      INFO  [37] 200 OK (6 ms)
+[2018-09-15 14:45:28] Fuseki     INFO  [38] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:45:28] Fuseki     INFO  [38] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:45:28] Fuseki     INFO  [38] 200 OK (468 ms)
+[2018-09-15 14:45:44] Admin      INFO  [39] GET http://localhost:3030/$/server
+[2018-09-15 14:45:44] Admin      INFO  [39] 200 OK (8 ms)
+[2018-09-15 14:45:44] Admin      INFO  [40] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:45:44] Admin      INFO  [40] GET stats dataset /OntRepository
+[2018-09-15 14:45:44] Admin      INFO  [40] 200 OK (9 ms)
+[2018-09-15 14:45:44] Admin      INFO  [41] GET http://localhost:3030/$/stats/OntRepository
+[2018-09-15 14:45:44] Admin      INFO  [41] GET stats dataset /OntRepository
+[2018-09-15 14:45:44] Admin      INFO  [41] 200 OK (11 ms)
+[2018-09-15 14:45:46] Fuseki     INFO  [42] GET http://localhost:3030/OntRepository/data
+[2018-09-15 14:45:46] Fuseki     INFO  [42] 200 OK (251 ms)
+[2018-09-15 14:46:28] Fuseki     INFO  [43] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:46:28] Fuseki     INFO  [43] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:46:28] Fuseki     INFO  [43] 200 OK (233 ms)
+[2018-09-15 14:46:34] Fuseki     INFO  [44] GET http://localhost:3030/OntRepository/data
+[2018-09-15 14:46:34] Fuseki     INFO  [44] 200 OK (59 ms)
+[2018-09-15 14:47:13] Fuseki     INFO  [45] POST http://localhost:3030/OntRepository/data?default
+[2018-09-15 14:47:14] Fuseki     INFO  [45] Body: Content-Length=-1, Content-Type=application/rdf+xml, Charset=null => RDF/XML : Count=66 Triples=66 Quads=0
+[2018-09-15 14:47:14] Fuseki     INFO  [45] 200 OK (109 ms)
+[2018-09-15 14:47:19] Fuseki     INFO  [46] GET http://localhost:3030/OntRepository/data
+[2018-09-15 14:47:19] Fuseki     INFO  [46] 200 OK (28 ms)
