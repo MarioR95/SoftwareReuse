@@ -77,7 +77,8 @@
 				
 				//Query only on component's content
 				if(content!=undefined){
-					$.get(solrServerURL+"Content_t:"+content, 
+					console.log(solrServerURL+"content:"+content);
+					$.get(solrServerURL+"content:"+content, 
 						function(data){
 							var numFound = data.response.numFound;
 	
@@ -128,11 +129,11 @@
 				var paramValue;
 	
 				switch(param){
-					case 'name': paramName='Name_s'; paramValue=name;break;
-					case 'version': paramName='Version_s';paramValue=version;break;
-					case 'author': paramName='Author_s';paramValue=author;break;
-					case 'domain': paramName='Domain_s';paramValue=domain;break;
-					case 'technology': paramName='Technology_s';paramValue=technology;break;
+					case 'name': paramName='name'; paramValue=name;break;
+					case 'version': paramName='version';paramValue=version;break;
+					case 'author': paramName='author';paramValue=author;break;
+					case 'domain': paramName='domain';paramValue=domain;break;
+					case 'technology': paramName='technology';paramValue=technology;break;
 				}
 	
 				console.log(solrServerURL+paramName+":"+paramValue);
@@ -163,11 +164,11 @@
 				var tdRunView = document.createElement("td");
 
 				tdCount.innerHTML = position;
-				tdName.innerHTML = component.Name_s;
-				tdDescripton.innerHTML = component.Description_t;
+				tdName.innerHTML = component.name;
+				tdDescripton.innerHTML = component.description;
 				
-				tdRunView.appendChild(createViewForm(component.Path_s));
-				tdRunView.appendChild(createRunForm(component.Path_s));
+				tdRunView.appendChild(createViewForm(component.path));
+				tdRunView.appendChild(createRunForm(component.path));
 
 				tr.appendChild(tdCount);
 				tr.appendChild(tdName);

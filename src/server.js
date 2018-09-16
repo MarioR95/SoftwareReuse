@@ -5,7 +5,6 @@ var app= express();
 var exec = require('child_process').exec, child;
 var componentAPI = require('./api/component/component-api');
 var server;
-var requestsCount = 0;
 
 //To handle static file from public directory
 app.use(express.static("../public"));
@@ -15,21 +14,18 @@ server = app.listen(8080, function(){
   var port = server.address().port;
   console.log("Server app listening at http://%s:%s", host, port);
 
+  startServer('../solr-7.4.0/bin/solr start');
+  startServer('../apache-jena-fuseki-3.8.0/fuseki start');
+
   //Stop Solr and Fuseki server after ctrl+c terminal command
   process.on('SIGINT', stopSolrandFuseki);
 
 });
 
 //INIT SERVER
-app.get("/", 
-        function(req,res) {
-          if(requestsCount==0){
-            requestsCount++;
-            startServer('../solr-7.4.0/bin/solr start');
-            startServer('../apache-jena-fuseki-3.8.0/fuseki start');
-          }
-          loadPage(res,'../index.html');     
-        }
+app.get("/", function(req, res) {
+        loadPage(res,'../index.html');    
+      } 
 );
 
 componentAPI.upload(app);
