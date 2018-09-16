@@ -39,7 +39,7 @@ app.get("/insert",function(req, res){
 });
 
 //SEARCH AND RUN MODULE
-app.get("/results", function(req,res){
+app.get("/results*", function(req,res){
 	componentAPI.showContent(app);
 	componentAPI.runContent(app);
 	loadPage(res, '../public/view/search.html');	

@@ -1,75 +1,273 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-		rel="stylesheet" id="bootstrap-css" />
-	<link 
-		href="css/table-style.css"
-		rel="stylesheet">
-</head>
-<body>
-	<script
-		src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/tablehandler.js"></script>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+		<link href="css/table-style.css" rel="stylesheet">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	</head>
+	<body>
 
-	<div class="container">
-		<h3>Results</h3>
-		<hr>
-		<div class="row">
-			<div class="panel panel-primary filterable" style="border-color: #6441A5">
-				<div class="panel-heading" style="background: #6441A5">
-					<h3 class="panel-title">Users</h3>
-					<div class="pull-right">
-						<button class="btn btn-default btn-xs btn-filter">
-							<span class="glyphicon glyphicon-filter"></span> Filter
-						</button>
+		<div class="container">
+			<h3>Results</h3>
+			<hr>
+			<div class="row">
+				<div class="panel panel-primary filterable" style="border-color: #6441A5">
+					<div class="panel-heading" style="background: #6441A5">
+						<h3 class="panel-title">Users</h3>
+						<div class="pull-right">
+							<button class="btn btn-default btn-xs btn-filter">
+								<span class="glyphicon glyphicon-filter"></span> Filter
+							</button>
+						</div>
 					</div>
+					<table class="table">
+						<thead>
+							<tr class="filters">
+								<th><input type="text" class="form-control" placeholder="#" disabled></th>
+								<th><input type="text" class="form-control" placeholder="Name" disabled></th>
+								<th><input type="text" class="form-control" placeholder="Description" disabled></th>
+								<th><span class="glyphicon glyphicon-cog" style="padding-left:40%;"></span></th>
+							</tr>
+						</thead>
+						<tbody id="results-table">
+							<!--FILLED DINAMICALLY-->
+						</tbody>
+					</table>
 				</div>
-				<table class="table">
-					<thead>
-						<tr class="filters">
-							<th><input type="text" class="form-control" placeholder="#" disabled></th>
-							<th><input type="text" class="form-control" placeholder="Name" disabled></th>
-							<th><input type="text" class="form-control" placeholder="Description" disabled></th>
-							<th><span class="glyphicon glyphicon-cog" style="padding-left:40%;"></span></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-								<td>1</td>
-								<td>
-									 AppGrafica.java
-							    </td>
-								<td>Una bella descrizione</td>
-							<td>
-								<form action="show" method="post" enctype="multipart/form-data">
-									<input type="hidden"
-										value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
-										name="contentPath" hidden> 
-									<input type="submit"
-										value="VIEW" class="btn btn-success" style="padding: 2% 4%;margin: 1%;">
-								</form>
-								<form action="initComponent" method="post" enctype="multipart/form-data">
-									<input type="hidden"
-										value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
-										name="contentPath" hidden> 
-									<input type="hidden"
-										value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample"
-										name="projectPath" hidden> 
-									<input type="submit"
-										value="RUN" class="btn btn-success" style="padding: 2% 4%; margin:1%;">
-								</form>
-							</td>
-						</tr>
-					</tbody>
-				</table>
 			</div>
 		</div>
-	</div>
 
-</body>
+
+
+		<script type="text/javascript" src="js/tablehandler.js"></script>
+
+
+		<script>
+
+			var getUrlParameter = function getUrlParameter(sParam) {
+				var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+					sURLVariables = sPageURL.split('&'),
+					sParameterName,
+					i;
+				for (i = 0; i < sURLVariables.length; i++) {
+					sParameterName = sURLVariables[i].split('=');
+	
+					if (sParameterName[0] === sParam) {
+						return sParameterName[1] === undefined ? true : sParameterName[1];
+					}
+				}
+			};	
+	
+	
+			var content = getUrlParameter('content');
+			var name = getUrlParameter('name');
+			var version = getUrlParameter('version');
+			var author = getUrlParameter('author');
+			var domain = getUrlParameter('domain');
+			var technology = getUrlParameter('technology');
+	
+		
+			var solrServerURL="http://localhost:8983/solr/componentscore/select?q=";
+	
+			$(document).ready(function(){			
+				
+				//Query only on component's content
+				if(content!=undefined){
+					$.get(solrServerURL+"Content_t:"+content, 
+						function(data){
+							var numFound = data.response.numFound;
+	
+							if(numFound > 0){
+								var components = data.response.docs;
+	
+								for (i=0; i < components.length; i++){							
+									generateTableEntry(components[i], i+1);
+								}
+							}
+						}
+					);	
+				}	
+				else{
+					//Query based on parameters values passed in URL
+					executeQuery();
+				}
+	
+			});
+	
+			
+				
+	
+	
+			function executeQuery(){
+	
+				if(name != undefined && name!=""){
+					singleParamQuery('name');
+				}
+				else if(version!=undefined && version!=""){
+					singleParamQuery('version');
+				}
+				else if(author!=undefined && author!=""){
+					singleParamQuery('author');
+				}
+				else if(domain!=undefined && domain!=""){
+					singleParamQuery('domain');
+				}
+				else if(technology!=undefined && technology!=""){
+					singleParamQuery('technology');
+				}
+			
+			}
+	
+	
+			function singleParamQuery(param){
+				var paramName;
+				var paramValue;
+	
+				switch(param){
+					case 'name': paramName='Name_s'; paramValue=name;break;
+					case 'version': paramName='Version_s';paramValue=version;break;
+					case 'author': paramName='Author_s';paramValue=author;break;
+					case 'domain': paramName='Domain_s';paramValue=domain;break;
+					case 'technology': paramName='Technology_s';paramValue=technology;break;
+				}
+	
+				console.log(solrServerURL+paramName+":"+paramValue);
+	
+				$.get(solrServerURL+paramName+":"+paramValue, 
+				
+					function(data){
+						var numFound = data.response.numFound;
+	
+						if(numFound > 0){
+							var components = data.response.docs;
+	
+							for (i=0; i < components.length; i++){							
+								generateTableEntry(components[i], i+1);
+							}
+						}
+					}
+				);		
+			}
+		
+		
+			function generateTableEntry(component, position){
+	
+				var tr = document.createElement("tr"); 
+				var tdCount = document.createElement("td");
+				var tdName = document.createElement("td");
+				var tdDescripton = document.createElement("td");
+				var tdRunView = document.createElement("td");
+
+				tdCount.innerHTML = position;
+				tdName.innerHTML = component.Name_s;
+				tdDescripton.innerHTML = component.Description_t;
+				
+				tdRunView.appendChild(createViewForm(component.Path_s));
+				tdRunView.appendChild(createRunForm(component.Path_s));
+
+				tr.appendChild(tdCount);
+				tr.appendChild(tdName);
+				tr.appendChild(tdDescripton);
+				tr.appendChild(tdRunView);
+				$("#results-table").append(tr);
+			}
+	
+
+			function extractProjectPath(componentPath) {
+				var projectPathParts = componentPath.split('/');
+				var projectPath="";
+				for(var i=0;i < projectPathParts.length-1;i++){
+					projectPath= projectPath + projectPathParts[i]+"/";
+				}
+				return projectPath;
+			}
+
+
+			function createViewForm(componentPath){
+
+				/*
+				<form action="show" method="post" enctype="multipart/form-data">
+					<input type="hidden"
+						value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
+						name="contentPath" hidden> 
+					<input type="submit"
+						value="VIEW" class="btn btn-success" style="padding: 2% 4%;margin: 1%;">
+				</form>
+				*/
+
+				var form = document.createElement("form");
+				form.setAttribute('action','show');
+				form.setAttribute('method','post');
+				form.setAttribute('enctype','multipart/form-data');
+				
+
+				var inputPath = document.createElement("input");
+				inputPath.setAttribute('type','hidden');
+				inputPath.setAttribute('value', componentPath);
+				inputPath.setAttribute('name','contentPath');
+
+				var inputSubmit = document.createElement("input");
+				inputSubmit.setAttribute('type','submit');
+				inputSubmit.setAttribute('value','VIEW');
+				inputSubmit.setAttribute('class','btn btn-success');
+				inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+
+				form.appendChild(inputPath);
+				form.appendChild(inputSubmit);
+
+				return form;
+
+			}
+
+			function createRunForm(componentPath){
+				/*<form action="initComponent" method="post" enctype="multipart/form-data">
+					<input type="hidden"
+						value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
+						name="contentPath" hidden> 
+					<input type="hidden"
+						value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample"
+						name="projectPath" hidden> 
+					<input type="submit"
+						value="RUN" class="btn btn-success" style="padding: 2% 4%; margin:1%;">
+				</form>
+				*/
+
+				var form = document.createElement("form");
+				form.setAttribute('action','initComponent');
+				form.setAttribute('method','post');
+				form.setAttribute('enctype','multipart/form-data');
+
+
+				var inputComponentPath = document.createElement("input");
+				inputComponentPath.setAttribute('type','hidden');
+				inputComponentPath.setAttribute('value', componentPath);
+				inputComponentPath.setAttribute('name','contentPath');
+
+				var inputProjectPath = document.createElement("input");
+				inputProjectPath.setAttribute('type','hidden');
+				inputProjectPath.setAttribute('value', extractProjectPath(componentPath));
+				inputProjectPath.setAttribute('name','projectPath');
+
+				var inputSubmit = document.createElement("input");
+				inputSubmit.setAttribute('type','submit');
+				inputSubmit.setAttribute('value','RUN');
+				inputSubmit.setAttribute('class','btn btn-success');
+				inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+
+				form.appendChild(inputComponentPath);
+				form.appendChild(inputProjectPath);
+				form.appendChild(inputSubmit);
+
+				return form;
+
+			}
+
+			
+		</script>
+
+	</body>
+</html>
