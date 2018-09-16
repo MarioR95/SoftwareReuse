@@ -5,3 +5,6 @@ target/
 /bin/
 *.tern-project
 *.log
+solr-7.4.0/server/logs/*
+apache-jena-fuseki-3.8.0/run/logs/*
+solr-7.4.0/.DS_Store
