@@ -23,7 +23,7 @@ server = app.listen(8080, function(){
 });
 
 //INIT SERVER
-app.get("/", ()=>{
+app.get("/", function(req, res) {
         loadPage(res,'../index.html');    
       } 
 );
