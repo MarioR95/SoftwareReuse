@@ -1,12 +1,12 @@
-[2018-09-16 11:24:49] Server     INFO  Apache Jena Fuseki 3.8.0
-[2018-09-16 11:24:49] Config     INFO  FUSEKI_HOME=/Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0
-[2018-09-16 11:24:49] Config     INFO  FUSEKI_BASE=/Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run
-[2018-09-16 11:24:49] Config     INFO  Shiro file: file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/shiro.ini
-[2018-09-16 11:24:49] Config     INFO  Configuration file: /Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/config.ttl
-[2018-09-16 11:24:49] Config     INFO  Load configuration: file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/configuration/OntRepository.ttl
-[2018-09-16 11:24:50] info       ERROR Does not exist: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository/
-[2018-09-16 11:24:50] Server     ERROR Exception in initialization: caught: Does not exist: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository/
-[2018-09-16 11:24:50] WebAppContext WARN  Failed startup of context o.e.j.w.WebAppContext@66f0548d{/,file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/webapp/,UNAVAILABLE}
+[2018-09-16 11:27:36] Server     INFO  Apache Jena Fuseki 3.8.0
+[2018-09-16 11:27:36] Config     INFO  FUSEKI_HOME=/Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0
+[2018-09-16 11:27:36] Config     INFO  FUSEKI_BASE=/Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run
+[2018-09-16 11:27:36] Config     INFO  Shiro file: file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/shiro.ini
+[2018-09-16 11:27:36] Config     INFO  Configuration file: /Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/config.ttl
+[2018-09-16 11:27:36] Config     INFO  Load configuration: file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/configuration/OntRepository.ttl
+[2018-09-16 11:27:37] info       ERROR Does not exist: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository/
+[2018-09-16 11:27:37] Server     ERROR Exception in initialization: caught: Does not exist: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository/
+[2018-09-16 11:27:37] WebAppContext WARN  Failed startup of context o.e.j.w.WebAppContext@3c69362a{/,file:///Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/webapp/,UNAVAILABLE}
 org.apache.jena.assembler.exceptions.AssemblerException: caught: Does not exist: /home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository/
   doing:
     root: http://base/#tdb_dataset_readwrite with type: http://jena.hpl.hp.com/2008/tdb#DatasetTDB assembler class: class org.apache.jena.tdb.assembler.DatasetAssemblerTDB
@@ -70,4 +70,4 @@ Caused by: org.apache.jena.tdb.TDBException: Does not exist: /home/dom/Desktop/S
 	at org.apache.jena.sparql.core.assembler.DatasetAssembler.open(DatasetAssembler.java:43)
 	at org.apache.jena.assembler.assemblers.AssemblerGroup$PlainAssemblerGroup.openBySpecificType(AssemblerGroup.java:157)
 	... 41 more
-[2018-09-16 11:24:50] Server     INFO  Started 2018/09/16 11:24:50 CEST on port 3030
+[2018-09-16 11:27:37] Server     INFO  Started 2018/09/16 11:27:37 CEST on port 3030
