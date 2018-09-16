@@ -21,25 +21,35 @@ module.exports.loadComponent = function (response,fields, files) {
         newPath =  paths.projectsRepoPATH+files.filetoupload.name;
         fs.copyFile(currentPath, newPath, function (err) {
         if (err)
-            errorPage("Component not saved into repository");
+            errorPage("Component not saved into repository",response);
         });
         var source = newPath;
         var target = paths.projectsRepoPATH;
         //EXTRACT ZIP
         extract(source, {dir: target}, function (err) {
-          if(err)
-            console.log("Errore"+err);
-          console.log("-File unzipped correctly");
-          //PARSE FILE INTO FOLDER 
-          if(fields.java != undefined){
-          	parseJavaComponent(response,files,fields);
-            console.log("-Component parsed correctly");
-          }else 
-          	console.log("Language not supported");
+          if(err) {
+            console.log(err);
+            errorPage("Unzip_Failed"+err,response);
+          }else {
+            console.log("-File unzipped correctly");
+            //PARSE FILE INTO FOLDER 
+            if(fields.java != undefined){
+                console.log("SOURCE: "+source.split('.').slice(0, -1).join('.'));
+                console.log(""+fs.existsSync(source.split('.').slice(0, -1).join('.')));
+                if (fs.existsSync(source.split('.').slice(0, -1).join('.'))) {
+                    parseJavaComponent(response,files,fields);
+                    console.log("-Component parsed correctly");    
+                }else {
+                    errorPage("Directory unzipped not exist",response);
+                }
+                
+            }else 
+                console.log("Language not supported"); 
+          }
         });
 		
     }else 
-        errorPage("-File format is not valid!");  
+        errorPage("-File format is not valid!",response);  
 }
 
 
@@ -104,9 +114,8 @@ function checkAndSave(fields){
 }
 
 
-function errorPage(mess) {
-    fs.unlinkSync(completePath);
-    console.log("**********REMOVING COMPONENT FROM REPOSITORY AFTER ERROR: "+mess+"**********");
+function errorPage(mess,response) {
+    
     response.writeHead(500, {'Content-Type': 'text/plain'});
     response.end(mess);
 }
