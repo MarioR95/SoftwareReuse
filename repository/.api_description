@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<component name="org.eclipse.equinox.preferences_3.7.0.v20170126-2132" version="1.2">
+    <plugin id="org.eclipse.equinox.preferences_3.7.0.v20170126-2132"/>
+    <package name="org.eclipse.core.runtime.preferences" visibility="1">
+        <type name="IExportedPreferences" restrictions="3"/>
+        <type name="IPreferencesService" restrictions="3"/>
+    </package>
+    <package name="org.osgi.service.prefs" visibility="1">
+        <type name="Preferences" restrictions="1"/>
+        <type name="PreferencesService" restrictions="1"/>
+    </package>
+</component>
