@@ -5,38 +5,32 @@ var app= express();
 var exec = require('child_process').exec, child;
 var componentAPI = require('./api/component/component-api');
 var server;
+var requestsCount = 0;
 
 //To handle static file from public directory
 app.use(express.static("../public"));
 
 server = app.listen(8080, function(){
-  console.log("WEB SERVER STARTED");
-  //start solr server
-  child = exec('../solr-7.4.0/bin/solr start',
-    function (error, stdout, stderr){
-        console.log('stdout: ' + stdout);
-        console.log('stderr: ' + stderr);
-        if(error)
-          console.log("SOLR SERVER NOT STARTED");
-        else
-          console.log("SOLR SERVER STARTED");    
-    });
-  //start fuseki server
-  child = exec('../apache-jena-fuseki-3.8.0/fuseki start',
-  function (error, stdout, stderr){
-      console.log('stdout: ' + stdout);
-      console.log('stderr: ' + stderr);
-      if(error)
-        console.log("FUSEKI SERVER NOT STARTED");
-      else
-        console.log("FUSEKI SERVER STARTED");    
-  });
+  var host = server.address().address;
+  var port = server.address().port;
+  console.log("Server app listening at http://%s:%s", host, port);
+
+  //Stop Solr and Fuseki server after ctrl+c terminal command
+  process.on('SIGINT', stopSolrandFuseki);
+
 });
 
 //INIT SERVER
-app.get("/", function(req,res) {
-	loadPage(res,'../index.html');
-});
+app.get("/", 
+        function(req,res) {
+          if(requestsCount==0){
+            requestsCount++;
+            startServer('../solr-7.4.0/bin/solr start');
+            startServer('../apache-jena-fuseki-3.8.0/fuseki start');
+          }
+          loadPage(res,'../index.html');     
+        }
+);
 
 componentAPI.upload(app);
 //INSERT MODULE
@@ -50,8 +44,6 @@ app.get("/results", function(req,res){
 	componentAPI.runContent(app);
 	loadPage(res, '../public/view/search.html');	
 });
-
-
 
 
 /*
@@ -70,5 +62,41 @@ function loadPage(response,url) {
       response.end(data);
      }
    });
+}
+
+
+function startServer(startingCmd){
+  exec(startingCmd,
+    function (error, stdout, stderr){
+        if(error)
+          console.error(error);
+        else
+          console.log(stdout);    
+    });
+}
+
+function stopSolrandFuseki(){
+  console.log("Stopping solr server...");
+  exec("../solr-7.4.0/bin/solr stop -all", (err) => {
+      if(err){
+          console.error(err);
+          return;
+      }
+      else{
+          console.log('Solr server stopped successfully');
+          process.exit();
+      }
+  });
+
+  console.log("Stopping fuseki server...");
+    exec("../apache-jena-fuseki-3.8.0/fuseki stop", (err) => {
+      if(err){
+          console.error(err);
+          return;
+      }
+      else{
+          console.log('Fuseki server stopped successfully');
+      }
+  });
 }
 

@@ -1,0 +1,14 @@
+Java HotSpot(TM) 64-Bit Server VM warning: Option UseConcMarkSweepGC was deprecated in version 9.0 and will likely be removed in a future release.
+711  [main] INFO  org.eclipse.jetty.util.log [] [   ] org.eclipse.jetty.util.log; Logging initialized @751ms to org.eclipse.jetty.util.log.Slf4jLog
+830  [main] INFO  org.eclipse.jetty.server.Server [] [   ] org.eclipse.jetty.server.Server; jetty-9.4.10.v20180503; built: 2018-05-03T15:56:21.710Z; git: daa59876e6f384329b122929e70a80934569428c; jvm 10.0.1+10
+850  [main] INFO  org.eclipse.jetty.deploy.providers.ScanningAppProvider [] [   ] org.eclipse.jetty.deploy.providers.ScanningAppProvider; Deployment monitor [file:///Users/francescocalifano/Documents/solr-7.4.0/server/contexts/] at interval 0
+1044 [main] INFO  org.eclipse.jetty.webapp.StandardDescriptorProcessor [] [   ] org.eclipse.jetty.webapp.StandardDescriptorProcessor; NO JSP Support for /solr, did not find org.apache.jasper.servlet.JspServlet
+1050 [main] INFO  org.eclipse.jetty.server.session [] [   ] org.eclipse.jetty.server.session; DefaultSessionIdManager workerName=node0
+1050 [main] INFO  org.eclipse.jetty.server.session [] [   ] org.eclipse.jetty.server.session; No SessionScavenger set, using defaults
+1052 [main] INFO  org.eclipse.jetty.server.session [] [   ] org.eclipse.jetty.server.session; node0 Scavenging every 660000ms
+1081 [main] INFO  org.apache.solr.util.configuration.SSLCredentialProviderFactory [] [   ] org.apache.solr.util.configuration.SSLCredentialProviderFactory; Processing SSL Credential Provider chain: env;sysprop
+1106 [main] INFO  org.apache.solr.servlet.SolrDispatchFilter [] [   ] org.apache.solr.servlet.SolrDispatchFilter; Using logger factory org.apache.logging.slf4j.Log4jLoggerFactory
+1110 [main] INFO  org.apache.solr.servlet.SolrDispatchFilter [] [   ] org.apache.solr.servlet.SolrDispatchFilter;  ___      _       Welcome to Apache Solr™ version 7.4.0
+1115 [main] INFO  org.apache.solr.servlet.SolrDispatchFilter [] [   ] org.apache.solr.servlet.SolrDispatchFilter; / __| ___| |_ _   Starting in cloud mode on port 7574
+1115 [main] INFO  org.apache.solr.servlet.SolrDispatchFilter [] [   ] org.apache.solr.servlet.SolrDispatchFilter; \__ \/ _ \ | '_|  Install dir: /Users/francescocalifano/Documents/solr-7.4.0
+1115 [main] INFO  org.apache.solr.servlet.SolrDispatchFilter [] [   ] org.apache.solr.servlet.SolrDispatchFilter; |___/\___/_|_|    Start time: 2018-09-10T11:42:14.750637Z
