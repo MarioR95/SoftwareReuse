@@ -3,8 +3,6 @@ var newPath;
 var paths= require('../paths-manager');
 //for handle file system
 var fs = require('fs');
-//for extract zip
-var extract = require('extract-zip');
 //for run child process
 var exec = require('child_process').exec, child;
 var componentOperation = require('./component-operation');
@@ -25,12 +23,21 @@ module.exports.loadComponent = function (response,fields, files) {
         });
         var source = newPath;
         var target = paths.projectsRepoPATH;
-        //EXTRACT ZIP
-        extract(source, {dir: target}, function (err) {
-          if(err) {
-            console.log(err);
-            errorPage("Unzip_Failed"+err,response);
-          }else {
+        unZip(source,target,fields,files,response);
+    }else 
+        errorPage("-File format is not valid!",response);  
+}
+
+function unZip(source,target,fields,files,response) {
+    console.log("Source: "+source);
+    console.log("Target "+target);
+    console.log("Name: "+fields.name);
+
+    exec('java -jar ' + paths.externalToolsPATH + 'Extractor.jar '+source+' ' +target,
+    function(error, stdout, stderr) {
+        if (error) {
+            errorPage(""+error,response);
+        }else {
             console.log("-File unzipped correctly");
             //PARSE FILE INTO FOLDER 
             if(fields.java != undefined){
@@ -42,30 +49,24 @@ module.exports.loadComponent = function (response,fields, files) {
                 }else {
                     errorPage("Directory unzipped not exist",response);
                 }
-                
             }else 
                 console.log("Language not supported"); 
-          }
-        });
-		
-    }else 
-        errorPage("-File format is not valid!",response);  
+        } 
+    });
+    
+    
 }
-
-
 function parseJavaComponent(response,files,fields) {
     var contents;
     //remove extention path
     newPath = newPath.split('.').slice(0, -1).join('.');
     console.log(paths.externalToolsPATH);
     componentOperation.createProjectNode(files,fields);
-    checkAndSave(fields);
+    checkAndSave(fields,response);
     componentOperation.endOperations(response);
     
 }
-
-
-function checkAndSave(fields){
+function checkAndSave(fields,response){
    	if(fields.source != undefined) {
    		var cls=[], dependencies=[];
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
@@ -112,8 +113,6 @@ function checkAndSave(fields){
         });
     }
 }
-
-
 function errorPage(mess,response) {
     
     response.writeHead(500, {'Content-Type': 'text/plain'});
