@@ -53,23 +53,35 @@ module.exports.runContent = function(app) {
 	app.post("/initComponent", function(req, res) {
 		var form = formidable.IncomingForm();
 		form.parse(req, function(err, fields) {
-			exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
-					function(error, stdout, stderr) {
-						if (error) {
-							console.log("-File not visited. ERROR during the inspection");
-						} else {
-							console.log("-File visited correctly");
-						}
-			});
-		});
-		fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
-			if(error) {
-			   res.writeHead(404);
-			   res.write('-Page not found');
-			}else {
-				 res.end(data);
+			if (!fs.existsSync(paths.projectsRepoPATH+"dump_class.json")) {
+				exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
+				function(error, stdout, stderr) {
+					if (error) {
+						console.log("-File not visited. ERROR during the inspection");
+					} else {
+						console.log("-File visited correctly");
+						fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
+							if(error) {
+							   res.writeHead(404);
+							   res.write('-Page not found');
+							}else {
+								 res.end(data);
+							}
+						});
+					}
+				});
+			}else{
+				fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
+					if(error) {
+					   res.writeHead(404);
+					   res.write('-Page not found');
+					}else {
+						 res.end(data);
+					}
+				});
 			}
-	   	});
+		
+		});
 	});
 	
 	app.get("/getJSON", function(req,res){
