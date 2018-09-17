@@ -4,5 +4,5 @@ target/
 .project
 /bin/
 *.tern-project
-*.log*
+.log*
 *.DS_Store
