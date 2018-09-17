@@ -1,9 +1,0 @@
-Name:Candace
-Description:Omnis aut fugit, saepe repudiandae fuga. Explicabo. Laboris.
-Note:Cillum.
-Version:3
-URI:http://www.ziqahy.info
-EntryPoint:Et architecto sint do ullamco earum excepturi ut
-Author:Britanney
-Technology:http://www.jereqebaz.com.au
-Domain:Mcfadden Gross Associates
