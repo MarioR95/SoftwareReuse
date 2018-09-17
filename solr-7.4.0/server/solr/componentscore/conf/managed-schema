@@ -130,7 +130,6 @@
     <field name="entrypoint" type="string" indexed="false" stored="true" required="true"/>
     <field name="content" type="text_general" indexed="true" stored="true" required="true"/>
 
-
     
 
     <!-- This can be enabled, in case the client does not know what fields may be searched. It isn't enabled by default

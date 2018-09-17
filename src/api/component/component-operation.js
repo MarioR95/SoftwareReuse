@@ -10,6 +10,7 @@ var newPath;
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for run child process
 var exec = require('child_process').exec, child;
+
 module.exports.createProjectNode = function (files,fields) {
     newPath =  paths.projectsRepoPATH+files.filetoupload.name;
     name = fields.name;

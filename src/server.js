@@ -28,7 +28,9 @@ app.get("/", function(req, res) {
       } 
 );
 
+//UPLOAD COMPONENT
 componentAPI.upload(app);
+
 //INSERT MODULE
 app.get("/insert",function(req, res){
 	 loadPage(res,'../public/view/insert.html')
