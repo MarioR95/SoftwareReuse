@@ -18,7 +18,6 @@ module.exports.upload = function(app) {
 			component.loadComponent(res, fields, files);
 		});
 	});
-
 };
 
 //SHOW CONTENT  
