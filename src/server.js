@@ -13,7 +13,7 @@ server = app.listen(8080, function(){
   var host = server.address().address;
   var port = server.address().port;
   console.log("Server app listening at http://%s:%s", host, port);
-
+  createFolders();
   startServer('../solr-7.4.0/bin/solr start');
   startServer('../apache-jena-fuseki-3.8.0/fuseki start');
 
@@ -95,5 +95,32 @@ function stopSolrandFuseki(){
           console.log('Fuseki server stopped successfully');
       }
   });
+}
+
+
+function createFolders(){
+  
+  if(!fs.existsSync(paths.rootPATH+"/ont_repository")){
+      fs.mkdirSync(paths.rootPATH+"/ont_repository", function(err){
+        if(err)
+          console.log(err);
+      });
+  }
+
+  if(!fs.existsSync(paths.rootPATH+"/repository")){
+    fs.mkdirSync(paths.rootPATH+"/repository", function(err){
+      if(err)
+        console.log(err);
+    });
+  }
+
+  if(!fs.existsSync(paths.rootPATH+"/components_json")){
+    fs.mkdirSync(paths.rootPATH+"/components_json", function(err){
+      if(err)
+        console.log(err);
+    });
+  }
+
+
 }
 
