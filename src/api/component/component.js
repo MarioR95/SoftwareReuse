@@ -69,6 +69,8 @@ function parseJavaComponent(response,files,fields) {
 
 function checkAndSave(fields){
     var cls=[], dependencies=[];
+
+    
    	if(fields.source != undefined) {
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
         function (error, stdout, stderr){
@@ -76,49 +78,36 @@ function checkAndSave(fields){
             if(error){
             	errorPage("-Error during file parsing into exec", response);
             }else {
-                //console.log("-File parsed correctly");
-                //console.log("-Start handle JSon file...");
+                ì
                 contents = fs.readFileSync(paths.projectsRepoPATH+"result.json");
-                //fs.unlinkSync(paths.projectsRepoPATH+'result.json');
-                var jsonContent = [];
-                jsonContent = GSON.parse(contents);
-                for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
-                    cls[i] = jsonContent.class[i];
-                   
-                    for(j = 0; j < Object.keys(jsonContent.dependencies).length;j++) {
-                        dependencies[j] = jsonContent.dependencies[j];
-                    }  
-                }
+               
                 type='sourcecode';
-                createJsonDocuments(cls, fields, type);
-                postDocumentsOnSolr();
+                createandPostJsonDocuments(cls, fields, type);
 
                 console.log("JSon file parsed correctly");
+
                 componentOperation.doSaveSourceFile(cls,dependencies);
             }
         });
     }
     if (fields.doc != undefined) {
-	   var documents = [];
+
 	   //search any file for documentation on project
        console.log("PATH"+newPath);
        find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(documents) {
            
             type='document';
-            createJsonDocuments(cls, fields, type);
-            postDocumentsOnSolr();
+            createandPostJsonDocuments(documents, fields, type);
 
             componentOperation.doSaveDocuments(documents);
        });
     }
     if(fields.test != undefined) {
+
         find.file(/^.*test.*$/,newPath,function (tests) {
-            //console.log("exist directory test");
-            //console.log("Test files "+tests);
             
             type='test';
-            createJsonDocuments(cls, fields, type);
-            postDocumentsOnSolr();
+            createandPostJsonDocuments(tests, fields, type);
 
             componentOperation.doSaveTestFile(tests);
         });
@@ -131,11 +120,13 @@ function errorPage(mess,response) {
 
 
 
-function createJsonDocuments(paths, formFields, type){
+function createandPostJsonDocuments(paths, formFields, type){
     var documents = [];
-    var document = new Object();
+    var document;
+
 
     for(var i=0; i < paths.length; i++){
+        document = new Object();
 
         document.path=paths[i];
         document.type=type;
@@ -159,17 +150,20 @@ function createJsonDocuments(paths, formFields, type){
         });
 
         document.content=content;
-        documents.push(document);
+        documents.unshift(document);
 
     }
+
 
     fs.writeFile('../components_json/tmp.json', JSON.stringify(documents), {flag:'w+'},  function(err){
         if(err)
             console.log(err);
-        else
-            console.log("The file was saved!");
-
+        else{
+            console.log("tmp.json was saved!");
+            postDocumentsOnSolr();
+        }
     });
+
 }
 
 
