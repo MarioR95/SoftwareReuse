@@ -18,4 +18,4 @@
 
 :tdb_dataset_readwrite
         a             tdb:DatasetTDB ;
-        tdb:location  "/Users/francescocalifano/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository" .
+        tdb:location  "/home/dom/Desktop/SoftwareReuse/apache-jena-fuseki-3.8.0/run/databases/OntRepository" .
