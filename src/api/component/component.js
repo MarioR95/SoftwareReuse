@@ -13,7 +13,6 @@ var find = require('find');
 
 
 module.exports.loadComponent = function (response,fields, files) {
-    console.log("-Load Component "+files.filetoupload.name);
     var currentPath = files.filetoupload.path;
     if(currentPath != undefined) {
         newPath =  paths.projectsRepoPATH+files.filetoupload.name;
@@ -29,10 +28,6 @@ module.exports.loadComponent = function (response,fields, files) {
 }
 
 function unZip(source,target,fields,files,response) {
-    console.log("Source: "+source);
-    console.log("Target "+target);
-    console.log("Name: "+fields.name);
-
     exec('java -jar ' + paths.externalToolsPATH + 'Extractor.jar '+source+' ' +target,
     function(error, stdout, stderr) {
         if (error) {
@@ -41,16 +36,16 @@ function unZip(source,target,fields,files,response) {
             console.log("-File unzipped correctly");
             //PARSE FILE INTO FOLDER 
             if(fields.java != undefined){
-                console.log("SOURCE: "+source.split('.').slice(0, -1).join('.'));
-                console.log(""+fs.existsSync(source.split('.').slice(0, -1).join('.')));
                 if (fs.existsSync(source.split('.').slice(0, -1).join('.'))) {
                     parseJavaComponent(response,files,fields);
                     console.log("-Component parsed correctly");    
                 }else {
                     errorPage("Directory unzipped not exist",response);
                 }
-            }else 
+            }else {
                 console.log("Language not supported"); 
+                errorPage("Language not supported",response);
+            }
         } 
     });
     
@@ -60,7 +55,6 @@ function parseJavaComponent(response,files,fields) {
     var contents;
     //remove extention path
     newPath = newPath.split('.').slice(0, -1).join('.');
-    console.log(paths.externalToolsPATH);
     componentOperation.createProjectNode(files,fields);
     checkAndSave(fields,response);
     componentOperation.endOperations(response);
@@ -96,10 +90,7 @@ function checkAndSave(fields,response){
     if (fields.doc != undefined) {
 	   var documents = [];
 	   //search any file for documentation on project
-       console.log("PATH"+newPath);
        find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(documents) {
-           console.log("NEWPATH: "+newPath);
-           console.log("DOCUMENTATION: "+documents);
            componentOperation.doSaveDocuments(documents);
        });
      
@@ -107,14 +98,11 @@ function checkAndSave(fields,response){
     }
     if(fields.test != undefined) {
         find.file(/^.*test.*$/,newPath,function (tests) {
-            console.log("exist directory test");
-            console.log("Test files "+tests);
             componentOperation.doSaveTestFile(tests);
         });
     }
 }
 function errorPage(mess,response) {
-    
     response.writeHead(500, {'Content-Type': 'text/plain'});
     response.end(mess);
 }

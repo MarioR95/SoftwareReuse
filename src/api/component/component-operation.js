@@ -10,6 +10,7 @@ var newPath;
 var idProject,name,description,note,version,uri,entry_point,tags,author,technology,granularity,domain;
 //for run child process
 var exec = require('child_process').exec, child;
+
 module.exports.createProjectNode = function (files,fields) {
     newPath =  paths.projectsRepoPATH+files.filetoupload.name;
     name = fields.name;
@@ -37,7 +38,6 @@ module.exports.createProjectNode = function (files,fields) {
 }
 
 module.exports.doSaveSourceFile = function (cls,dependencies) {
-    console.log("-Storing Files...");
     var nameComponentClass;
     var nameComponentDepen;
     var indexForChangeNameDep = [];
@@ -84,10 +84,10 @@ module.exports.doSaveSourceFile = function (cls,dependencies) {
         driver.close();
         });
     }
-    console.log("-Files stored correctly");
+    console.log("-Source Files stored correctly");
 } 
 module.exports.doSaveDocuments = function (documents) {
-    console.log("Do save doc  "+documents);
+    
     for(i = 0; i < documents.length; i++) {
         var idDocumentation = makeid();
         session.run('MATCH(Project:'+idProject+') MERGE(Document:'+idDocumentation+' {pathDocument:'+"'"+documents[i]+"'"+', type:"documentation"}) MERGE (Project)-[r:hasDocumentation]->(Document)')
@@ -100,7 +100,6 @@ module.exports.doSaveDocuments = function (documents) {
 
 }
 module.exports.doSaveTestFile = function (tests) {
-    console.log("Do save test  "+tests);
     for(i = 0; i < tests.length; i++) {
         var idTests = makeid();
         session.run('MATCH(Project:'+idProject+') MERGE(Test:'+idTests+' {pathTestFile:'+"'"+tests[i]+"'"+', type:"test"}) MERGE (Project)-[r:hasTest]->(Test)')
@@ -122,7 +121,6 @@ function makeid() {
 	// return IDString UNIQUE
 	var text = "";
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	
 	for (var i = 0; i < 5; i++)
 	    text += possible.charAt(Math.floor(Math.random() * possible.length));
 	
@@ -145,7 +143,7 @@ function writeDomainValues(fields){
     		console.log(err);
     	}
     });
-    console.log("Ontology file written correctly");
+    console.log("File Value for Ontology written correctly");
     updateOntology(fields);
 }
 
