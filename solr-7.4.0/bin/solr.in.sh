@@ -175,5 +175,5 @@
 # Different limits can be set in solr.in.sh or your profile if you prefer as well.
 #SOLR_RECOMMENDED_OPEN_FILES=
 #SOLR_RECOMMENDED_MAX_PROCESSES=
-SOLR_ULIMIT_CHECKS=false
+#SOLR_ULIMIT_CHECKS=
 

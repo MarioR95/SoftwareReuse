@@ -1,53 +1,22 @@
 {
-  "name": "server-ebsearch",
+  "name": "swreuse",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "accepts": "^1.3.5",
-    "adm-zip": "^0.4.11",
-    "array-flatten": "^2.1.1",
-    "body-parser": "^1.18.3",
-    "content-disposition": "^0.5.2",
-    "cookie": "^0.3.1",
-    "cookie-signature": "^1.1.0",
-    "debug": "^3.1.0",
-    "decompress": "^4.2.0",
-    "decompress-gz": "0.0.1",
-    "destroy": "^1.0.4",
-    "etag": "^1.8.1",
-    "extract-zip": "^1.6.7",
-    "finalhandler": "^1.1.1",
-    "find": "^0.2.9",
-    "formidable": "^1.2.1",
-    "fresh": "^0.5.2",
-    "gson": "^0.1.5",
-    "highlight": "^0.2.4",
-    "highlight.js": "^9.12.0",
-    "inherits": "^2.0.3",
-    "jsdom": "^12.0.0",
-    "merge-descriptors": "^1.0.1",
-    "methods": "^1.1.2",
-    "neo4j": "^2.0.0-RC2",
-    "neo4j-driver": "^1.5.0",
-    "node-gzip": "^1.1.2",
-    "node-tfidf": "0.0.2",
-    "path-to-regexp": "^2.4.0",
-    "proxy-addr": "^2.0.4",
-    "range-parser": "^1.2.0",
-    "sequential-task-queue": "^1.2.1",
-    "sync": "^0.2.5",
-    "unzip": "^0.1.11",
-    "unzipper": "^0.9.3",
-    "utils-merge": "^1.0.1",
-    "vary": "^1.1.2",
-    "zip-local": "^0.3.4"
+  "description": "This project was made for thesis research",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarioR95/SoftwareReuse.git"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarioR95/SoftwareReuse/issues"
+  },
+  "homepage": "https://github.com/MarioR95/SoftwareReuse#readme"
 }
