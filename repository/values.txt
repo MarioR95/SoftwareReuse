@@ -1,9 +1,0 @@
-Name:Lane
-Description:Voluptas qui fuga. Labore dolores non beatae.
-Note:Dignissimos aut odit.
-Version:8
-URI:http://www.civehyvubaju.net
-EntryPoint:Aut occaecat quis excepturi eum ut ullamco
-Author:Azalia
-Technology:http://www.boqasipalenodo.co
-Domain:Hart and Kemp Inc

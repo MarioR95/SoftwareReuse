@@ -2,10 +2,11 @@ var paths = require('../paths-manager');
 var formidable = require('formidable');
 var component = require('./component');
 var fs = require('fs');
-var hljs = require('highlight.js');
+var Prism = require('prismjs');
+var loadLanguages = require('prismjs/components/');
+loadLanguages(['java']);
 var exec = require('child_process').exec;
-var jsdom= require('jsdom');
-var {JSDOM} = jsdom;
+
 
 module.exports.upload = function(app) {
 	app.post("/upload", function(req, res) {
@@ -23,28 +24,45 @@ module.exports.upload = function(app) {
 //SHOW CONTENT  
 module.exports.showContent = function(app) {
 
-	hljs.registerLanguage('java', require("highlight.js/lib/languages/java"));
-	
 	app.post("/show", function(req, res) {
+
 		var form = new formidable.IncomingForm();
+		
 		form.parse(req, function(err, fields, files) {
 			if (err)
 				console.log(err);
 			/*ADD THIS SNIPPET TO SHOW DOCS
 			 * <embed src="file_name.pdf" width="800px" height="2100px" />
 			 */
-			
-			var lineReader = require('readline').createInterface({
+			res.write("<html !DOCTYPE>"+
+					"<head>"+
+						"<link href='css/java-style.css' rel='stylesheet'>"+
+						"<script type='text/javascript' src='js/javacode-handler.js'></script>"+
+					"</head>"+
+					"<body >"
+		
+			);
+/* 			var lineReader = require('readline').createInterface({
 						input : require('fs').createReadStream(fields.contentPath)
 			});
 			lineReader.on('line', function (line) {
-				res.write("<pre><code class='java'>"+hljs.highlightAuto(line).value+"</code></pre>", function(err){
+				res.write("<pre class='language-java'><code>"+Prism.highlight(line, Prism.languages.java, 'java')+"</code></pre>", function(err){
 					res.end();
 				});
-			});	
-		});
+			});	 */
+			fs.readFile(fields.contentPath, {encoding: 'utf-8'}, function(error,data) {
+				if(error) {
+				   res.writeHead(404);
+				   res.write('-Component Not Loaded.');
+				}else {
+					res.write("<pre class='language-java'><code>"+Prism.highlight(data, Prism.languages.java, 'java')+"</code></pre>", function(err){
+						res.end();
+					});
+				}
+			});			
+		}); 
 		
-	});
+});
 
 };
 
@@ -57,6 +75,14 @@ module.exports.runContent = function(app) {
 				function(error, stdout, stderr) {
 					if (error) {
 						console.log("-File not visited. ERROR during the inspection");
+						fs.readFile(paths.rootPATH+'index.html',null,function(error,data) {
+							if(error) {
+							   res.writeHead(404);
+							   res.write('-Page not found');
+							}else {
+								 res.end(data);
+							}
+						});
 					} else {
 						console.log("-File visited correctly");
 						fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {

@@ -50,7 +50,6 @@ app.get("/results", function(req,res){
  * @RETURN: html page loaded successfully or a 404 page.*/
 function loadPage(response,url) {
    //HTML PAGE
-   console.log("-Page loaded successfully"); 
    response.writeHead(200,{'Content-type': 'text/html'});
    fs.readFile(url,null,function(error,data) {
      if(error) {
