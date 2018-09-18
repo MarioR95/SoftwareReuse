@@ -174,7 +174,7 @@
 				tdDescripton.innerHTML = component.description;
 				
 				tdRunView.appendChild(createViewForm(component.path));
-				tdRunView.appendChild(createRunForm(component.path));
+				tdRunView.appendChild(createRunForm(component.path, component.name));
 
 				tr.appendChild(tdCount);
 				tr.appendChild(tdName);
@@ -184,13 +184,10 @@
 			}
 	
 
-			function extractProjectPath(componentPath) {
-				var projectPathParts = componentPath.split('/');
-				var projectPath="";
-				for(var i=0;i < projectPathParts.length-1;i++){
-					projectPath= projectPath + projectPathParts[i]+"/";
-				}
-				return projectPath;
+			function extractProjectPath(componentPath, projectName) {
+			
+				var projectPath= componentPath.split("/src/");			
+				return projectPath[0]+"/src/"+projectPath[1]+"/";		
 			}
 
 
@@ -230,7 +227,7 @@
 
 			}
 
-			function createRunForm(componentPath){
+			function createRunForm(componentPath, projectName){
 				/*<form action="initComponent" method="post" enctype="multipart/form-data">
 					<input type="hidden"
 						value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
@@ -256,7 +253,7 @@
 
 				var inputProjectPath = document.createElement("input");
 				inputProjectPath.setAttribute('type','hidden');
-				inputProjectPath.setAttribute('value', extractProjectPath(componentPath));
+				inputProjectPath.setAttribute('value', extractProjectPath(componentPath, projectName));
 				inputProjectPath.setAttribute('name','projectPath');
 
 				var inputSubmit = document.createElement("input");

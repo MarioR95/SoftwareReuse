@@ -67,14 +67,21 @@ module.exports.showContent = function(app) {
 };
 
 module.exports.runContent = function(app) {
+
+	var componentPath;
+
 	app.post("/initComponent", function(req, res) {
 		var form = formidable.IncomingForm();
 		form.parse(req, function(err, fields) {
-			if (!fs.existsSync(paths.projectsRepoPATH+"dump_class.json")) {
+			var tmp= fields.contentPath.split(".java")[0].split("src");
+			componentPath= tmp[tmp.length-1].split("/").join("-").substr(1);
+			console.log(componentPath);
+			if (!fs.existsSync(paths.projectsRepoPATH+componentPath+".json")) {
 				exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
 				function(error, stdout, stderr) {
 					if (error) {
 						console.log("-File not visited. ERROR during the inspection");
+						console.log(error)
 						fs.readFile(paths.rootPATH+'index.html',null,function(error,data) {
 							if(error) {
 							   res.writeHead(404);
@@ -104,14 +111,14 @@ module.exports.runContent = function(app) {
 						 res.end(data);
 					}
 				});
-			}
+			} 
 		
 		});
 	});
 	
 	app.get("/getJSON", function(req,res){
 	     res.writeHead(200, {'Content-Type': 'application/json'});
-		 res.end(fs.readFileSync(paths.projectsRepoPATH+"dump_class.json"));
+		 res.end(fs.readFileSync(paths.projectsRepoPATH+componentPath+".json"));
 	});
 
 	

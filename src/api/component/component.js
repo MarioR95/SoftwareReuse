@@ -57,7 +57,6 @@ function unZip(source,target,fields,files,response) {
     
 }
 function parseJavaComponent(response,files,fields) {
-    var contents;
     //remove extention path
     newPath = newPath.split('.').slice(0, -1).join('.');
     componentOperation.createProjectNode(files,fields);
@@ -69,7 +68,7 @@ function parseJavaComponent(response,files,fields) {
 
 function checkAndSave(fields){
     var cls=[], dependencies=[];
-
+    var contents;
     
    	if(fields.source != undefined) {
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
@@ -78,9 +77,18 @@ function checkAndSave(fields){
             if(error){
             	errorPage("-Error during file parsing into exec", response);
             }else {
-                ì
+                console.log("-Start handle JSon file...");
                 contents = fs.readFileSync(paths.projectsRepoPATH+"result.json");
-               
+                //fs.unlinkSync(paths.projectsRepoPATH+'result.json');
+                var jsonContent = [];
+                jsonContent = GSON.parse(contents);
+                for(i = 0; i < Object.keys(jsonContent.class).length; i++) {
+                    cls[i] = jsonContent.class[i];
+                    for(j = 0; j < Object.keys(jsonContent.dependencies).length;j++) {
+                        dependencies[j] = jsonContent.dependencies[j];
+                    }
+                }
+                
                 type='sourcecode';
                 createandPostJsonDocuments(cls, fields, type);
 
