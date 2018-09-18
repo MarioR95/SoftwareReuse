@@ -108,7 +108,7 @@ function checkAndSave(fields){
             createJsonDocuments(cls, fields, type);
             postDocumentsOnSolr();
 
-           componentOperation.doSaveDocuments(documents);
+            componentOperation.doSaveDocuments(documents);
        });
     }
     if(fields.test != undefined) {
@@ -170,7 +170,6 @@ function createJsonDocuments(paths, formFields, type){
             console.log("The file was saved!");
 
     });
-    console.log(documents);
 }
 
 
