@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Name:Abra
 Description:Quam reiciendis.
 Note:Sunt qui.
@@ -7,3 +8,14 @@ EntryPoint:Pariatur Culpa totam ut esse dolorem voluptatem nulla adipisicing atq
 Author:Galena
 Technology:http://www.qyxapesa.ws
 Domain:Burch and Jenkins Plc
+=======
+Name:Scarlett Tran
+Description:Voluptatem facilis.
+Note:B
+Version:1
+URI:http://www.zeqexagun.in
+EntryPoint:Dolor sapiente maiores harum dignissimos aliquip
+Author:Quentin Fitzgerald
+Technology:Est, blanditiis nesciunt, ut est in explicabo. Quis voluptatem in est, velit expedita aut dolore.
+Domain:Carroll and Ward Traders
+>>>>>>> f0ed1e2d3fd8d8185dfa8320dd8dd692478db986

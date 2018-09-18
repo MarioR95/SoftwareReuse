@@ -16,7 +16,6 @@ var type;
 
 module.exports.loadComponent = function (response,fields, files) {
 
-    console.log("-Load Component "+files.filetoupload.name);
     var currentPath = files.filetoupload.path;
     if(currentPath != undefined) {
         newPath =  paths.projectsRepoPATH+files.filetoupload.name;
@@ -32,9 +31,6 @@ module.exports.loadComponent = function (response,fields, files) {
 }
 
 function unZip(source,target,fields,files,response) {
-    console.log("Source: "+source);
-    console.log("Target "+target);
-    console.log("Name: "+fields.name);
 
     exec('java -jar ' + paths.externalToolsPATH + 'Extractor.jar '+source+' ' +target,
     function(error, stdout, stderr) {
@@ -64,7 +60,6 @@ function parseJavaComponent(response,files,fields) {
     var contents;
     //remove extention path
     newPath = newPath.split('.').slice(0, -1).join('.');
-    //console.log(paths.externalToolsPATH);
     componentOperation.createProjectNode(files,fields);
     checkAndSave(fields,response);
     componentOperation.endOperations(response);
@@ -77,8 +72,7 @@ function checkAndSave(fields){
    	if(fields.source != undefined) {
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
         function (error, stdout, stderr){
-            //console.log('stdout: ' + stdout);
-            //console.log('stderr: ' + stderr);
+          
             if(error){
             	errorPage("-Error during file parsing into exec", response);
             }else {
@@ -109,8 +103,6 @@ function checkAndSave(fields){
 	   //search any file for documentation on project
        console.log("PATH"+newPath);
        find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(documents) {
-            //console.log("NEWPATH: "+newPath);
-            //console.log("DOCUMENTATION: "+documents);
            
             type='document';
             createJsonDocuments(cls, fields, type);
