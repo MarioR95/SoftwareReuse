@@ -87,15 +87,15 @@
     </rdfs:domain>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <j.0:Project rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project2029412878">
-    <j.0:URI>http</j.0:URI>
-    <j.0:Note>Dolor reprehenderit, harum est esse.</j.0:Note>
-    <j.0:Technology>http</j.0:Technology>
-    <j.0:Description>Nemo nulla sapiente aut et ut ex.</j.0:Description>
-    <j.0:Version>8</j.0:Version>
-    <j.0:Author>Desiree</j.0:Author>
+  <j.0:Project rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project1079438154">
     <j.0:Name>Deborah</j.0:Name>
-    <j.0:Domain>Johns and Sloan Associates</j.0:Domain>
-    <j.0:EntryPoint>In in possimus voluptas aut lorem ea quaerat dolores qui dolores cumque autem sit ut est in</j.0:EntryPoint>
+    <j.0:Note>Fugiat dolor qui voluptatem.</j.0:Note>
+    <j.0:URI>http</j.0:URI>
+    <j.0:EntryPoint>Corporis numquam natus quaerat quo adipisicing sint accusantium quis quisquam</j.0:EntryPoint>
+    <j.0:Description>Quod nihil deserunt ea maiores.</j.0:Description>
+    <j.0:Technology>http</j.0:Technology>
+    <j.0:Domain>Owen and Massey LLC</j.0:Domain>
+    <j.0:Author>Macey</j.0:Author>
+    <j.0:Version>1</j.0:Version>
   </j.0:Project>
 </rdf:RDF>

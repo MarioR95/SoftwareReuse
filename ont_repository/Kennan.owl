@@ -87,15 +87,15 @@
     </rdfs:domain>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
   </owl:DatatypeProperty>
-  <j.0:Project rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project1965090795">
-    <j.0:Technology>http</j.0:Technology>
-    <j.0:Description>Magni ea nostrum eum.</j.0:Description>
-    <j.0:Domain>Hayden Lynch Inc</j.0:Domain>
-    <j.0:EntryPoint>Ad cupiditate ipsum natus ut cupiditate dolorem iure ea sint reiciendis id voluptas illum</j.0:EntryPoint>
-    <j.0:Version>1</j.0:Version>
-    <j.0:Author>Stacy</j.0:Author>
-    <j.0:Note>Ullamco consectetur, voluptas laborum. Tempor.</j.0:Note>
-    <j.0:URI>http</j.0:URI>
+  <j.0:Project rdf:about="http://www.semanticweb.org/domenico/ontologies/2018/8/ont#Project1842674471">
+    <j.0:Version>3</j.0:Version>
+    <j.0:Note>Eius dolor.</j.0:Note>
     <j.0:Name>Kennan</j.0:Name>
+    <j.0:EntryPoint>Et laboriosam occaecat esse aliqua Officiis dolore harum facilis magni enim quam mollit</j.0:EntryPoint>
+    <j.0:Author>Vincent</j.0:Author>
+    <j.0:Domain>Singleton and Daniel Plc</j.0:Domain>
+    <j.0:Technology>http</j.0:Technology>
+    <j.0:Description>Facilis eum voluptates explicabo. Reprehenderit velit doloribus voluptatem qui.</j.0:Description>
+    <j.0:URI>http</j.0:URI>
   </j.0:Project>
 </rdf:RDF>

@@ -110,27 +110,11 @@
          If you don't need it, consider removing it and the corresponding copyField directive.
     -->
 
-    <field name="id" type="string" indexed="true" stored="true" required="false" multiValued="false" />
+    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
     <!-- docValues are enabled by default for long type so we don't need to index the version field  -->
     <field name="_version_" type="plong" indexed="false" stored="false"/>
-    <field name="_root_" type="string" indexed="true" stored="false" docValues="false"/>
-    <!--<field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>-->
-
-<!--My Fields for component object-->
-    <field name="path" type="string" indexed="true" stored="true" required="true"/>
-    <field name="type" type="string" indexed="false" stored="true" required="true"/>
-    <field name="name" type="string" indexed="true" stored="true" required="true"/>
-    <field name="version" type="string" indexed="true" stored="true" required="true"/>
-    <field name="author" type="string" indexed="true" stored="true" required="true"/>
-    <field name="domain" type="string" indexed="true" stored="true" required="true"/>
-    <field name="technology" type="string" indexed="true" stored="true" required="true"/>
-    <field name="description" type="text_general" indexed="false" stored="true" required="true"/>
-    <field name="notes" type="string" indexed="false" stored="true" required="false"/>
-    <field name="uri" type="string" indexed="false" stored="true" required="true"/>
-    <field name="entrypoint" type="string" indexed="false" stored="true" required="true"/>
-    <field name="content" type="text_general" indexed="true" stored="true" required="true"/>
-
-    
+    <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+    <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
 
     <!-- This can be enabled, in case the client does not know what fields may be searched. It isn't enabled by default
          because it's very expensive to index everything twice. -->
@@ -175,7 +159,7 @@
     <!-- Field to use to determine and enforce document uniqueness.
       Unless this field is marked with required="false", it will be a required field
     -->
-    <uniqueKey>path</uniqueKey>
+    <uniqueKey>id</uniqueKey>
 
     <!-- copyField commands copy one field to another at the time a document
        is added to the index.  It's used either to index the same field differently,

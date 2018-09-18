@@ -70,14 +70,10 @@ function parseJavaComponent(response,files,fields) {
     componentOperation.endOperations(response);
     
 }
-<<<<<<< HEAD
 
 
 function checkAndSave(fields){
     var cls=[], dependencies=[];
-=======
-function checkAndSave(fields,response){
->>>>>>> 0889f79c45e722a089b1c027b34c138f1dd073cf
    	if(fields.source != undefined) {
         child = exec('java -jar '+paths.externalToolsPATH+'JavaT.jar -path '+newPath+' -out '+paths.projectsRepoPATH,
         function (error, stdout, stderr){
@@ -101,6 +97,8 @@ function checkAndSave(fields,response){
                 }
                 type='sourcecode';
                 createJsonDocuments(cls, fields, type);
+                postDocumentsOnSolr();
+
                 console.log("JSon file parsed correctly");
                 componentOperation.doSaveSourceFile(cls,dependencies);
             }
@@ -116,6 +114,7 @@ function checkAndSave(fields,response){
            
             type='document';
             createJsonDocuments(cls, fields, type);
+            postDocumentsOnSolr();
 
            componentOperation.doSaveDocuments(documents);
        });
@@ -127,6 +126,7 @@ function checkAndSave(fields,response){
             
             type='test';
             createJsonDocuments(cls, fields, type);
+            postDocumentsOnSolr();
 
             componentOperation.doSaveTestFile(tests);
         });
@@ -179,4 +179,15 @@ function createJsonDocuments(paths, formFields, type){
 
     });
     console.log(documents);
+}
+
+
+function postDocumentsOnSolr() {
+    exec(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/tmp.json', function(err,stdout,stderr) {
+        if(err)
+            console.log(err);
+        else
+            console.log("Documents posted correctly");
+    });
+    
 }
