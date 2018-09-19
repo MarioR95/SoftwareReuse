@@ -11,8 +11,4 @@ components_json/
 repository/
 solr-7.4.0/server/solr/componentscore/data/
 solr-7.4.0/server/logs/
-apache-jena-fuseki-3.8.0/run/logs/
-apache-jena-fuseki-3.8.0/run/configuration/
-apache-jena-fuseki-3.8.0/run/databases/
-apache-jena-fuseki-3.8.0/run/config.ttl/
-
+apache-jena-fuseki-3.8.0/run/
