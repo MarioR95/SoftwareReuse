@@ -13,3 +13,4 @@ apache-jena-fuseki-3.8.0/run/databases/OntRepository/*
 ont_repository/*
 components_json/*
 repository/*
+*.pid
