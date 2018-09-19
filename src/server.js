@@ -1,16 +1,17 @@
 var paths= require('./api/paths-manager');
 var fs = require('fs');
 var express = require('express');
-const internalIp = require('internal-ip');
-var cookies = require('cookies');
-
 var app= express();
 var exec = require('child_process').exec, child;
 var componentAPI = require('./api/component/component-api');
+const internalIp = require('internal-ip');
+
 var server;
+var serverLocalIP;
 
 //To handle static file from public directory
 app.use(express.static("../public"));
+
 
 server = app.listen(8080, function(){
   var host = server.address().address;
@@ -20,22 +21,26 @@ server = app.listen(8080, function(){
   startServer('../solr-7.4.0/bin/solr start');
   startServer('../apache-jena-fuseki-3.8.0/fuseki start');
 
+ 
+  internalIp.v4().then(ip => {
+      console.log("Server local IP address:"+ip);
+      serverLocalIP=ip;
+  });
+
   //Stop Solr and Fuseki server after ctrl+c terminal command
   process.on('SIGINT', stopSolrandFuseki);
-  
-  internalIp.v4().then(ip => {
-    console.log(ip);
-
-
-  });
 
 });
 
 //INIT SERVER
 app.get("/", function(req, res) {
-        loadPage(res,'../index.html');    
+        loadPage(res,'../index.html');   
       } 
 );
+
+app.get("/getLocalIP", function(req,res){
+  res.end(serverLocalIP);
+});
 
 //UPLOAD COMPONENT
 componentAPI.upload(app);

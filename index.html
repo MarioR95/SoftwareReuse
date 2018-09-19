@@ -72,29 +72,40 @@
 
 
 		<script>
-			$(document).ready(function(){
+			
+
+			var serverLocalIP;
+
+
+			$(document).ready(function(){	
 				console.log("Document ready");
-				
-				$("#submitCategorizedSearchBtn").click(function(){
-					var name = $("#NameInput").val();
-					var version = $("#VersionInput").val();
-					var author = $("#AuthorInput").val();
-					var domain = $("#DomainInput").val();
-					var technology = $("#TechnologyInput").val();
-				
-					if(name||version||author||domain||technology)
-						window.location.replace("http://localhost:8080/results?name="+name+"&version="+version+"&author="+author+"&domain="+domain+"&technology="+technology);
-	
+
+				$.get('/getLocalIP', function(data){
+					serverLocalIP = data;
+
+					$("#submitCategorizedSearchBtn").click(function(){
+						var name = $("#NameInput").val();
+						var version = $("#VersionInput").val();
+						var author = $("#AuthorInput").val();
+						var domain = $("#DomainInput").val();
+						var technology = $("#TechnologyInput").val();
+					
+						if(name||version||author||domain||technology)
+							window.location.replace("http://"+serverLocalIP+":8080/results?name="+name+"&version="+version+"&author="+author+"&domain="+domain+"&technology="+technology);
+		
+					});
+		
+		
+					$("#submitSearchBtn").click(function(){
+						var searchString = $("#searchBar").val();
+						if(searchString!=""){
+							window.location.replace("http://"+serverLocalIP+":8080/results?content="+searchString);
+						}       
+					});
 				});
-	
-	
-				$("#submitSearchBtn").click(function(){
-					var searchString = $("#searchBar").val();
-					if(searchString!=""){
-						window.location.replace("http://localhost:8080/results?content="+searchString);
-					}       
-				});
-			})
+			});
+
+
 		</script>
 	</body>
 </html> 
