@@ -5,6 +5,7 @@ var paths= require('../paths-manager');
 var fs = require('fs');
 //for run child process
 var exec = require('child_process').exec, child;
+var execSync = require('child_process').execSync;
 var componentOperation = require('./component-operation');
 //for parse file JSON
 var GSON= require('gson');
@@ -62,11 +63,10 @@ function parseJavaComponent(response,files,fields) {
     componentOperation.createProjectNode(files,fields);
     checkAndSave(fields,response);
     componentOperation.endOperations(response);
-    
 }
 
 
-function checkAndSave(fields){
+function checkAndSave(fields, response){
     var cls=[], dependencies=[];
     var contents;
     
@@ -176,7 +176,7 @@ function createandPostJsonDocuments(paths, formFields, type){
 
 
 function postDocumentsOnSolr() {
-    exec(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/tmp.json', function(err,stdout,stderr) {
+    execSync(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/tmp.json', function(err,stdout,stderr) {
         if(err)
             console.log(err);
         else
