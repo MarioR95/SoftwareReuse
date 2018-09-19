@@ -119,13 +119,13 @@
 <!--My Fields for component object-->
     <field name="path" type="string" indexed="true" stored="true" required="true"/>
     <field name="type" type="string" indexed="false" stored="true" required="true"/>
-    <field name="name" type="string" indexed="true" stored="true" required="true"/>
+    <field name="name" type="text_general" indexed="true" stored="true" required="true"/>
     <field name="version" type="string" indexed="true" stored="true" required="true"/>
-    <field name="author" type="string" indexed="true" stored="true" required="true"/>
-    <field name="domain" type="string" indexed="true" stored="true" required="true"/>
-    <field name="technology" type="string" indexed="true" stored="true" required="true"/>
+    <field name="author" type="text_ws" indexed="true" stored="true" required="true"/>
+    <field name="domain" type="text_general" indexed="true" stored="true" required="true"/>
+    <field name="technology" type="text_general" indexed="true" stored="true" required="true"/>
     <field name="description" type="text_general" indexed="false" stored="true" required="true"/>
-    <field name="notes" type="string" indexed="false" stored="true" required="false"/>
+    <field name="notes" type="text_general" indexed="false" stored="true" required="false"/>
     <field name="uri" type="string" indexed="false" stored="true" required="true"/>
     <field name="entrypoint" type="string" indexed="false" stored="true" required="true"/>
     <field name="content" type="text_general" indexed="true" stored="true" required="true"/>
