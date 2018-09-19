@@ -1,7 +1,11 @@
 var solrServerURL;
 var serverLocalIP;
-
-	
+var content = getUrlParameter('content');
+var name = getUrlParameter('name');
+var version = getUrlParameter('version');
+var author = getUrlParameter('author');
+var domain = getUrlParameter('domain');
+var technology = getUrlParameter('technology');
 
 	$(document).ready(function(){	
 		$.get('/getLocalIP', function(data){
@@ -51,12 +55,7 @@ var serverLocalIP;
 		}
 	};	
 
-	var content = getUrlParameter('content');
-	var name = getUrlParameter('name');
-	var version = getUrlParameter('version');
-	var author = getUrlParameter('author');
-	var domain = getUrlParameter('domain');
-	var technology = getUrlParameter('technology');
+	
 
 
 
@@ -113,22 +112,31 @@ var serverLocalIP;
 
 
 	function generateTableEntry(component, position){
+		var componentPathParts = component.path.split('/');
+		var componentName = componentPathParts[componentPathParts.length-1];
+
 
 		var tr = document.createElement("tr"); 
 		var tdCount = document.createElement("td");
-		var tdName = document.createElement("td");
+		var tdProjectName = document.createElement("td");
+		var tdComponentName = document.createElement("td");
+		var tdComponentType = document.createElement("td");
 		var tdDescripton = document.createElement("td");
 		var tdRunView = document.createElement("td");
 
 		tdCount.innerHTML = position;
-		tdName.innerHTML = component.name;
+		tdProjectName.innerHTML = component.name; // This is the project name
+		tdComponentName.innerHTML = componentName;
+		tdComponentType.innerHTML = component.type;
 		tdDescripton.innerHTML = component.description;
 		
 		tdRunView.appendChild(createViewForm(component.path));
 		tdRunView.appendChild(createRunForm(component.path, component.name));
 
 		tr.appendChild(tdCount);
-		tr.appendChild(tdName);
+		tr.appendChild(tdProjectName);
+		tr.appendChild(tdComponentName);
+		tr.appendChild(tdComponentType);
 		tr.appendChild(tdDescripton);
 		tr.appendChild(tdRunView);
 		$("#results-table").append(tr);
