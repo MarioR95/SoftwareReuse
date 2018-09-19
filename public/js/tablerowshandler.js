@@ -8,6 +8,12 @@ var domain = getUrlParameter('domain');
 var technology = getUrlParameter('technology');
 
 	$(document).ready(function(){	
+		console.log(content);
+		
+		content=content.replace(/[+]/gm, ",");
+
+		console.log(content);
+
 		$.get('/getLocalIP', function(data){
 			serverLocalIP = data;
 			solrServerURL = "http://"+serverLocalIP+":8983/solr/componentscore/select?q=";
