@@ -1,7 +1,11 @@
 var solrServerURL;
 var serverLocalIP;
-
-	
+var content = getUrlParameter('content');
+var name = getUrlParameter('name');
+var version = getUrlParameter('version');
+var author = getUrlParameter('author');
+var domain = getUrlParameter('domain');
+var technology = getUrlParameter('technology');
 
 	$(document).ready(function(){	
 		$.get('/getLocalIP', function(data){
@@ -51,12 +55,7 @@ var serverLocalIP;
 		}
 	};	
 
-	var content = getUrlParameter('content');
-	var name = getUrlParameter('name');
-	var version = getUrlParameter('version');
-	var author = getUrlParameter('author');
-	var domain = getUrlParameter('domain');
-	var technology = getUrlParameter('technology');
+	
 
 
 
