@@ -8,7 +8,6 @@ target/
 apache-jena-fuseki-3.8.0/run/logs/*
 solr-7.4.0/server/solr/componentscore/data/*
 solr-7.4.0/server/logs/*
-repository/values.txt
 apache-jena-fuseki-3.8.0/run/databases/OntRepository/*
 ont_repository/*
 components_json/*
