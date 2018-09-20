@@ -159,6 +159,8 @@ function createandPostJsonDocuments(paths, formFields, type){
         documents.unshift(document);
     }
 
+    console.log(documents);
+
     var jsonContent = JSON.stringify(documents);
 
     fs.writeFile('../components_json/'+tmpFileName, jsonContent, {encoding:'utf8', flag:'w+'},  function(err){
