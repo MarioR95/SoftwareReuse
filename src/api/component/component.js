@@ -155,9 +155,15 @@ function createandPostJsonDocuments(paths, formFields, type){
 
         //Read file from path to fill content attribute of json object
         var documentContent = fs.readFileSync(paths[i], 'utf8');
-        document.content = documentContent;
+
+        if(type=='document')
+            document.content = 'documentContent';
+        else
+            document.content = documentContent;
+       
         documents.unshift(document);
     }
+
 
     var jsonContent = JSON.stringify(documents);
 
