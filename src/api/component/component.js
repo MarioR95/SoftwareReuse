@@ -12,8 +12,6 @@ var GSON= require('gson');
 //for find file on directory
 var find = require('find');
 
-var type;
-
 
 module.exports.loadComponent = function (response,fields, files) {
 
@@ -89,8 +87,7 @@ function checkAndSave(fields, response){
                     }
                 }
                 
-                type='sourcecode';
-                createandPostJsonDocuments(cls, fields, type);
+                createandPostJsonDocuments(cls, fields, 'sourceCode');
 
                 console.log("JSon file parsed correctly");
 
@@ -102,9 +99,8 @@ function checkAndSave(fields, response){
 
 	   //search any file for documentation on project
        find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(documents) {
-           
-            type='document';
-            createandPostJsonDocuments(documents, fields, type);
+
+            createandPostJsonDocuments(documents, fields, 'document');
 
             componentOperation.doSaveDocuments(documents);
        });
@@ -114,7 +110,7 @@ function checkAndSave(fields, response){
         find.file(/^.*test.*$/,newPath,function (tests) {
             
             type='test';
-            createandPostJsonDocuments(tests, fields, type);
+            createandPostJsonDocuments(tests, fields, 'test');
 
             componentOperation.doSaveTestFile(tests);
         });
@@ -130,9 +126,18 @@ function errorPage(mess,response) {
 function createandPostJsonDocuments(paths, formFields, type){
     var documents = [];
     var document;
+    var tmpFileName;
+
+    switch(type){
+        case 'sourceCode': tmpFileName='tmpSrcCode.json';break;
+        case 'document': tmpFileName='tmpDocument.json';break;
+        case 'test':tmpFileName ='tmpTest.json';break;
+        default:break;
+    }
 
 
     for(var i=0; i < paths.length; i++){
+
         document = new Object();
 
         document.path=paths[i];
@@ -147,35 +152,27 @@ function createandPostJsonDocuments(paths, formFields, type){
         document.uri=formFields.uri;
         document.entrypoint=formFields.entry_point;
 
-        var content = fs.readFileSync(paths[i], {encoding:'utf8'}, function(error,data) {
-            if(error) {
-                console.log(error);
-            }else {
-                
-                return data;
-            }
-        });
 
-        document.content=content;
+        var documentContent = fs.readFileSync(paths[i], 'utf8');
+        document.content = documentContent;
         documents.unshift(document);
-
     }
 
+    var jsonContent = JSON.stringify(documents);
 
-    fs.writeFile('../components_json/tmp.json', JSON.stringify(documents), {flag:'w+'},  function(err){
+    fs.writeFile('../components_json/'+tmpFileName, jsonContent, {encoding:'utf8', flag:'w+'},  function(err){
         if(err)
             console.log(err);
         else{
             console.log("tmp.json was saved!");
-            postDocumentsOnSolr();
+            postDocumentsOnSolr(tmpFileName);
         }
     });
-
 }
 
 
-function postDocumentsOnSolr() {
-    execSync(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/tmp.json', function(err,stdout,stderr) {
+function postDocumentsOnSolr(fileName) {
+    execSync(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/'+fileName, function(err,stdout,stderr) {
         if(err)
             console.log(err);
         else
