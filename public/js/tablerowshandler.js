@@ -8,11 +8,6 @@ var domain = getUrlParameter('domain');
 var technology = getUrlParameter('technology');
 
 	$(document).ready(function(){	
-		console.log(content);
-		
-		content=content.replace(/[+]/gm, ",");
-
-		console.log(content);
 
 		$.get('/getLocalIP', function(data){
 			serverLocalIP = data;
@@ -20,14 +15,15 @@ var technology = getUrlParameter('technology');
 
 			//Query only on component's content
 			if(content!=undefined){
+				content=content.replace(/[+]/gm, ",");
+
+
 				console.log(solrServerURL+"content:"+content);
 				$.get(solrServerURL+"content:"+content, 
 					function(data){
 						var numFound = data.response.numFound;
-	
 						if(numFound > 0){
 							var components = data.response.docs;
-	
 							for (i=0; i < components.length; i++){							
 								generateTableEntry(components[i], i+1);
 							}
@@ -64,7 +60,6 @@ var technology = getUrlParameter('technology');
 	
 
 
-
 	function executeQuery(){
 
 		if(name != undefined && name!=""){
@@ -90,6 +85,7 @@ var technology = getUrlParameter('technology');
 		var paramName;
 		var paramValue;
 
+
 		switch(param){
 			case 'name': paramName='name'; paramValue=name;break;
 			case 'version': paramName='version';paramValue=version;break;
@@ -97,6 +93,8 @@ var technology = getUrlParameter('technology');
 			case 'domain': paramName='domain';paramValue=domain;break;
 			case 'technology': paramName='technology';paramValue=technology;break;
 		}
+
+		paramValue=paramValue.replace(/[+]/gm, ",");
 
 		console.log(solrServerURL+paramName+":"+paramValue);
 
@@ -130,14 +128,17 @@ var technology = getUrlParameter('technology');
 		var tdDescripton = document.createElement("td");
 		var tdRunView = document.createElement("td");
 
+
+
 		tdCount.innerHTML = position;
 		tdProjectName.innerHTML = component.name; // This is the project name
 		tdComponentName.innerHTML = componentName;
-		tdComponentType.innerHTML = component.type;
+		tdComponentType.innerHTML = '<input type="text" name="type" value="'+component.type+'"style="border:none" readonly>';
 		tdDescripton.innerHTML = component.description;
 		
 		tdRunView.appendChild(createViewForm(component.path));
-		tdRunView.appendChild(createRunForm(component.path, component.name));
+		if(component.type!='document')
+			tdRunView.appendChild(createRunForm(component.path, component.name));
 
 		tr.appendChild(tdCount);
 		tr.appendChild(tdProjectName);
