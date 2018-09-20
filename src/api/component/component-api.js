@@ -44,24 +44,23 @@ module.exports.showContent = function(app) {
 					"<body >"
 		
 			);
-/* 			var lineReader = require('readline').createInterface({
-						input : require('fs').createReadStream(fields.contentPath)
-			});
-			lineReader.on('line', function (line) {
-				res.write("<pre class='language-java'><code>"+Prism.highlight(line, Prism.languages.java, 'java')+"</code></pre>", function(err){
-					res.end();
-				});
-			});	 */
-			fs.readFile(fields.contentPath, {encoding: 'utf-8'}, function(error,data) {
-				if(error) {
-				   res.writeHead(404);
-				   res.write('-Component Not Loaded.');
-				}else {
-					res.write("<pre class='language-java'><code>"+Prism.highlight(data, Prism.languages.java, 'java')+"</code></pre>", function(err){
+			if(fields.type=="file"){
+					res.write("<embed src='"+fields.componentPath+"'/>", function(err){
 						res.end();
 					});
-				}
-			});			
+			}else{
+				fs.readFile(fields.contentPath, {encoding: 'utf-8'}, function(error,data) {
+					if(error) {
+					   res.writeHead(404);
+					   res.write('-Component Not Loaded.');
+					}else {
+						res.write("<pre class='language-java'><code>"+Prism.highlight(data, Prism.languages.java, 'java')+"</code></pre>", function(err){
+							res.end();
+						});
+					}
+				});	
+			}
+					
 		}); 
 		
 });
@@ -122,14 +121,15 @@ module.exports.runContent = function(app) {
 	app.get("/getJSON", function(req,res){
 	     res.writeHead(200, {'Content-Type': 'application/json'});
 		 res.end(fs.readFileSync(paths.projectsRepoPATH+componentPath+".json"));
+		 fs.unlink(paths.projectsRepoPATH+componentPath+".json", function(err){
+			 if(err){
+				 console.log(err);
+			 }
+		 });
 	});
 
 	
 	app.get("/initComponent/run",function(req,res){
-		console.log(req.query.ctype);
-		console.log(req.query.mname);
-		console.log(req.query.mtype);
-		
 		exec("java -jar "+paths.externalToolsPATH+"ClassExecutor.jar -binpath "+projectPath+"bin/ -sourcefile "+componentPath.replace("-",".")+" -cargtype "+req.query.ctype+" -mname "+req.query.mname+" -margtype "+req.query.mtype ,
 		 function(err,stdout, stderr){
 			if(err){
