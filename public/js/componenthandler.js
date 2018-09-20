@@ -110,7 +110,7 @@ $(document).ready(function(){
 		url= url.concat(m_url+"]");
 		console.log(url);
 		$.get("initComponent/run?"+url, function(data){
-			alert(data);
+			window.alert(data);
 		});
 	});
 
