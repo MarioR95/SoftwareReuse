@@ -7,6 +7,8 @@ var loadLanguages = require('prismjs/components/');
 loadLanguages(['java']);
 var exec = require('child_process').exec;
 
+var projectPath;
+
 
 module.exports.upload = function(app) {
 	app.post("/upload", function(req, res) {
@@ -73,6 +75,7 @@ module.exports.runContent = function(app) {
 	app.post("/initComponent", function(req, res) {
 		var form = formidable.IncomingForm();
 		form.parse(req, function(err, fields) {
+			projectPath= fields.projectPath;
 			var tmp= fields.contentPath.split(".java")[0].split("src");
 			componentPath= tmp[tmp.length-1].split("/").join("-").substr(1);
 			console.log(componentPath);
@@ -123,13 +126,22 @@ module.exports.runContent = function(app) {
 
 	
 	app.get("/initComponent/run",function(req,res){
-		var form= formidable.IncomingForm();
-		form.parse(req, function(err,fields){
-			var url;
-			
-			
-		});
-	
+		console.log(req.query.ctype);
+		console.log(req.query.mname);
+		console.log(req.query.mtype);
+		
+		exec("java -jar "+paths.externalToolsPATH+"ClassExecutor.jar -binpath "+projectPath+"bin/ -sourcefile "+componentPath.replace("-",".")+" -cargtype "+req.query.ctype+" -mname "+req.query.mname+" -margtype "+req.query.mtype ,
+		 function(err,stdout, stderr){
+			if(err){
+				console.log(err);
+			}
+			res.writeHead(200, {'Content-Type': 'plain/text'});
+
+			if(stderr != undefined){
+				res.end(stdout);
+			}
+			res.end(stdout);
+		 }); 
 	});
 };
 

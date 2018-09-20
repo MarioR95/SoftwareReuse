@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var url,tmp_url;
+	var url,c_url, m_url;
 
 	$.getJSON( '/getJSON', function( data ) {
 
@@ -81,37 +81,37 @@ $(document).ready(function(){
 	}
 	
 	$(document).on('change', 'input:radio[name="constructor"]', function() {
-		url="ctype=[";
+		c_url="ctype=[";
 		var index= $(this).val();
 		$(document).on('change', 'input:text[class=cvalue'+index+']', function(){
 			var name= $(this).attr('name');
 			var id = name.slice(1,name.length);
-			url= url.concat($("#ctype"+id).text()+" "+$(this).val()+",")	
+			c_url= c_url.concat($("#ctype"+id).text()+"_"+$(this).val()+",")	
 		});
 		
 	});
 
 	
 	$(document).on('change', 'input:radio[name="method"]', function() {
-		tmp_url= "";
+		url=c_url;
 		var name= $(this).val();
-		tmp_url= tmp_url.concat("]&mname="+name+"&mtype=[");
+		m_url= "]&mname="+name+"&mtype=[";
 		var id= $(this).attr("id");
 		var index= id.substr(id.length-1);	
 		$(document).on('change', 'input:text[class=mvalue'+index+']', function(){
 			var name= $(this).attr('name');
 			var id = name.slice(1,name.length);
-			tmp_url= tmp_url.concat($("#mtype"+id).text()+" "+$(this).val()+",")		
-		});
-		
+			m_url= m_url.concat($("#mtype"+id).text()+"_"+$(this).val()+",")		
+		});		
 	});
 
 
 	$("#run-btn").click(function(){
-		url= url.concat(tmp_url+"]");
-		$('#msform').attr('action', 'initComponent/run?'+url);
-		return true;
-	})
-
+		url= url.concat(m_url+"]");
+		console.log(url);
+		$.get("initComponent/run?"+url, function(data){
+			alert(data);
+		});
+	});
 
 });

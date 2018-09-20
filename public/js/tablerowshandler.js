@@ -151,8 +151,11 @@ var technology = getUrlParameter('technology');
 
 	function extractProjectPath(componentPath, projectName) {
 	
-		var projectPath= componentPath.split("/src/");			
-		return projectPath[0]+"/src/"+projectPath[1]+"/";		
+		var projectPath= componentPath.split("/src/");		
+		if(projectPath.length == 3)	
+			return projectPath[0]+"/src/"+projectPath[1]+"/";		
+		else
+			return projectPath[0]+"/";
 	}
 
 

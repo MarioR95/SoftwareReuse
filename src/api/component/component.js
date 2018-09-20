@@ -101,7 +101,6 @@ function checkAndSave(fields, response){
     if (fields.doc != undefined) {
 
 	   //search any file for documentation on project
-       console.log("PATH"+newPath);
        find.file(/([a-zA-Z0-9\s_\\.\-\(\):])+(.doc|.docx|.pdf|.html|.htm|.odt|.xls|.xlsx|.ods|.ppt|.pptx|.txt)$/i ,newPath, function(documents) {
            
             type='document';
