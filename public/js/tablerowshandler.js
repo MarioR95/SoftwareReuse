@@ -191,6 +191,7 @@ var technology = getUrlParameter('technology');
 			inputSubmit.setAttribute('class','btn btn-success');
 			inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
 			
+			
 			form.appendChild(inputSubmit);
 
 		}
