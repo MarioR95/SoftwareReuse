@@ -19,7 +19,7 @@ var technology = getUrlParameter('technology');
 
 
 				console.log(solrServerURL+"content:"+content);
-				$.get(solrServerURL+"content:"+content, 
+				$.get(solrServerURL+"content:"+content+"&rows=100000", 
 					function(data){
 						var numFound = data.response.numFound;
 						if(numFound > 0){
@@ -98,7 +98,7 @@ var technology = getUrlParameter('technology');
 
 		console.log(solrServerURL+paramName+":"+paramValue);
 
-		$.get(solrServerURL+paramName+":"+paramValue, 
+		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
 		
 			function(data){
 				var numFound = data.response.numFound;
@@ -133,12 +133,13 @@ var technology = getUrlParameter('technology');
 		tdCount.innerHTML = position;
 		tdProjectName.innerHTML = component.name; // This is the project name
 		tdComponentName.innerHTML = componentName;
-		tdComponentType.innerHTML = '<input type="text" name="type" value="'+component.type+'"style="border:none" readonly>';
+		tdComponentType.innerHTML = component.type;
 		tdDescripton.innerHTML = component.description;
 		
 		tdRunView.appendChild(createViewForm(component.path));
+		
 		if(component.type!='document')
-			tdRunView.appendChild(createRunForm(component.path, component.name));
+			tdRunView.appendChild(createRunForm(component.path, component.name, component.type));
 
 		tr.appendChild(tdCount);
 		tr.appendChild(tdProjectName);
@@ -196,7 +197,7 @@ var technology = getUrlParameter('technology');
 
 	}
 
-	function createRunForm(componentPath, projectName){
+	function createRunForm(componentPath, projectName, componentType){
 		/*<form action="initComponent" method="post" enctype="multipart/form-data">
 			<input type="hidden"
 				value="/home/mario/Desktop/eclipse-workspace/SoftwareReuse/repository/JavaExample/src/punto_01/Moneta.java"
@@ -215,6 +216,11 @@ var technology = getUrlParameter('technology');
 		form.setAttribute('enctype','multipart/form-data');
 
 
+		var inputComponentType= document.createElement("input");
+		inputComponentType.setAttribute('type','hidden');
+		inputComponentType.setAttribute('value', componentType);
+		inputComponentType.setAttribute('name','type');
+		
 		var inputComponentPath = document.createElement("input");
 		inputComponentPath.setAttribute('type','hidden');
 		inputComponentPath.setAttribute('value', componentPath);
@@ -230,7 +236,8 @@ var technology = getUrlParameter('technology');
 		inputSubmit.setAttribute('value','RUN');
 		inputSubmit.setAttribute('class','btn btn-success');
 		inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
-
+		
+		form.appendChild(inputComponentType);
 		form.appendChild(inputComponentPath);
 		form.appendChild(inputProjectPath);
 		form.appendChild(inputSubmit);
