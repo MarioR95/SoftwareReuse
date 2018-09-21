@@ -96,7 +96,6 @@ var technology = getUrlParameter('technology');
 
 		paramValue=paramValue.replace(/[+]/gm, ",");
 
-		console.log(solrServerURL+paramName+":"+paramValue);
 
 		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
 		
