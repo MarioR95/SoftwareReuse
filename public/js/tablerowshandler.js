@@ -147,7 +147,7 @@ var technology = getUrlParameter('technology');
 	
 			var downloadAnchor = document.createElement('a');
 			downloadAnchor.setAttribute('href',repoComponentPath);
-			downloadAnchor.setAttribute('download','true');
+			downloadAnchor.setAttribute('download','');
 			downloadAnchor.setAttribute('class', 'lfloat');
 
 			downloadAnchor.appendChild(inputSubmit);
