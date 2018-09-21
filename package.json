@@ -1,11 +1,31 @@
 {
-  "name": "swreuse",
+  "name": "softwarereuse",
   "version": "1.0.0",
   "description": "This project was made for thesis research",
   "main": "index.js",
-  "directories": {
-    "example": "examples"
+  "dependencies": {
+    "backbone": "^1.3.3",
+    "child_process": "^1.0.2",
+    "express": "^4.16.3",
+    "find": "^0.2.9",
+    "formidable": "^1.2.1",
+    "fs": "^0.0.1-security",
+    "gson": "^0.1.5",
+    "internal-ip": "^3.0.1",
+    "is-zip-file": "^1.0.2",
+    "jquery": "^3.3.1",
+    "marionette": "0.0.0",
+    "neo4j-driver": "^1.6.3",
+    "npm-install-all": "^1.1.21",
+    "os": "^0.1.1",
+    "prismjs": "^1.15.0",
+    "qonsole": "^1.0.9",
+    "readline": "^1.3.0",
+    "sprintf": "^0.1.5",
+    "underscore": "^1.9.1",
+    "util": "^0.11.0"
   },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,26 +38,5 @@
   "bugs": {
     "url": "https://github.com/MarioR95/SoftwareReuse/issues"
   },
-  "homepage": "https://github.com/MarioR95/SoftwareReuse#readme",
-  "dependencies": {
-    "backbone": "^1.3.3",
-    "child_process": "^1.0.2",
-    "express": "^4.16.3",
-    "find": "^0.2.9",
-    "formidable": "^1.2.1",
-    "fs": "0.0.1-security",
-    "gson": "^0.1.5",
-    "internal-ip": "^3.0.1",
-    "jquery": "^3.3.1",
-    "marionette": "0.0.0",
-    "neo4j-driver": "^1.6.3",
-    "npm-install-all": "^1.1.21",
-    "os": "^0.1.1",
-    "prismjs": "^1.15.0",
-    "qonsole": "^1.0.9",
-    "readline": "^1.3.0",
-    "sprintf": "^0.1.5",
-    "underscore": "^1.9.1",
-    "util": "^0.11.0"
-  }
+  "homepage": "https://github.com/MarioR95/SoftwareReuse#readme"
 }
