@@ -136,21 +136,22 @@ var technology = getUrlParameter('technology');
 		var repoComponentPath='repository'+component.path.split('repository')[1];
 
 
-		var inputSubmit = document.createElement("input");
-		inputSubmit.setAttribute('type','submit');
-		inputSubmit.setAttribute('value','DOWNLOAD');
-		inputSubmit.setAttribute('class','btn btn-success');
-		inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
-
-		var downloadAnchor = document.createElement('a');
-		downloadAnchor.setAttribute('href',repoComponentPath);
-		downloadAnchor.setAttribute('download','true');
-		downloadAnchor.appendChild(inputSubmit);
-		
-		
 		tdAction.appendChild(createViewForm(component.path, component.type));
 		
 		if(component.type!='document'){
+			var inputSubmit = document.createElement("button");
+			inputSubmit.setAttribute('type','submit');
+			inputSubmit.setAttribute('class','btn btn-success');
+			//inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+			inputSubmit.innerHTML='<span class="glyphicon glyphicon-download"></span>';
+	
+			var downloadAnchor = document.createElement('a');
+			downloadAnchor.setAttribute('href',repoComponentPath);
+			downloadAnchor.setAttribute('download','true');
+			downloadAnchor.setAttribute('class', 'lfloat');
+
+			downloadAnchor.appendChild(inputSubmit);
+
 			tdAction.appendChild(downloadAnchor);
 			tdAction.appendChild(createRunForm(component.path, component.name, component.type));
 		}
@@ -192,39 +193,34 @@ var technology = getUrlParameter('technology');
 		
 		var form;
 
+		var inputSubmit = document.createElement("button");
+		inputSubmit.setAttribute('type','submit');
+		inputSubmit.setAttribute('class','btn btn-success');
+		//inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+		inputSubmit.innerHTML='<span class="glyphicon glyphicon-eye-open"></span>';
+
+
 		if(componentType == 'document'){
 			var repoComponentPath='repository'+componentPath.split('repository')[1];
 
-
 			form = document.createElement('a');
 			form.setAttribute('href',repoComponentPath);
-
-			var inputSubmit = document.createElement("input");
-			inputSubmit.setAttribute('type','submit');
-			inputSubmit.setAttribute('value','VIEW');
-			inputSubmit.setAttribute('class','btn btn-success');
-			inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
-			
-			
+			form.setAttribute('class', 'lfloat');
 			form.appendChild(inputSubmit);
-
 		}
 		else{
 			form = document.createElement("form");
 			form.setAttribute('action','show');
 			form.setAttribute('method','post');
+			form.setAttribute('class', 'lfloat');
 			form.setAttribute('enctype','multipart/form-data');
+
 			
 			var inputPath = document.createElement("input");
 			inputPath.setAttribute('type','hidden');
 			inputPath.setAttribute('value', componentPath);
 			inputPath.setAttribute('name','contentPath');
 
-			var inputSubmit = document.createElement("input");
-			inputSubmit.setAttribute('type','submit');
-			inputSubmit.setAttribute('value','VIEW');
-			inputSubmit.setAttribute('class','btn btn-success');
-			inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
 
 			form.appendChild(inputSubmit);
 			form.appendChild(inputPath);
@@ -253,6 +249,7 @@ var technology = getUrlParameter('technology');
 		form.setAttribute('action','initComponent');
 		form.setAttribute('method','post');
 		form.setAttribute('enctype','multipart/form-data');
+		form.setAttribute('class', 'lfloat');
 
 
 		var inputComponentType= document.createElement("input");
@@ -270,12 +267,15 @@ var technology = getUrlParameter('technology');
 		inputProjectPath.setAttribute('value', extractProjectPath(componentPath, projectName));
 		inputProjectPath.setAttribute('name','projectPath');
 
-		var inputSubmit = document.createElement("input");
+		var inputSubmit = document.createElement("button");
 		inputSubmit.setAttribute('type','submit');
-		inputSubmit.setAttribute('value','RUN');
 		inputSubmit.setAttribute('class','btn btn-success');
-		inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
 		
+		//inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+		inputSubmit.innerHTML='<span class="glyphicon glyphicon-play"></span>';
+		
+
+
 		form.appendChild(inputComponentType);
 		form.appendChild(inputComponentPath);
 		form.appendChild(inputProjectPath);

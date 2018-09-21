@@ -22,4 +22,7 @@
 .filterable .filters input[disabled]:-ms-input-placeholder {
     color: #333;
 }
-
+.lfloat {
+    float: left;
+    margin-left: 5px;
+}
