@@ -431,7 +431,7 @@
   <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
   <field name="_version_" type="plong" indexed="false" stored="false"/>
   <field name="author" type="text_ws" indexed="true" required="true" stored="true"/>
-  <field name="content" type="text_general" indexed="true" required="true" stored="true"/>
+  <field name="content" type="text_general" indexed="true" required="true" stored="false"/>
   <field name="content.data" type="plongs"/>
   <field name="content.type" type="text_general"/>
   <field name="description" type="text_general" indexed="false" required="true" stored="true"/>

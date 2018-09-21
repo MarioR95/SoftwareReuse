@@ -13,6 +13,7 @@ var GSON= require('gson');
 var find = require('find');
 
 
+
 module.exports.loadComponent = function (response,fields, files) {
 
     var currentPath = files.filetoupload.path;
@@ -136,6 +137,7 @@ function createandPostJsonDocuments(paths, formFields, type){
     }
 
 
+    
     for(var i=0; i < paths.length; i++){
 
         document = new Object();
@@ -155,8 +157,10 @@ function createandPostJsonDocuments(paths, formFields, type){
 
         //Read file from path to fill content attribute of json object
         var documentContent = fs.readFileSync(paths[i], 'utf8');
+
         document.content = documentContent;
         documents.unshift(document);
+        
     }
 
     var jsonContent = JSON.stringify(documents);

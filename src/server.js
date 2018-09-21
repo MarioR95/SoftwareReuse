@@ -11,6 +11,9 @@ var serverLocalIP;
 
 //To handle static file from public directory
 app.use(express.static("../public"));
+app.use(express.static("../"));
+
+
 
 
 server = app.listen(8080, function(){
