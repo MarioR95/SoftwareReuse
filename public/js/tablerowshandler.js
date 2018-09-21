@@ -57,8 +57,6 @@ var technology = getUrlParameter('technology');
 		}
 	};	
 
-	
-
 
 	function executeQuery(){
 
@@ -125,8 +123,7 @@ var technology = getUrlParameter('technology');
 		var tdComponentName = document.createElement("td");
 		var tdComponentType = document.createElement("td");
 		var tdDescripton = document.createElement("td");
-		var tdRunView = document.createElement("td");
-
+		var tdAction = document.createElement("td");
 
 
 		tdCount.innerHTML = position;
@@ -135,17 +132,35 @@ var technology = getUrlParameter('technology');
 		tdComponentType.innerHTML = component.type;
 		tdDescripton.innerHTML = component.description;
 		
-		tdRunView.appendChild(createViewForm(component.path, component.type));
+
+		var repoComponentPath='repository'+component.path.split('repository')[1];
+
+
+		var inputSubmit = document.createElement("input");
+		inputSubmit.setAttribute('type','submit');
+		inputSubmit.setAttribute('value','DOWNLOAD');
+		inputSubmit.setAttribute('class','btn btn-success');
+		inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
+
+		var downloadAnchor = document.createElement('a');
+		downloadAnchor.setAttribute('href',repoComponentPath);
+		downloadAnchor.setAttribute('download','true');
+		downloadAnchor.appendChild(inputSubmit);
 		
-		if(component.type!='document')
-			tdRunView.appendChild(createRunForm(component.path, component.name, component.type));
+		
+		tdAction.appendChild(createViewForm(component.path, component.type));
+		
+		if(component.type!='document'){
+			tdAction.appendChild(downloadAnchor);
+			tdAction.appendChild(createRunForm(component.path, component.name, component.type));
+		}
 
 		tr.appendChild(tdCount);
 		tr.appendChild(tdProjectName);
 		tr.appendChild(tdComponentName);
 		tr.appendChild(tdComponentType);
 		tr.appendChild(tdDescripton);
-		tr.appendChild(tdRunView);
+		tr.appendChild(tdAction);
 		$("#results-table").append(tr);
 	}
 
