@@ -11,7 +11,8 @@ var serverLocalIP;
 
 //To handle static file from public directory
 app.use(express.static("../public"));
-app.use(express.static("../repository"));
+app.use(express.static("../"));
+
 
 
 
