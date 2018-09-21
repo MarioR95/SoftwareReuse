@@ -25,7 +25,7 @@ $(document).ready(function(){
 				for(att_index in data.constructor[""+c_index]['attribute-type']){
 					$('#c'+c_index).append(
 						"<span id='ctype"+c_index+att_index+"'>"+data.constructor[""+c_index]['attribute-type'][att_index]+"</span>"+
-						"<input class='cvalue"+c_index+"' type='text' name='c"+c_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...' readonly='readonly'/>"
+						"<input class='cvalue"+c_index+"' type='text' name='c"+c_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...' readonly='readonly' />"
 					);	
 				}
 				$("#c"+c_index).append("<span> )</span>");
@@ -55,7 +55,7 @@ $(document).ready(function(){
 				for(att_index in data.method[""+m_index]['attribute-type']){
 					$('#m'+m_index).append(
 						"<span id='mtype"+m_index+att_index+"'>"+data.method[""+m_index]['attribute-type'][att_index]+"</span>"+
-						"<input class='mvalue"+m_index+"' type='text' name= 'm"+m_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...' readonly='readonly'/>"
+						"<input class='mvalue"+m_index+"' type='text' name= 'm"+m_index+att_index+"' style='width:10%; padding:0 1%; margin:1%' placeholder='value...' readonly='readonly' />"
 					);	
 				}
 				$("#m"+m_index).append("<span> )</span>");
