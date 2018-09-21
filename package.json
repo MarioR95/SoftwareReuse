@@ -16,7 +16,7 @@
     "internal-ip": "^3.0.1",
     "is-zip-file": "^1.0.2",
     "jquery": "^3.3.1",
-    "marionette": "^0.0.0",
+    "marionette": "0.0.0",
     "neo4j-driver": "^1.6.3",
     "npm-install-all": "^1.1.21",
     "os": "^0.1.1",
