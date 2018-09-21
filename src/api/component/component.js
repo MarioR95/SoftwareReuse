@@ -11,50 +11,68 @@ var componentOperation = require('./component-operation');
 var GSON= require('gson');
 //for find file on directory
 var find = require('find');
+//check zip file
+var ZIP_FILE = require('is-zip-file');
 
 
 
 module.exports.loadComponent = function (response,fields, files) {
-
-    var currentPath = files.filetoupload.path;
-    if(currentPath != undefined) {
-        newPath =  paths.projectsRepoPATH+files.filetoupload.name;
-        fs.copyFile(currentPath, newPath, function (err) {
-        if (err)
-            errorPage("Component not saved into repository",response);
-        });
-        var source = newPath;
-        var target = paths.projectsRepoPATH;
-        unZip(source,target,fields,files,response);
-    }else 
-        errorPage("-File format is not valid!",response);  
+    if(files.filetoupload != undefined) {
+        var currentPath = files.filetoupload.path;
+        if(currentPath != undefined) {
+            newPath =  paths.projectsRepoPATH+files.filetoupload.name;
+            fs.copyFile(currentPath, newPath, function (err) {
+                if (err)
+                    errorPage("Component not saved into repository",response);
+                else {
+                    ZIP_FILE.isZip(newPath, function(err, isZip) {
+                        if(err) {
+                            console.log('Error while checking if file is zip : ' + err);
+                            errorPage('Error while checking if file is zip : ',response );
+                        }else {
+                            console.log('Given file is zip : ' + isZip);
+                            if(isZip) {
+                                var source = newPath;
+                                var target = paths.projectsRepoPATH;
+                                unZip(source,target,fields,files,response);
+                            }else {
+                                errorPage("Upload a '.zip' file",response);
+                            }
+                        }
+                    });
+                }    
+            });
+        }else 
+            errorPage("-Path File is not valid!",response); 
+    }else {
+        errorPage("-File format is not valid!",response); 
+    }
+    
 }
 
 function unZip(source,target,fields,files,response) {
-
+    
     exec('java -jar ' + paths.externalToolsPATH + 'Extractor.jar '+source+' ' +target,
-    function(error, stdout, stderr) {
-        if (error) {
-            errorPage(""+error,response);
-        }else {
-            console.log("-File unzipped correctly");
-            //PARSE FILE INTO FOLDER 
-            if(fields.java != undefined){
-                
-                //console.log("SOURCE: "+source.split('.').slice(0, -1).join('.'));
-                //console.log(""+fs.existsSync(source.split('.').slice(0, -1).join('.')));
-                if (fs.existsSync(source.split('.').slice(0, -1).join('.'))) {
-                    parseJavaComponent(response,files,fields);
-                    console.log("-Component parsed correctly");    
-                }else {
-                    errorPage("Directory unzipped not exist",response);
-                }
-            }else 
-                console.log("Language not supported"); 
-        } 
+        function(error, stdout, stderr) {
+            if (error) {
+                errorPage(""+error,response);
+            }else {
+                console.log("-File unzipped correctly");
+                //PARSE FILE INTO FOLDER 
+                if(fields.java != undefined){
+                    
+                    //console.log("SOURCE: "+source.split('.').slice(0, -1).join('.'));
+                    //console.log(""+fs.existsSync(source.split('.').slice(0, -1).join('.')));
+                    if (fs.existsSync(source.split('.').slice(0, -1).join('.'))) {
+                        parseJavaComponent(response,files,fields);
+                        console.log("-Component parsed correctly");    
+                    }else {
+                        errorPage("Directory unzipped not exist",response);
+                    }
+                }else 
+                    console.log("Language not supported"); 
+            } 
     });
-    
-    
 }
 function parseJavaComponent(response,files,fields) {
     //remove extention path
@@ -63,8 +81,6 @@ function parseJavaComponent(response,files,fields) {
     checkAndSave(fields,response);
     componentOperation.endOperations(response);
 }
-
-
 function checkAndSave(fields, response){
     var cls=[], dependencies=[];
     var contents;
@@ -117,12 +133,11 @@ function checkAndSave(fields, response){
         });
     }
 }
+
 function errorPage(mess,response) {
     response.writeHead(500, {'Content-Type': 'text/plain'});
     response.end(mess);
 }
-
-
 
 function createandPostJsonDocuments(paths, formFields, type){
     var documents = [];
@@ -174,7 +189,6 @@ function createandPostJsonDocuments(paths, formFields, type){
         }
     });
 }
-
 
 function postDocumentsOnSolr(fileName) {
     execSync(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/'+fileName, function(err,stdout,stderr) {
