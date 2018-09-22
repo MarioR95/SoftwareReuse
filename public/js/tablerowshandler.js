@@ -7,9 +7,9 @@ var author = getUrlParameter('author');
 var domain = getUrlParameter('domain');
 var technology = getUrlParameter('technology');
 
-	$(document).ready(function(){	
+$(document).ready(function(){	
 
-		$.get('/getLocalIP', function(data){
+	$.get('/getLocalIP', function(data){
 			serverLocalIP = data;
 			solrServerURL = "http://"+serverLocalIP+":8983/solr/componentscore/select?q=";
 
@@ -35,10 +35,10 @@ var technology = getUrlParameter('technology');
 				//Query based on parameters values passed in URL
 				executeQuery();
 			}
-		
-			}
-		);	
-	});
+	
+		}
+	);	
+});
 
 				
 	
@@ -96,17 +96,24 @@ var technology = getUrlParameter('technology');
 
 
 		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
-		
+
 			function(data){
-				var numFound = data.response.numFound;
+				var fusekiResult;
+				
+				$.get('/getFusekiResult', function(dataFuseki){
+					fusekiResult = dataFuseki;
 
-				if(numFound > 0){
-					var components = data.response.docs;
+					var numFound = data.response.numFound;
 
-					for (i=0; i < components.length; i++){							
-						generateTableEntry(components[i], i+1);
+					if(numFound > 0){
+						var components = data.response.docs;
+						for (i=0; i < components.length; i++){	
+							if(components[i].name == fusekiResult)						
+								generateTableEntry(components[i], i+1);
+						}
 					}
-				}
+
+				});
 			}
 		);		
 	}
