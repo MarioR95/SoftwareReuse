@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Solr managed schema - automatically generated - DO NOT EDIT -->
 <schema name="default-config" version="1.6">
-  <uniqueKey>path</uniqueKey>
+
   <fieldType name="ancestor_path" class="solr.TextField">
     <analyzer type="index">
       <tokenizer class="solr.KeywordTokenizerFactory"/>
@@ -445,6 +445,8 @@
   <field name="type" type="string" indexed="false" required="true" stored="true"/>
   <field name="uri" type="string" indexed="false" required="true" stored="true"/>
   <field name="version" type="string" indexed="true" required="true" stored="true"/>
+  <uniqueKey>path</uniqueKey>
+
   <dynamicField name="*_txt_en_split_tight" type="text_en_splitting_tight" indexed="true" stored="true"/>
   <dynamicField name="*_descendent_path" type="descendent_path" indexed="true" stored="true"/>
   <dynamicField name="*_ancestor_path" type="ancestor_path" indexed="true" stored="true"/>

@@ -1,10 +1,12 @@
 $(document).ready(function(){
+
     $('.filterable .btn-filter').click(function(){
         var $panel = $(this).parents('.filterable'),
         $filters = $panel.find('.filters input'),
         $tbody = $panel.find('.table tbody');
         if ($filters.prop('disabled') == true) {
             $filters.prop('disabled', false);
+            $('#action').prop('disabled', true);
             $filters.first().focus();
         } else {
             $filters.val('').prop('disabled', true);
