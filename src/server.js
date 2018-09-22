@@ -5,15 +5,18 @@ var app= express();
 var exec = require('child_process').exec, child;
 var componentAPI = require('./api/component/component-api');
 const internalIp = require('internal-ip');
+var url = require('url');
+var GSON= require('gson');
+
 
 var server;
 var serverLocalIP;
+var fusekiResult; //This variable contains Fuseki query response for ontology
+
 
 //To handle static file from public directory
 app.use(express.static("../public"));
 app.use(express.static("../"));
-
-
 
 
 server = app.listen(8080, function(){
@@ -41,9 +44,14 @@ app.get("/", function(req, res) {
       } 
 );
 
+app.get("/getFusekiResult", function(req,res){
+  res.end(fusekiResult);
+});
+
 app.get("/getLocalIP", function(req,res){
   res.end(serverLocalIP);
 });
+
 
 //UPLOAD COMPONENT
 componentAPI.upload(app);
@@ -56,8 +64,21 @@ app.get("/insert",function(req, res){
 //SEARCH AND RUN MODULE
 app.get("/results", function(req,res){
 	componentAPI.showContent(app);
-	componentAPI.runContent(app);
-	loadPage(res, '../public/view/search.html');	
+  componentAPI.runContent(app);
+  
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+
+  if(query['content'] != undefined){
+    loadPage(res, '../public/view/search.html');	
+  }
+  else{
+    for(attribute in query){
+      if(query[attribute] != '' && query[attribute] != undefined)
+        runFusekiQuery(res, attribute, query[attribute]);
+    }
+  }
+  
 });
 
 
@@ -139,5 +160,45 @@ function createFolders(){
   }
 
 
+}
+
+function runFusekiQuery(res, paramName, paramValue){
+
+  paramName = capitalizeFirstLetter(paramName);
+
+  var queryEntryPoint = "http://localhost:3030/OntRepository/query -X POST --data 'query=";
+  var prefixes =  ' PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>'+
+                  ' PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>'+
+                  ' PREFIX pref: <http://www.semanticweb.org/domenico/ontologies/2018/8/ont#>'+
+                  ' PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>'+
+                  ' PREFIX owl: <http://www.w3.org/2002/07/owl#> ';
+  var query = 'SELECT ?name '+
+              'WHERE {'+
+                    '?subject pref:'+paramName+ ' "'+paramValue +'". ' +
+                    '?subject pref:Name ?name' +
+              '}';
+  var applicationType = "-H 'Accept: application/sparql-results+json,*/*;q=0.9'"
+
+  exec('curl '+queryEntryPoint+prefixes+query+"' "+applicationType, function(err, stdout, stderr){
+    if(err)  
+      console.log(err);
+    else{
+      var jsonFusekiResponse = stdout;
+      
+      var queryobject = GSON.parse(jsonFusekiResponse);
+     
+      if(queryobject.results.bindings.length > 0)
+        fusekiResult = queryobject.results.bindings[0].name.value;
+      else
+        fusekiResult = '';
+
+    }
+    loadPage(res, '../public/view/search.html');	
+  });
+
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
