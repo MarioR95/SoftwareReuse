@@ -96,7 +96,6 @@ $(document).ready(function(){
 
 
 		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
-
 			function(data){
 				var fusekiResult;
 				
@@ -108,11 +107,10 @@ $(document).ready(function(){
 					if(numFound > 0){
 						var components = data.response.docs;
 						for (i=0; i < components.length; i++){	
-							if(components[i].name == fusekiResult)						
+							if(fusekiResult=='' || components[i].name == fusekiResult)						
 								generateTableEntry(components[i], i+1);
 						}
 					}
-
 				});
 			}
 		);		
