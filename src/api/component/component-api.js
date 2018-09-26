@@ -69,55 +69,36 @@ module.exports.showContent = function(app) {
 
 module.exports.runContent = function(app) {
 
-	var componentPath;
+	var componentPath;	
 
+	//HANDLE SOURCE CODE FILE
 	app.post("/initComponent", function(req, res) {
 		var form = formidable.IncomingForm();
 		form.parse(req, function(err, fields) {
 			projectPath= fields.projectPath;
 			var tmp= fields.contentPath.split(".java")[0].split("src");
 			componentPath= tmp[tmp.length-1].split("/").join("-").substr(1);
-			console.log(componentPath);
-			if (!fs.existsSync(paths.projectsRepoPATH+componentPath+".json")) {
-				exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
+			exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
 				function(error, stdout, stderr) {
 					if (error) {
 						console.log("-File not visited. ERROR during the inspection");
-						console.log(error)
-						fs.readFile(paths.rootPATH+'index.html',null,function(error,data) {
-							if(error) {
-							   res.writeHead(404);
-							   res.write('-Page not found');
-							}else {
-								 res.end(data);
-							}
-						});
+						console.log(error);
 					} else {
 						console.log("-File visited correctly");
 						fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
 							if(error) {
-							   res.writeHead(404);
-							   res.write('-Page not found');
+							   	res.writeHead(404);
+							  	res.write('-Page not found');
 							}else {
-								 res.end(data);
+								res.end(data);
 							}
 						});
 					}
-				});
-			}else{
-				fs.readFile(paths.rootPATH+'public/view/run.html',null,function(error,data) {
-					if(error) {
-					   res.writeHead(404);
-					   res.write('-Page not found');
-					}else {
-						 res.end(data);
-					}
-				});
-			} 
-		
+			});
 		});
 	});
 	
+	//READ JSON FILE FROM FILE SYSTEM 
 	app.get("/getJSON", function(req,res){
 	     res.writeHead(200, {'Content-Type': 'application/json'});
 		 res.end(fs.readFileSync(paths.projectsRepoPATH+componentPath+".json"));
@@ -128,7 +109,7 @@ module.exports.runContent = function(app) {
 		 });
 	});
 
-	
+	//RUN THE SOURCE FILE COMPONENT
 	app.get("/initComponent/run",function(req,res){
 		exec("java -jar "+paths.externalToolsPATH+"ClassExecutor.jar -binpath "+projectPath+"bin/ -sourcefile "+componentPath.replace("-",".")+" -cargtype "+req.query.ctype+" -mname "+req.query.mname+" -margtype "+req.query.mtype ,
 		 function(err,stdout, stderr){
@@ -143,6 +124,15 @@ module.exports.runContent = function(app) {
 			res.end(stdout);
 		 }); 
 	});
+
+
+	//HANDLE TEST FILE
+	app.post("/runTest", function(req,res){
+		var form = formidable.IncomingForm();
+		form.parse(req, function(err, fields) {
+			//TODOO 
+		});
+	})
 };
 
 

@@ -251,7 +251,11 @@ $(document).ready(function(){
 		*/
 
 		var form = document.createElement("form");
-		form.setAttribute('action','initComponent');
+		if(componentType == "sourceCode"){
+			form.setAttribute('action','initComponent');
+		}else if(componentType == "test"){
+			form.setAttribute('action', 'runTest');
+		}
 		form.setAttribute('method','post');
 		form.setAttribute('enctype','multipart/form-data');
 		form.setAttribute('class', 'lfloat');

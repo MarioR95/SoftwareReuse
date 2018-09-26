@@ -111,8 +111,11 @@ $(document).ready(function(){
 	$("#run-btn").click(function(){
 		url= url.concat(m_url+"]");
 		$.get("initComponent/run?"+url, function(data){
-			window.alert(data);
+			$(".modal-body").text(data);
 		});
 	});
 
+	$("#close-result-btn").click(function(){
+		$(".modal-body").text("");
+	});
 });
