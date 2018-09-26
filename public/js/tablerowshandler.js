@@ -38,6 +38,8 @@ $(document).ready(function(){
 	
 		}
 	);	
+
+
 });
 
 				
@@ -113,7 +115,7 @@ $(document).ready(function(){
 					}
 				});
 			}
-		);		
+		);	
 	}
 
 
@@ -250,12 +252,8 @@ $(document).ready(function(){
 		</form>
 		*/
 
-		var form = document.createElement("form");
-		if(componentType == "sourceCode"){
-			form.setAttribute('action','initComponent');
-		}else if(componentType == "test"){
-			form.setAttribute('action', 'runTest');
-		}
+		var form = document.createElement("form");	
+		form.setAttribute('action','initComponent?type='+componentType);
 		form.setAttribute('method','post');
 		form.setAttribute('enctype','multipart/form-data');
 		form.setAttribute('class', 'lfloat');
@@ -276,15 +274,12 @@ $(document).ready(function(){
 		inputProjectPath.setAttribute('value', extractProjectPath(componentPath, projectName));
 		inputProjectPath.setAttribute('name','projectPath');
 
-		var inputSubmit = document.createElement("button");
+		var inputSubmit= document.createElement("button");
 		inputSubmit.setAttribute('type','submit');
 		inputSubmit.setAttribute('class','btn btn-success');
-		
 		//inputSubmit.setAttribute('style','padding: 2% 4%;margin: 1%;');
 		inputSubmit.innerHTML='<span class="glyphicon glyphicon-play"></span>';
-		
-
-
+	
 		form.appendChild(inputComponentType);
 		form.appendChild(inputComponentPath);
 		form.appendChild(inputProjectPath);
@@ -293,3 +288,5 @@ $(document).ready(function(){
 		return form;
 
 	}
+
+

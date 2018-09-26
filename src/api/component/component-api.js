@@ -78,7 +78,9 @@ module.exports.runContent = function(app) {
 			projectPath= fields.projectPath;
 			var tmp= fields.contentPath.split(".java")[0].split("src");
 			componentPath= tmp[tmp.length-1].split("/").join("-").substr(1);
-			exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
+			var component_type= fields.type;
+			if(component_type == "sourceCode"){
+				exec('java -jar ' + paths.externalToolsPATH + 'ClassInspector.jar -path ' + fields.projectPath + ' -sourcefile ' + fields.contentPath + ' -out ' + paths.projectsRepoPATH,
 				function(error, stdout, stderr) {
 					if (error) {
 						console.log("-File not visited. ERROR during the inspection");
@@ -94,7 +96,32 @@ module.exports.runContent = function(app) {
 							}
 						});
 					}
-			});
+				});
+			}
+			else if(component_type == "test"){
+				exec("java -cp .:"+paths.externalToolsPATH+"junit-4.10.jar:"+projectPath+"bin/ org.junit.runner.JUnitCore "+componentPath.replace("-","."), 
+				function(error,stdout,stderr){
+					if(error){
+						console.log("-File not tested. ERROR during the execution");
+						console.log(error);
+					}else{
+						console.log("-File tested correctly");
+						fs.readFile(paths.rootPATH+'public/view/search.html',null,function(error,data) {
+							if(error) {
+								res.writeHead(404);
+								res.write('-Page not found');
+							}else {
+								res.write(stdout,function(err){
+									res.end(err);
+								});
+							}
+						});
+						
+					}
+				
+				})
+			}
+
 		});
 	});
 	
@@ -112,25 +139,24 @@ module.exports.runContent = function(app) {
 	//RUN THE SOURCE FILE COMPONENT
 	app.get("/initComponent/run",function(req,res){
 		exec("java -jar "+paths.externalToolsPATH+"ClassExecutor.jar -binpath "+projectPath+"bin/ -sourcefile "+componentPath.replace("-",".")+" -cargtype "+req.query.ctype+" -mname "+req.query.mname+" -margtype "+req.query.mtype ,
-		 function(err,stdout, stderr){
+		function(err,stdout, stderr){
 			if(err){
 				console.log(err);
 			}
 			res.writeHead(200, {'Content-Type': 'plain/text'});
-
-			if(stderr != undefined){
-				res.end(stdout);
-			}
 			res.end(stdout);
-		 }); 
+		}); 
 	});
 
 
 	//HANDLE TEST FILE
-	app.post("/runTest", function(req,res){
+	app.post("/initTestComponent", function(req,res){
 		var form = formidable.IncomingForm();
 		form.parse(req, function(err, fields) {
-			//TODOO 
+			projectPath= fields.projectPath;
+			var tmp= fields.contentPath.split(".java")[0].split("src");
+			componentPath= tmp[tmp.length-1].split("/").join("-").substr(1);
+			
 		});
 	})
 };
