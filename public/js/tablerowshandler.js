@@ -121,7 +121,6 @@ $(document).ready(function(){
 		var componentPathParts = component.path.split('/');
 		var componentName = componentPathParts[componentPathParts.length-1];
 
-
 		var tr = document.createElement("tr"); 
 		var tdCount = document.createElement("td");
 		var tdProjectName = document.createElement("td");
@@ -130,16 +129,13 @@ $(document).ready(function(){
 		var tdDescripton = document.createElement("td");
 		var tdAction = document.createElement("td");
 
-
 		tdCount.innerHTML = position;
 		tdProjectName.innerHTML = component.name; // This is the project name
 		tdComponentName.innerHTML = componentName;
 		tdComponentType.innerHTML = component.type;
 		tdDescripton.innerHTML = component.description;
 		
-
 		var repoComponentPath='repository'+component.path.split('repository')[1];
-
 
 		tdAction.appendChild(createViewForm(component.path, component.type));
 		
@@ -154,7 +150,6 @@ $(document).ready(function(){
 			downloadAnchor.setAttribute('href',repoComponentPath);
 			downloadAnchor.setAttribute('download','');
 			downloadAnchor.setAttribute('class', 'lfloat');
-
 			downloadAnchor.appendChild(inputSubmit);
 
 			tdAction.appendChild(downloadAnchor);

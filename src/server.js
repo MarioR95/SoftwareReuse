@@ -81,7 +81,6 @@ app.get("/results", function(req,res){
   
 });
 
-
 /*
  * Function that load a page from url. 
  * @PARAM: url: the full path that identify the html file into file system 
@@ -179,22 +178,24 @@ function runFusekiQuery(res, paramName, paramValue){
               '}';
   var applicationType = "-H 'Accept: application/sparql-results+json,*/*;q=0.9'"
 
-  exec('curl '+queryEntryPoint+prefixes+query+"' "+applicationType, function(err, stdout, stderr){
-    if(err)  
-      console.log(err);
-    else{
-      var jsonFusekiResponse = stdout;
-      
-      var queryobject = GSON.parse(jsonFusekiResponse);
-     
-      if(queryobject.results.bindings.length > 0)
-        fusekiResult = queryobject.results.bindings[0].name.value;
-      else
-        fusekiResult = '';
+  exec('curl '+queryEntryPoint+prefixes+query+"' "+applicationType, 
+        function(err, stdout, stderr){
+          if(err)  
+            console.log(err);
+          else{
+            var jsonFusekiResponse = stdout;
+            
+            var queryobject = GSON.parse(jsonFusekiResponse);
+          
+            if(queryobject.results.bindings.length > 0)
+              fusekiResult = queryobject.results.bindings[0].name.value;
+            else
+              fusekiResult = '';
 
-    }
-    loadPage(res, '../public/view/search.html');	
-  });
+          }
+          loadPage(res, '../public/view/search.html');	
+        }
+  );
 
 }
 

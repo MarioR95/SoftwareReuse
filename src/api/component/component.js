@@ -151,10 +151,7 @@ function createandPostJsonDocuments(paths, formFields, type){
         default:break;
     }
 
-
-    
     for(var i=0; i < paths.length; i++){
-
         document = new Object();
 
         document.path=paths[i];
@@ -169,33 +166,40 @@ function createandPostJsonDocuments(paths, formFields, type){
         document.uri=formFields.uri;
         document.entrypoint=formFields.entry_point;
 
-
         //Read file from path to fill content attribute of json object
         var documentContent = fs.readFileSync(paths[i], 'utf8');
 
         document.content = documentContent;
         documents.unshift(document);
-        
     }
 
     var jsonContent = JSON.stringify(documents);
 
-    fs.writeFile('../components_json/'+tmpFileName, jsonContent, {encoding:'utf8', flag:'w+'},  function(err){
-        if(err)
-            console.log(err);
-        else{
-            console.log("tmp.json was saved!");
-            postDocumentsOnSolr(tmpFileName);
-        }
-    });
+    fs.writeFile('../components_json/' + tmpFileName, 
+                jsonContent, 
+                {encoding:'utf8', flag:'w+'},  
+                function(err){
+                    if(err)
+                        console.log(err);
+                    else{
+                        console.log("tmp.json was saved!");
+                        postDocumentsOnSolr(tmpFileName);
+                    }
+                }
+    );
 }
 
 function postDocumentsOnSolr(fileName) {
-    execSync(paths.rootPATH + 'solr-7.4.0/bin/post' + ' -c componentscore ' + paths.rootPATH + 'components_json/'+fileName, function(err,stdout,stderr) {
-        if(err)
-            console.log(err);
-        else
-            console.log("Documents posted correctly");
-    });
-    
+    execSync(paths.rootPATH + 
+            'solr-7.4.0/bin/post' + 
+            ' -c componentscore ' + 
+            paths.rootPATH + 
+            'components_json/'+fileName, 
+            function(err,stdout,stderr) {
+                if(err)
+                    console.log(err);
+                else
+                    console.log("Documents posted correctly");
+            }
+    );
 }
