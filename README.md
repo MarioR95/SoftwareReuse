@@ -13,13 +13,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
-1.Download and install 'Neo4j' graph database software from here: https://bit.ly/2OQxgbf
+* Download and install 'Neo4j' graph database software from here: https://bit.ly/2OQxgbf
 
-2.Download and install 'Node.js' javascript server from here: https://bit.ly/1Wdc3FQ
+* Download and install 'Node.js' javascript server from here: https://bit.ly/1Wdc3FQ
 
-3.Download and install 'Java JDK version 1.10' from here: https://bit.ly/2N5ECpD
+* Download and install 'Java JDK version 1.10' from here: https://bit.ly/2N5ECpD
 
-*We suggest download of 'Visual Studio Code' IDE from here: https://bit.ly/1J6QrU6
+* We suggest download of 'Visual Studio Code' IDE from here: https://bit.ly/1J6QrU6
 
 
 ### Installing
@@ -41,8 +41,8 @@ Add additional notes about how to deploy this on a live system
 ## Authors
 
 * **Francesco Califano** - *Initial work* - [FranCali](https://github.com/FranCali)
-* **Mario Ruggiero** - *Initial work* - [MarioR95](https://github.com/MarioR95)
 * **Domenico Marino** - *Initial work* - [DomenicoM92](https://github.com/DomenicoM92)
+* **Mario Ruggiero** - *Initial work* - [MarioR95](https://github.com/MarioR95)
 
 
 See also the list of [contributors](https://github.com/MarioR95/SoftwareReuse/graphs/contributors) who participated in this project.
