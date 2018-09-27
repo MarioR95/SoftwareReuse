@@ -7,8 +7,6 @@ This project is meant as a platform for adding software components on it and the
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 
-
-
 ### Prerequisites
 
 What things you need to install the software and how to install them
@@ -24,18 +22,35 @@ What things you need to install the software and how to install them
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+A step by step series that tell you how to get a development env running
 
+####Node.js server running:####
+1. Go to your project cloned directory 'SoftwareReuse\src'.
+2. Execute the following command: node server.js
 
+####Fuseki dataset creation:####
+1. Open web browser and go to 'localhost:3030', Fuseki admin interface will open.
+2. Click on 'Add one' to add a new dataset.
+3. Give 'OntRepository' as dataset's name and 'Persistent' as dataset type, then click on 'create dataset'.
 
-End with an example of getting some data out of the system or using it for a little demo
+####Neo4j database creation:####
+1. Open 'Neo4j' desktop and create a new project.
+2. Create a new local graph, give it 'ComponentDB' as name and '123456' as password.
+3. Click on start to launch the graph.
+4. Click on 'Neo4j Browser' to open the web interface, you are ready to control the database.
 
+####Web addresses to launch the software and to control system####
+Solr admin interaface reachable through localhost:8983 address.
+Fuseki admin interface reachable through localhost:3030 address.
+SoftwareReuse start page reachable through localhost:8080 address.
 
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
-
+1. Clone github repository
+2. Follow the installation instructions
+3. Go to localhost:8080
+4. Enjoy :)
 
 
 ## Authors
