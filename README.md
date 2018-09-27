@@ -24,24 +24,40 @@ What things you need to install the software and how to install them
 
 A step by step series that tell you how to get a development env running
 
-####Node.js server running:####
+
+#### Node.js server running: ####
+
 1. Go to your project cloned directory 'SoftwareReuse\src'.
+
 2. Execute the following command: node server.js
 
-####Fuseki dataset creation:####
+
+#### Fuseki dataset creation: ####
+
 1. Open web browser and go to 'localhost:3030', Fuseki admin interface will open.
+
 2. Click on 'Add one' to add a new dataset.
+
 3. Give 'OntRepository' as dataset's name and 'Persistent' as dataset type, then click on 'create dataset'.
 
-####Neo4j database creation:####
+
+#### Neo4j database creation: ####
+
 1. Open 'Neo4j' desktop and create a new project.
+
 2. Create a new local graph, give it 'ComponentDB' as name and '123456' as password.
+
 3. Click on start to launch the graph.
+
 4. Click on 'Neo4j Browser' to open the web interface, you are ready to control the database.
 
-####Web addresses to launch the software and to control system####
+
+#### Web addresses to launch the software and to control system ####
+
 Solr admin interaface reachable through localhost:8983 address.
+
 Fuseki admin interface reachable through localhost:3030 address.
+
 SoftwareReuse start page reachable through localhost:8080 address.
 
 
