@@ -52,13 +52,13 @@ A step by step series that tell you how to get a development env running
 4. Click on 'Neo4j Browser' to open the web interface, you are ready to control the database.
 
 
-#### Web addresses to launch the software and to control system ####
+#### Web addresses to launch the software and to control system: ####
 
-Solr admin interaface reachable through localhost:8983 address.
+* Solr admin interaface reachable through localhost:8983 address.
 
-Fuseki admin interface reachable through localhost:3030 address.
+* Fuseki admin interface reachable through localhost:3030 address.
 
-SoftwareReuse start page reachable through localhost:8080 address.
+* SoftwareReuse start page reachable through localhost:8080 address.
 
 
 ## Deployment
