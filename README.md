@@ -40,9 +40,9 @@ Add additional notes about how to deploy this on a live system
 
 ## Authors
 
-* **Francesco Califano** - *Initial work* - [FranCali](https://github.com/FranCali)
-* **Domenico Marino** - *Initial work* - [DomenicoM92](https://github.com/DomenicoM92)
-* **Mario Ruggiero** - *Initial work* - [MarioR95](https://github.com/MarioR95)
+* **Francesco Califano** - *Software Reuse* - [FranCali](https://github.com/FranCali)
+* **Domenico Marino** - *Software Reuse* - [DomenicoM92](https://github.com/DomenicoM92)
+* **Mario Ruggiero** - *Software Reuse* - [MarioR95](https://github.com/MarioR95)
 
 
 See also the list of [contributors](https://github.com/MarioR95/SoftwareReuse/graphs/contributors) who participated in this project.
