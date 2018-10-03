@@ -94,7 +94,7 @@ $(document).ready(function(){
 
 		paramValue=paramValue.replace(/[+]/gm, ",");
 
-
+		
 		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
 			function(data){
 				var fusekiResult;
@@ -246,11 +246,7 @@ $(document).ready(function(){
 		*/
 
 		var form = document.createElement("form");
-		if(componentType == "sourceCode"){
-			form.setAttribute('action','initComponent');
-		}else if(componentType == "test"){
-			form.setAttribute('action', 'runTest');
-		}
+		form.setAttribute('action','initComponent');
 		form.setAttribute('method','post');
 		form.setAttribute('enctype','multipart/form-data');
 		form.setAttribute('class', 'lfloat');
