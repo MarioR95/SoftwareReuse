@@ -184,7 +184,6 @@ function runFusekiQuery(res, paramName, paramValue){
             console.log(err);
           else{
             var jsonFusekiResponse = stdout;
-            
             var queryobject = GSON.parse(jsonFusekiResponse);
           
             if(queryobject.results.bindings.length > 0)
@@ -196,7 +195,6 @@ function runFusekiQuery(res, paramName, paramValue){
           loadPage(res, '../public/view/search.html');	
         }
   );
-
 }
 
 function capitalizeFirstLetter(string) {

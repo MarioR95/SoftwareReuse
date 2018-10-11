@@ -12,13 +12,8 @@ $(document).ready(function(){
 	$.get('/getLocalIP', function(data){
 			serverLocalIP = data;
 			solrServerURL = "http://"+serverLocalIP+":8983/solr/componentscore/select?q=";
-
-			//Query only on component's content
 			if(content!=undefined){
 				content=content.replace(/[+]/gm, ",");
-
-
-				console.log(solrServerURL+"content:"+content);
 				$.get(solrServerURL+"content:"+content+"&rows=100000", 
 					function(data){
 						var numFound = data.response.numFound;
@@ -35,7 +30,6 @@ $(document).ready(function(){
 				//Query based on parameters values passed in URL
 				executeQuery();
 			}
-	
 		}
 	);	
 });
@@ -83,7 +77,6 @@ $(document).ready(function(){
 		var paramName;
 		var paramValue;
 
-
 		switch(param){
 			case 'name': paramName='name'; paramValue=name;break;
 			case 'version': paramName='version';paramValue=version;break;
@@ -93,7 +86,6 @@ $(document).ready(function(){
 		}
 
 		paramValue=paramValue.replace(/[+]/gm, ",");
-
 		
 		$.get(solrServerURL+paramName+":"+paramValue+"&rows=100000", 
 			function(data){
@@ -120,7 +112,6 @@ $(document).ready(function(){
 	function generateTableEntry(component, position){
 		var componentPathParts = component.path.split('/');
 		var componentName = componentPathParts[componentPathParts.length-1];
-
 		var tr = document.createElement("tr"); 
 		var tdCount = document.createElement("td");
 		var tdProjectName = document.createElement("td");

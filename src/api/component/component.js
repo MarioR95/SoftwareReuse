@@ -15,7 +15,6 @@ var find = require('find');
 var ZIP_FILE = require('is-zip-file');
 
 
-
 module.exports.loadComponent = function (response,fields, files) {
     if(files.filetoupload != undefined) {
         var currentPath = files.filetoupload.path;
@@ -51,7 +50,6 @@ module.exports.loadComponent = function (response,fields, files) {
 }
 
 function unZip(source,target,fields,files,response) {
-    
     exec('java -jar ' + paths.externalToolsPATH + 'Extractor.jar '+source+' ' +target,
         function(error, stdout, stderr) {
             if (error) {
@@ -168,7 +166,6 @@ function createandPostJsonDocuments(paths, formFields, type){
 
         //Read file from path to fill content attribute of json object
         var documentContent = fs.readFileSync(paths[i], 'utf8');
-
         document.content = documentContent;
         documents.unshift(document);
     }
@@ -182,7 +179,6 @@ function createandPostJsonDocuments(paths, formFields, type){
                     if(err)
                         console.log(err);
                     else{
-                        console.log("tmp.json was saved!");
                         postDocumentsOnSolr(tmpFileName);
                     }
                 }
@@ -198,8 +194,6 @@ function postDocumentsOnSolr(fileName) {
             function(err,stdout,stderr) {
                 if(err)
                     console.log(err);
-                else
-                    console.log("Documents posted correctly");
             }
     );
 }
